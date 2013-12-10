@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ace="http://www.icefaces.org/icefaces/components">
+    <h:head>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <title>Share Cabs</title>
+        <style type="text/css">
+            .backgroundClass{
+                background: url("../resources/images/Register.jpg");
+                margin: 0;
+                min-width: 100%;
+                min-height: 900px;
+                background-repeat: repeat;
+                background-size: 100%; 
+            }
+        </style>
+    </h:head>
+    <h:body class="backgroundClass">
+        <div class="bodypart" align="center" >
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText class="message" value="#{bundle.CreateSharedCarInfoTitle}"></h:outputText>
+            <br/>
+            <br/>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{bundle.CreateSharedCarInfoLabel_ownerName}" for="ownerName" />
+                        <h:inputText id="ownerName" class="input" value="#{sharedCarInfoController.selected.name}" title="#{bundle.CreateSharedCarInfoTitle_ownerName}" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{bundle.CreateSharedCarInfoLabel_ownerMobileNumber}" for="ownerMobileNumber" />                    
+                        <h:inputText id="ownerMobileNumber" class="input" value="#{sharedCarInfoController.selected.mobileNumber}" title="#{bundle.CreateSharedCarInfoTitle_ownerMobileNumber}" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{bundle.CreateSharedCarInfoLabel_fromAddress}" for="fromAddress" />
+                        <h:inputText id="fromAddress" class="input" value="#{sharedCarInfoController.selected.fromAddress}" title="#{bundle.CreateSharedCarInfoTitle_fromAddress}" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{bundle.CreateSharedCarInfoLabel_toAddress}" for="toAddress" />
+                        <h:inputText id="toAddress" class="input" value="#{sharedCarInfoController.selected.toAddress}" title="#{bundle.CreateSharedCarInfoTitle_toAddress}" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{bundle.CreateSharedCarInfoLabel_startTime}" for="startTime" />
+                        <ace:dateTimeEntry id="startTime" timeOnly="true" pattern="hh:mm a" renderAsPopup="true" value="#{sharedCarInfoController.selected.startTime}" title="#{bundle.CreateSharedCarInfoTitle_startTime}" >       
+                        </ace:dateTimeEntry>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{bundle.CreateSharedCarInfoLabel_returnTime}" for="returnTime" />
+                        <ace:dateTimeEntry id="returnTime" timeOnly="true" pattern="hh:mm a" renderAsPopup="true" value="#{sharedCarInfoController.selected.returnTime}" title="#{bundle.CreateSharedCarInfoTitle_returnTime}" >
+                        </ace:dateTimeEntry>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{bundle.CreateSharedCarInfoLabel_carOwner}" for="carOwner" />
+                        <h:selectBooleanCheckbox id="carOwner" immediate="true" valueChangeListener="#{sharedCarInfoController.carOwnerValueChangeListener}" value="#{sharedCarInfoController.selected.carOwner}" title="#{bundle.CreateSharedCarInfoTitle_carOwner}" >
+                            <f:ajax event="change" execute="@all"  render="@all" />
+                        </h:selectBooleanCheckbox>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGrid id="routeDescriptionPanel"  rendered="#{sharedCarInfoController.selected.carOwner}">
+                            <h:outputLabel value="#{bundle.CreateSharedCarInfoLabel_routeDescription}" for="routeDescription" />
+                            <h:inputTextarea id="routeDescription" class="input" value="#{sharedCarInfoController.selected.routeDescription}" title="#{bundle.CreateSharedCarInfoTitle_routeDescription}" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <br />
+                <h:commandButton action="#{sharedCarInfoController.create}" value="#{bundle.CreateSharedCarInfoSaveLink}" />
+            </h:form>
+        </div>
+    </h:body>
+</html>

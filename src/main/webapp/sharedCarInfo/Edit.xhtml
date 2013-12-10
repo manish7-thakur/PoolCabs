@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditSharedCarInfoTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{sharedCarInfoController.selected.id}" title="#{bundle.EditSharedCarInfoTitle_id}" />
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_ownerName}" for="ownerName" />
+                    <h:inputText id="ownerName" value="#{sharedCarInfoController.selected.ownerName}" title="#{bundle.EditSharedCarInfoTitle_ownerName}" />
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_ownerMobileNumber}" for="ownerMobileNumber" />
+                    <h:inputText id="ownerMobileNumber" value="#{sharedCarInfoController.selected.ownerMobileNumber}" title="#{bundle.EditSharedCarInfoTitle_ownerMobileNumber}" />
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_fromAddress}" for="fromAddress" />
+                    <h:inputText id="fromAddress" value="#{sharedCarInfoController.selected.fromAddress}" title="#{bundle.EditSharedCarInfoTitle_fromAddress}" />
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_toAddress}" for="toAddress" />
+                    <h:inputText id="toAddress" value="#{sharedCarInfoController.selected.toAddress}" title="#{bundle.EditSharedCarInfoTitle_toAddress}" />
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_startTime}" for="startTime" />
+                    <h:inputText id="startTime" value="#{sharedCarInfoController.selected.startTime}" title="#{bundle.EditSharedCarInfoTitle_startTime}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_returnTime}" for="returnTime" />
+                    <h:inputText id="returnTime" value="#{sharedCarInfoController.selected.returnTime}" title="#{bundle.EditSharedCarInfoTitle_returnTime}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_routeDescription}" for="routeDescription" />
+                    <h:inputText id="routeDescription" value="#{sharedCarInfoController.selected.routeDescription}" title="#{bundle.EditSharedCarInfoTitle_routeDescription}" />
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_createDate}" for="createDate" />
+                    <h:inputText id="createDate" value="#{sharedCarInfoController.selected.createDate}" title="#{bundle.EditSharedCarInfoTitle_createDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditSharedCarInfoLabel_modifiedDate}" for="modifiedDate" />
+                    <h:inputText id="modifiedDate" value="#{sharedCarInfoController.selected.modifiedDate}" title="#{bundle.EditSharedCarInfoTitle_modifiedDate}" />
+                </h:panelGrid>
+                <h:commandLink action="#{sharedCarInfoController.update}" value="#{bundle.EditSharedCarInfoSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditSharedCarInfoViewLink}"/>
+                <br />
+                <h:commandLink action="#{sharedCarInfoController.prepareList}" value="#{bundle.EditSharedCarInfoShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditSharedCarInfoIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,182 @@
+root { 
+    display: block;
+}
+
+.bodypart {
+    font-family: Segoe UI, Helvetica, sans-serif;
+    color: white; 
+    padding-top: 0;
+    font-size: 20px;
+}
+
+
+.heading{
+    font-family: Segoe UI Light, Helvetica, sans-serif;
+    font-size: 40px;
+    color: #FFFFFF;
+    background-repeat: repeat;
+    text-align: center;
+    border-bottom: 5px;
+    /*background-color: #4E4E4E;*/
+    height: 50px;
+    width: 100%;
+    min-width: 100%;
+
+}
+
+.input{
+    font-size: 1em;
+    padding: 4px;
+    width: 150px;
+    border-radius: 4px 4px 4px 4px;
+}
+
+.message{
+
+    font-size: 30px;
+    color: white;
+
+}
+
+.messageBlack{
+
+    font-size: 30px;
+    color: white;
+    /*text-shadow: 0 0 1px rgba(0,0,0,0.3);*/ 
+}
+
+.navigator{
+    margin-left: 1%;    
+}
+
+.sample{
+    left: 10%;
+    margin-left: 20%;
+}
+
+.menubar{
+    /*    display: inline-block;*/
+    /*background-color: black;*/
+    color: cyan;
+    height: 30px;
+}
+.menuitem{
+    font-family: Segoe UI, Helvetica, sans-serif;
+    font-size: 20px;
+    text-decoration: none;
+    display: inline-block;
+    margin-left : 5px;
+    /*    background-color: tomato;*/
+    color: cyan;
+}
+
+.menuitemRight{
+    float: right;
+    margin-right: 10px;
+}
+
+.tableBooking {
+    empty-cells: show;
+    font-size: 0.7em;
+    max-width: 1200px;
+    alignment-adjust: central;
+
+}
+
+.addressTable{    
+    float: left;
+    height: 170px;
+    margin-left: 178px;
+    margin-top: 66px;
+    position: absolute;
+    text-align: right;
+    width: 220px;
+    font-size: 13px;
+}
+
+.flip{
+    /*margin-top: 5%;*/
+
+}
+.slideShow{
+    margin-left: 10%;
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.9)
+}
+
+html { 
+    background: url(resources/images/Back3.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.flip:hover{
+    border: 22px;
+    border-color: white;
+    border-width: medium;
+}
+
+form.jsfcrud_list_form th, td th {
+    /*    font-size: x-small;
+        color: #4e6a71;
+        border-top-style: solid;
+        border-bottom-style: solid;
+        border-left-style: solid;
+        border-right-style: solid;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-right-width: 1px;
+        border-top-color: #b2d5d6;
+        border-bottom-color: #b2d5d6;
+        border-left-color: #90b4bd;
+        border-right-color: #90b4bd;
+        letter-spacing: 3px;
+        text-align: left;
+        padding-top: 6px;
+        padding-bottom: 6px;
+        padding-left: 6px;
+        padding-right: 6px;
+        background-color: #b2d5d6;*/
+}
+
+td {
+    /*    vertical-align: top;
+        padding-bottom: 8px;
+        font-size: small;*/
+}
+
+form.jsfcrud_list_form td, td td {
+    /*    border-top-style: solid;
+        border-bottom-style: solid;
+        border-left-style: solid;
+        border-right-style: solid;
+        border-top-width: 1px;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-right-width: 1px;
+        border-top-color: #b2d5d6;
+        border-bottom-color: #b2d5d6;
+        border-left-color: #b2d5d6;
+        border-right-color: #b2d5d6;
+        vertical-align: baseline;
+        padding-bottom: 0px;*/
+}
+
+tr.jsfcrud_odd_row {
+    background-color: #fefeff;
+    color: #4e6a71;
+}
+
+
+tr.jsfcrud_even_row {
+    background-color: #eff5fa;
+    color: #4e6a71;
+}
+
+#busyImage {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}

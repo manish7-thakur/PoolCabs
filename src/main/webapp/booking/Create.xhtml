@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ace="http://www.icefaces.org/icefaces/components">    
+    <h:head>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="../resources/js/MeasureDistance.js"></script>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <title>Book you Cab</title>
+        <style type="text/css">
+            .backgroundClass{
+                background: url("../resources/images/Register.jpg");
+                margin: 0;
+                min-width: 100%;
+                min-height: 900px;
+                background-repeat: repeat;
+                background-size: 100%; 
+            }
+        </style>
+    </h:head>
+    <h:body class="backgroundClass">
+         <div class="bodypart" align="center" >
+        <h:panelGroup id="messagePanel" layout="block">
+            <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+        </h:panelGroup>
+        <h:form id="bookingForm" prependId="false" rendered="#{bookingController.isBookingFormRendered()}">
+            
+            <h:outputText class="message" value="#{bundle.CreateBookingTitle}"></h:outputText>
+            <div align="left">
+                <h:panelGrid columns="1" class="addressTable">
+                    <ace:dataTable id="addressTable" value="#{bookingController.userAddressList}" var="item"
+                                   rendered="#{not empty bookingController.userAddressList}">
+                        <ace:column headerText="Drag your address to the fields">                     
+                            <ace:panel>
+                                <h:outputText value="#{item.value}"></h:outputText>                 
+                                <ace:draggable opacity="0.5" revert="true" scope="addressInfo" />
+                            </ace:panel> 
+                        </ace:column>
+                    </ace:dataTable>
+                </h:panelGrid>
+            </div>
+            <div class="bodypart" align="center" >
+                <h:panelGrid columns="2">
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="#{bundle.CreateBookingLabel_customerName}" for="customerName" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="2">
+                            <h:inputText class="input" id="customerName" value="#{bookingController.selected.customerName}" title="#{bundle.CreateBookingTitle_customerName}" />
+                            <h:message for="name" errorClass="error" infoClass="info" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="#{bundle.CreateBookingLabel_mobileNumber}" for="mobileNumber" />
+                        </h:panelGrid> 
+                        <h:panelGrid columns="2">
+                            <h:inputText class="input" id="mobileNumber" value="#{bookingController.selected.mobileNumber}" title="#{bundle.CreateBookingTitle_mobileNumber}" />
+                            <h:message for="name" errorClass="error" infoClass="info" />
+                        </h:panelGrid> 
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <h:inputTextarea class="input" id="pickupStreetAddress" value="#{bookingController.selected.pickupStreetAddress}"
+                                             onchange="initialize(); true;" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" >
+                                <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" dropListener="#{bookingController.handleDrop}">
+                                    <ace:ajax execute="@this" render="@this @form pickupStreetAddress" />
+                                </ace:droppable>
+                            </h:inputTextarea>
+                            <h:message for="name" errorClass="error" infoClass="info" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="#{bundle.CreateBookingLabel_dropStreetAddress}" for="dropStreetAddress" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <h:inputTextarea class="input" id="dropStreetAddress" value="#{bookingController.selected.dropStreetAddress}"  
+                                             onchange="initialize(); true;" title="#{bundle.CreateBookingTitle_dropStreetAddress}" >
+                                <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" dropListener="#{bookingController.handleDrop}">
+                                    <ace:ajax execute="@this" render="@this @form dropStreetAddress" />
+                                </ace:droppable>
+                            </h:inputTextarea>
+                            <h:message for="name" errorClass="error" infoClass="info" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR') or bookingController.bookingType.equalsIgnoreCase('CASUAL') or bookingController.bookingType.equalsIgnoreCase('OUTSTATION')}" value="#{bundle.CreateBookingLabel_rideStartDate}" for="rideStartDate" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <ace:dateTimeEntry  id="rideStartDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR') or bookingController.bookingType.equalsIgnoreCase('CASUAL') or bookingController.bookingType.equalsIgnoreCase('OUTSTATION')}" mindate="#{bookingController.minimumDateForCalender}" value="#{bookingController.selected.rideStartDate}" title="#{bundle.CreateBookingTitle_rideStartDate}" 
+                                                renderAsPopup="true" />
+                            <h:message for="name" errorClass="error" infoClass="info" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel for="rideEndDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR')}" value="#{bundle.CreateBookingLabel_rideEndDate}" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <ace:dateTimeEntry id="rideEndDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR')}" mindate="#{bookingController.minimumDateForCalender}" value="#{bookingController.selected.rideEndDate}" title="#{bundle.CreateBookingTitle_rideEndDate}"
+                                               renderAsPopup="true" />
+                            <h:message for="name" errorClass="error" infoClass="info" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1">
+                        <h:panelGrid columns="1">
+                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupTime}" for="pickupTime" />
+                        </h:panelGrid>
+                        <h:panelGrid columns="1">
+                            <ace:dateTimeEntry id="pickupTime" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
+                                               value="#{bookingController.rideStartTime}" title="#{bundle.CreateBookingTitle_pickupTime}" >
+                            </ace:dateTimeEntry>
+                            <h:message for="name" errorClass="error" infoClass="info" />
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1">
+                        <h:outputLabel value="#{bundle.CreateBookingLabel_roundTrip}" for="roundTrip" />
+                        <h:selectBooleanCheckbox immediate="true" valueChangeListener="#{bookingController.roundTripValueChanged}" id="roundTrip" value="#{bookingController.selected.roundTrip}" title="#{bundle.CreateBookingTitle_roundTrip}" >
+                            <f:ajax event="change" execute="@all" render="roundTripPanel" />
+                        </h:selectBooleanCheckbox>
+                    </h:panelGrid>
+
+                    <h:panelGrid id="roundTripPanel" columns="1">
+                        <h:panelGroup rendered="#{bookingController.selected.roundTrip}" >
+                            <h:panelGrid columns="1">
+                                <h:outputLabel value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTime" />
+                                <ace:dateTimeEntry renderAsPopup="true" timeOnly="true" pattern="hh:mm a" immediate="true" id="returnPickupTime" 
+                                                   value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </h:panelGrid>
+
+                </h:panelGrid>
+            </div>
+           
+            <h:inputHidden id="distanceInKM" value="#{bookingController.selected.distanceInKM}" valueChangeListener="#{bookingController.valueChanged}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
+
+            </h:inputHidden>
+            <h:inputHidden  id="pickupLatitude" value="#{bookingController.selected.pickupGeoCode.latitude}" title="#{bundle.CreateBookingLabel_pickupLatitude}">
+
+            </h:inputHidden>
+            <h:inputHidden  id="pickupLongitude" value="#{bookingController.selected.pickupGeoCode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
+
+            </h:inputHidden>
+            <h:inputHidden id="dropLatitude" value="#{bookingController.selected.dropGeocode.latitude}" title="#{bundle.CreateBookingLabel_dropLatitude}">
+
+            </h:inputHidden>
+            <h:inputHidden id="dropLongitude" value="#{bookingController.selected.dropGeocode.longitude}" title="#{bundle.CreateBookingTitle_dropLongitude}">
+
+            </h:inputHidden>
+
+            <br />
+            <h:commandButton image="../resources/images/Submit1.jpg" actionListener="#{bookingController.renderGoogleMap()}" value="#{bundle.CreateBookingSaveLink}" >                
+            </h:commandButton>
+           
+        </h:form>
+
+        <h:form id="googleMapForm" prependId="false" rendered="#{bookingController.isGoogleMapRendered()}">
+            <h:outputText class="message" value="#{bundle.ReviewBookingTitle}"></h:outputText>
+            <ace:gMap id="gMapDirections"  style="width: 675px; height: 500px" 
+                      zoomLevel="3">
+                <ace:gMapServices name="Directions" points="#{bookingController.getPoints()}"
+                                  options="travelMode:'DRIVING'" />
+            </ace:gMap> 
+
+            <h:outputText class="message" value="#{bundle.DistanceMessage}"></h:outputText>
+            <h:outputText class="message" value="#{bookingController.selected.distanceInKM}"></h:outputText>
+            <h:outputText class="message" value=" KM"></h:outputText>
+         <!--       <h:outputLabel value="#{bundle.CreateBookingLabel_distanceInKM}" for="distanceInKM" />
+        <h:inputText id="distanceInKM2" value="#{bookingController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
+                <ace:ajax event="valueChange" execute="@this" />
+            </h:inputText>
+            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
+            <h:inputTextarea id="pickupStreetAddress1" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
+
+
+            <h:outputLabel value="#{bundle.CreateBookingLabel_dropStreetAddress}" for="dropStreetAddress" />
+            <h:inputTextarea id="dropStreetAddress1" value="#{bookingController.selected.dropStreetAddress}" title="#{bundle.CreateBookingTitle_dropStreetAddress}" />
+
+
+            <h:inputText id="pickupLatitude1" value="#{bookingController.selected.pickupGeoCode.latitude}" title="#{bundle.CreateBookingLabel_pickupLatitude}">
+                <ace:ajax event="valueChange" execute="@this" />
+            </h:inputText>
+            <h:inputText id="pickupLongitude1" value="#{bookingController.selected.dropGeocode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
+                <ace:ajax event="valueChange" execute="@this" />
+            </h:inputText> -->
+            <div style="width:100%; height:10%" id="results"></div>
+            <h:commandButton image="../resources/images/save.jpg" value="Save" actionListener="#{bookingController.create}" />                
+        </h:form>
+         </div>
+        <!--</div>-->
+    </h:body>
+</html>

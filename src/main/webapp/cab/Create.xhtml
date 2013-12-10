@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.CreateCabTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.CreateCabLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{cabController.selected.id}" title="#{bundle.CreateCabTitle_id}" />
+                    <h:outputLabel value="#{bundle.CreateCabLabel_cabNo}" for="cabNo" />
+                    <h:inputText id="cabNo" value="#{cabController.selected.cabNo}" title="#{bundle.CreateCabTitle_cabNo}" />
+                    <h:outputLabel value="#{bundle.CreateCabLabel_driverName}" for="driverName" />
+                    <h:inputText id="driverName" value="#{cabController.selected.driverName}" title="#{bundle.CreateCabTitle_driverName}" />
+                    <h:outputLabel value="#{bundle.CreateCabLabel_driverPhoneNumber}" for="driverPhoneNumber" />
+                    <h:inputText id="driverPhoneNumber" value="#{cabController.selected.driverPhoneNumber}" title="#{bundle.CreateCabTitle_driverPhoneNumber}" />
+                    <h:outputLabel value="#{bundle.CreateCabLabel_createdDate}" for="createdDate" />
+                    <h:inputText id="createdDate" value="#{cabController.selected.createdDate}" title="#{bundle.CreateCabTitle_createdDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.CreateCabLabel_modifiedDate}" for="modifiedDate" />
+                    <h:inputText id="modifiedDate" value="#{cabController.selected.modifiedDate}" title="#{bundle.CreateCabTitle_modifiedDate}" />
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{cabController.create}" value="#{bundle.CreateCabSaveLink}" />
+                <br />
+                <br />
+                <h:commandLink action="#{cabController.prepareList}" value="#{bundle.CreateCabShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.CreateCabIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Your Bookings</title>        
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+    </h:head>
+    <h:body>
+        <br/>
+        <h:outputText value="#{bundle.ListBookingTitle}"></h:outputText>
+        <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+        <h:outputText escape="false" value="#{bundle.ListBookingEmpty}" rendered="#{bookingController.items.rowCount == 0}"/>
+
+        <br/>
+        <div align="center">
+            <h:form class="tableBooking">      
+
+                <ace:dataTable value="#{bookingController.userBookings}" 
+                               var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="single">
+                    <ace:column headerText="#{bundle.ListBookingTitle_customerName}" filterMatchMode="contains" 
+                                filterBy="#{booking.customerName}">                     
+                        <h:outputText value="#{booking.customerName}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_mobileNumber}" filterMatchMode="contains" 
+                                filterBy="#{booking.mobileNumber}">                     
+                        <h:outputText value="#{booking.mobileNumber}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_bookingType}" filterMatchMode="contains" 
+                                filterBy="#{booking.bookingType}">                     
+                        <h:outputText value="#{booking.bookingType}"/>
+                    </ace:column>
+
+                    <ace:column headerText="#{bundle.ListBookingTitle_pickupTime}" filterMatchMode="contains"
+                                filterBy="#{booking.pickupTime.toString()}">
+                        <h:outputText value="#{booking.pickupTime}" >
+                            <f:convertDateTime pattern="MMM dd, yyyy h:mm:ss a"
+                                               timeZone="IST"/>
+                        </h:outputText>                         
+                    </ace:column>
+                    <ace:column id="status" headerText="#{bundle.ListBookingTitle_status}" filterMatchMode="contains"
+                                filterBy="#{booking.status}">
+                        <h:outputText value="#{booking.status}"/>                                             
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_pickupStreetAddress}" filterMatchMode="contains"
+                                filterBy="#{booking.pickupStreetAddress}">
+                        <h:outputText value="#{booking.pickupStreetAddress}"/>
+                    </ace:column>
+
+                    <ace:column headerText="#{bundle.ListBookingTitle_dropStreetAddress}" filterMatchMode="contains"
+                                filterBy="#{booking.dropStreetAddress}">
+                        <h:outputText value="#{booking.dropStreetAddress}"/>
+                    </ace:column>
+                </ace:dataTable>
+            </h:form>
+        </div>
+    </h:body>
+</html>

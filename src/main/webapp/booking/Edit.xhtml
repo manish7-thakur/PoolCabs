@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditBookingTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditBookingLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{bookingController.selected.id}" title="#{bundle.EditBookingTitle_id}" />
+                    <h:outputLabel value="#{bundle.EditBookingLabel_bookingType}" for="bookingType" />
+                    <h:inputText id="bookingType" value="#{bookingController.selected.bookingType}" title="#{bundle.EditBookingTitle_bookingType}" />
+                    <h:outputLabel value="#{bundle.EditBookingLabel_status}" for="status" />
+                    <h:inputText id="status" value="#{bookingController.selected.status}" title="#{bundle.EditBookingTitle_status}" />
+                    <h:outputLabel value="#{bundle.EditBookingLabel_rideStartDate}" for="rideStartDate" />
+                    <h:inputText id="rideStartDate" value="#{bookingController.selected.rideStartDate}" title="#{bundle.EditBookingTitle_rideStartDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditBookingLabel_rideEndDate}" for="rideEndDate" />
+                    <h:inputText id="rideEndDate" value="#{bookingController.selected.rideEndDate}" title="#{bundle.EditBookingTitle_rideEndDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
+                    <h:inputText id="pickupStreetAddress" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.EditBookingTitle_pickupStreetAddress}" />
+                    
+                    <h:outputLabel value="#{bundle.EditBookingLabel_pickupTime}" for="pickupTime" />
+                    <h:inputText id="pickupTime" value="#{bookingController.selected.pickupTime}" title="#{bundle.EditBookingTitle_pickupTime}" />
+                    <h:outputLabel value="#{bundle.EditBookingLabel_dropStreetAddress}" for="dropStreetAddress" />
+                    <h:inputText id="dropStreetAddress" value="#{bookingController.selected.dropStreetAddress}" title="#{bundle.EditBookingTitle_dropStreetAddress}" />
+                    
+                    <h:outputLabel value="#{bundle.EditBookingLabel_dropTime}" for="dropTime" />
+                    <h:inputText id="dropTime" value="#{bookingController.selected.dropTime}" title="#{bundle.EditBookingTitle_dropTime}" />
+                    <h:outputLabel value="#{bundle.EditBookingLabel_roundTrip}" for="roundTrip" />
+                    <h:inputText id="roundTrip" value="#{bookingController.selected.roundTrip}" title="#{bundle.EditBookingTitle_roundTrip}" />
+                    <h:outputLabel value="#{bundle.EditBookingLabel_createDate}" for="createDate" />
+                    <h:inputText id="createDate" value="#{bookingController.selected.createDate}" title="#{bundle.EditBookingTitle_createDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditBookingLabel_modifiedDate}" for="modifiedDate" />
+                    <h:inputText id="modifiedDate" value="#{bookingController.selected.modifiedDate}" title="#{bundle.EditBookingTitle_modifiedDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                </h:panelGrid>
+                <h:commandLink action="#{bookingController.update}" value="#{bundle.EditBookingSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditBookingViewLink}"/>
+                <br />
+                <h:commandLink action="#{bookingController.prepareList}" value="#{bundle.EditBookingShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditBookingIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

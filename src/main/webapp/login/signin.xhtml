@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <title>Login</title>
+        <style type="text/css">
+            .backgroundClass{          
+                background: url("../resources/images/Back9.jpg");
+                min-width: 100%;
+                min-height: 900px;
+                margin: 0;
+                background-repeat: repeat;
+                background-size: 100%;   
+            }
+        </style>
+    </h:head>
+    <h:body class="backgroundClass">
+        <div class="bodypart" align="center" >
+            <div class="heading">
+                <h:outputText value="Please enter your email &amp; password to login" />
+            </div>
+            <br/>
+            <br/>
+            <h:form>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:panelGrid columns="3">
+                    <h:outputText value="Email Address*" />
+
+                    <h:inputText id="email" class="input" value="#{userLoginController.email}" required="true"
+                                 requiredMessage="Please fill in your email address" validatorMessage="Email is not valid">
+                        <f:validateRegex pattern="([A-Za-z0-9._%+]|-)+@([A-Za-z0-9.]|-)+\.[A-Za-z]{2,4}" />
+                    </h:inputText>
+                    <h:message for="email" errorClass="error" infoClass="info" />
+
+                    <h:outputText value="Password*" />
+
+                    <h:inputSecret id="password" class="input" value="#{userLoginController.password}" required="true"
+                                   requiredMessage="Please fill in your password">                      
+                    </h:inputSecret>
+                    <h:message for="password" errorClass="error" infoClass="info" />
+
+                </h:panelGrid>
+                <br/>
+                <h:commandButton label="Login" action="#{userLoginController.login}" image="/resources/images/Login5.jpg">
+                </h:commandButton>
+            </h:form>
+            <br/>
+            <br/>
+            <h:form>
+                <h:commandButton label="Continue as guest" action="/Create.jsf?faces-redirect=true" image="/resources/images/ContinueAsGuest3.jpg">
+                </h:commandButton>
+            </h:form>
+        </div>
+    </h:body> 
+</html>
+

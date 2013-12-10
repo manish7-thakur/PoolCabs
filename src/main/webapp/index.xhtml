@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Pool Your Cabs</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <script type="text/javascript">
+            var image1=new Image()
+            image1.src="resources/images/slides/overflow.jpg"
+            var image2=new Image()
+            image2.src="resources/images/slides/captions.jpg"
+            var image3=new Image()
+            image3.src="resources/images/slides/features.jpg"
+        </script>
+        <script type="text/javascript" src="resources/js/SlideShow.js" />
+        <style type="text/css">
+            .backgroundClass{
+                background: url("resources/images/Back9.jpg");
+                margin: 0;
+                min-width: 100%;
+                min-height: 900px;
+                background-repeat: repeat;
+                background-size: 100%; 
+            }
+        </style>
+    </h:head>
+    <h:body onload="slideShow();" class="backgroundClass">
+        <div class="bodypart" >
+
+            <div class="heading">
+                <h:outputText value="Welcome to PoolCabs" />
+            </div>
+            <div class="menubar">
+                <div class="navigator">
+                    <a class="menuitem" title="Home" href="index.jsf">
+                        <img src="resources/images/Home.jpg" />
+                    </a>
+                    <a class="menuitem" title="Services" href="products.jsf">
+                        <img src="resources/images/Services.jpg" />
+                    </a>
+                    <a class="menuitem" title="Contact us" href="contactUs.jsf">
+                        <img src="resources/images/ContactUs.jpg" />
+                    </a>
+                    <a class="menuitemRight" title="Sign In" href="login/signin.jsf">
+                        <img src="resources/images/SignIn.jpg" />
+                    </a>
+
+                </div>
+
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <h:outputText class="messageBlack" value="Take your ride now" />
+            <br/>
+            <br/>
+            <h:form>
+                <div align="center">
+                    <h:panelGrid columns="2">
+                        <h:panelGrid columns="1" >
+                            <h:panelGrid columns="2">
+                                <h:commandButton id="regular" value="#{bookingDTO.bookingType}" class="flip" image="resources/images/Regular5.jpg" label="Regular" action="#{indexController.setCurrentBooking('REGULAR')}">
+                                    <f:param name="bookingType" value="Regular" />
+                                    <ace:tooltip speechBubble="true"  showEffect="grow" targetPosition="center"  for="regular" value="Available @ 6/km, suitable for your daily updowns like office, college, school" />
+                                </h:commandButton>
+                                <h:commandButton id="casual" label="Casual" class="flip" image="resources/images/Casual2.jpg" action="#{indexController.setCurrentBooking('CASUAL')}">
+                                    <f:param name="bookingType" value="Casual" />
+                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="casual" value="Available @ 7/km, suitable for your casual shopping, movie, party &amp; outings" />
+                                </h:commandButton>
+                            </h:panelGrid>
+                            <h:panelGrid columns="2">
+                                <h:commandButton id="instant" label="Instant" class="flip" image="resources/images/Instant2.jpg" action="#{indexController.setCurrentBooking('INSTANT')}">
+                                    <f:param name="bookingType" value="Instant" />
+                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="instant" value="Available @ 8/km, cab will reach you with in next 1 hour" />
+                                </h:commandButton>
+                                <h:commandButton id="Outstation" label="Outstation" class="flip" image="resources/images/Outstation6.jpg" action="#{indexController.setCurrentBooking('OUTSTATION')}">
+                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="Outstation" value="Available @ 3/km, currently available between delhi, jaipur, &amp; agra" />
+                                </h:commandButton> 
+                            </h:panelGrid>
+                            <h:commandButton id="shareMyCab" label="shareMyCab" class="flip" image="resources/images/ShareMyCar.jpg" action="sharedCarInfo/Create.jsf?faces-redirect=true">
+                                <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="shareMyCab" value="Available @ 8/km, cab will reach you with in next 1 hour" />
+                            </h:commandButton>
+                        </h:panelGrid>
+                        <h:panelGrid>                    
+                            <img class="slideShow" src="firstcar.gif" name="slide" width="700" height="420" />                       
+                        </h:panelGrid>
+                    </h:panelGrid>
+                </div>
+            </h:form>
+        </div>
+        <!--   <br />
+           <h:link outcome="/booking/List" value="Show All Booking Items"/>
+           <br />
+           <h:link outcome="/createuser" value="Register" />
+           <br />
+           <h:link outcome="/cab/List" value="Show All Cab Items"/> -->
+    </h:body>
+
+
+</html>
+

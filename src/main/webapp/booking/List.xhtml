@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Bookings List</title>        
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+    </h:head>
+    <h:body>
+        <br/>
+        <h:outputText value="#{bundle.ListBookingTitle}"></h:outputText>
+
+        <h:outputText escape="false" value="#{bundle.ListBookingEmpty}" rendered="#{bookingController.items.rowCount == 0}"/>
+
+        <br/>
+        <div align="center">
+            <h:form id="bookingListForm" class="tableBooking" prependId="false" rendered="#{bookingController.bookingListForm}">      
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <ace:dataTable value="#{bookingController.bookingList}" 
+                               var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="multiple"
+                               rowSelectListener="#{bookingController.rowSelected}"                           
+                               rowUnselectListener="#{bookingController.rowUnselected}" stateMap="#{bookingController.stateMap}">
+                    <ace:ajax event="editSubmit" render="@this" />
+                    <ace:column headerText="#{bundle.ListBookingTitle_EditHeaderText}">
+                        <ace:rowEditor rowEditListener="#{bookingController.update}"
+                                       rowEditCancelListener="#{bookingController.cancelUpdate()}">
+
+                        </ace:rowEditor>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_customerName}" filterMatchMode="contains" 
+                                filterBy="#{booking.customerName}">                     
+                        <h:outputText value="#{booking.customerName}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_mobileNumber}" filterMatchMode="contains" 
+                                filterBy="#{booking.mobileNumber}">                     
+                        <h:outputText value="#{booking.mobileNumber}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_bookingType}" filterMatchMode="contains" 
+                                filterBy="#{booking.bookingType.value}">                     
+                        <h:outputText value="#{booking.bookingType.value}"/>
+                    </ace:column>
+
+                    <ace:column headerText="#{bundle.ListBookingTitle_pickupTime}" filterMatchMode="contains"
+                                filterBy="#{booking.pickupTime.toString()}">
+                        <h:outputText value="#{booking.pickupTime}" >
+                            <f:convertDateTime pattern="MMM dd, yyyy h:mm:ss a"
+                                               timeZone="IST"/>
+                        </h:outputText>                         
+                    </ace:column>
+                    <ace:column id="status" headerText="#{bundle.ListBookingTitle_status}" filterMatchMode="contains"
+                                filterBy="#{booking.status}">   
+                        <ace:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{booking.status}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:selectOneMenu value="#{booking.status}" immediate="true">
+                                    <f:selectItems value="#{bookingController.cabStatuses()}" />
+                                </h:selectOneMenu>
+                            </f:facet>
+                        </ace:cellEditor>                           
+                    </ace:column>
+                  <!--  <ace:column headerText="#{bundle.ListBookingTitle_rideStartDate}" filterMatchMode="contains"
+                                filterBy="#{booking.rideStartDate}">
+    
+                        <h:outputText value="#{booking.rideStartDate}" />
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_rideEndDate}" filterMatchMode="contains"
+                                filterBy="#{booking.rideEndDate}">
+                        <h:outputText value="#{booking.rideEndDate}" />
+                    </ace:column> -->
+                    <ace:column headerText="#{bundle.ListBookingTitle_pickupStreetAddress}" filterMatchMode="contains"
+                                filterBy="#{booking.pickupStreetAddress}">
+                        <h:outputText value="#{booking.pickupStreetAddress}"/>
+                    </ace:column>
+
+                    <ace:column headerText="#{bundle.ListBookingTitle_dropStreetAddress}" filterMatchMode="contains"
+                                filterBy="#{booking.dropStreetAddress}">
+                        <h:outputText value="#{booking.dropStreetAddress}"/>
+                    </ace:column>
+
+                    <ace:column headerText="#{bundle.ListBookingTitle_roundTrip}" filterMatchMode="contains"
+                                filterBy="#{booking.roundTrip}">
+                        <h:outputText value="#{booking.roundTrip}"/>
+                    </ace:column>
+                    <ace:column>
+                        <h:commandButton rendered="#{bookingController.selected ne null}" action="#{bookingController.destroy}" value="#{bundle.ListBookingDestroyLink}" />
+                    </ace:column> 
+                  <!--  <ace:column headerText="#{bundle.ListBookingTitle_createDate}" filterMatchMode="contains"
+                                filterBy="#{booking.createDate}">
+                        <h:outputText value="#{booking.createDate}" />
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_modifiedDate}" filterMatchMode="contains"
+                                filterBy="#{booking.modifiedDate}">
+                        <h:outputText value="#{booking.modifiedDate}" />
+                    </ace:column> -->
+                    <!-- <h:column>
+                         <f:facet name="header">
+                             <h:outputText value="&nbsp;"/>
+                         </f:facet>
+                         <h:commandLink action="#{bookingController.prepareView}" value="#{bundle.ListBookingViewLink}"/>
+                         <h:outputText value=" "/>
+                         <h:commandLink action="#{bookingController.prepareEdit}" value="#{bundle.ListBookingEditLink}"/>
+                         <h:outputText value=" "/>
+                         <h:commandLink action="#{bookingController.destroy}" value="#{bundle.ListBookingDestroyLink}"/>
+                     </h:column>
+                    -->
+                </ace:dataTable>
+                <br/>
+                <ace:pushButton actionListener="#{bookingController.renderCabBookingForm()}" label="Book" />
+            </h:form>
+
+            <h:form id="bookCab" class="tableBooking" prependId="false" rendered="#{bookingController.bookCabFormRendered}">      
+
+                <ace:dataTable value="#{bookingController.bookingsToBeBooked}" 
+                               var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="multiple"
+                               >
+                    <ace:ajax event="editSubmit" render="@this" />
+                    <ace:column headerText="#{bundle.ListBookingTitle_customerName}" filterMatchMode="contains" 
+                                filterBy="#{booking.customerName}">                     
+                        <h:outputText value="#{booking.customerName}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_mobileNumber}" filterMatchMode="contains" 
+                                filterBy="#{booking.mobileNumber}">                     
+                        <h:outputText value="#{booking.mobileNumber}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_bookingType}" filterMatchMode="contains" 
+                                filterBy="#{booking.bookingType}">                     
+                        <h:outputText value="#{booking.bookingType}"/>
+                    </ace:column>
+
+                    <ace:column headerText="#{bundle.ListBookingTitle_pickupTime}" filterMatchMode="contains"
+                                filterBy="#{booking.pickupTime.toString()}">
+                        <h:outputText value="#{booking.pickupTime}" >
+                            <f:convertDateTime pattern="MMM dd, yyyy h:mm:ss a"
+                                               timeZone="IST"/>
+                        </h:outputText>                         
+                    </ace:column>
+                    <ace:column id="status" headerText="#{bundle.ListBookingTitle_status}" filterMatchMode="contains"
+                                filterBy="#{booking.status}">                          
+                        <h:outputText value="#{booking.status.value}"/>                                          
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_pickupStreetAddress}" filterMatchMode="contains"
+                                filterBy="#{booking.pickupStreetAddress}">
+                        <h:outputText value="#{booking.pickupStreetAddress}"/>
+                    </ace:column>
+
+                    <ace:column headerText="#{bundle.ListBookingTitle_dropStreetAddress}" filterMatchMode="contains"
+                                filterBy="#{booking.dropStreetAddress}">
+                        <h:outputText value="#{booking.dropStreetAddress}"/>
+                    </ace:column>
+
+                </ace:dataTable>
+                <br/>
+                <h:panelGrid columns="2">
+                <ace:pushButton actionListener="#{bookingController.bookCab()}" label="Book Cab" />
+                <ace:pushButton actionListener="#{bookingController.cancelCabBooking()}" title="Cancel" label="Cancel"/>
+                </h:panelGrid>
+            </h:form>
+        </div>
+    </h:body>
+
+</html>

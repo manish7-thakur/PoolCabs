@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Shared Car Information</title>        
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+    </h:head>
+    <h:body>
+        <div align="center">
+            <br/>
+            <h:outputText value="#{bundle.ListSharedCarInfoTitle}"></h:outputText>
+            <h:form class="tableBooking" rendered="#{sharedCarInfoController.sharedCarInfoOverviewRendered}">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListSharedCarInfoEmpty}" rendered="#{sharedCarInfoController.items.rowCount == 0}"/>
+                <ace:dataTable value="#{sharedCarInfoController.sharedCarInfoList}" var="sharedCarInfo"
+                               selectionMode="multiple" stateMap="#{sharedCarInfoController.stateMap}">
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_ownerName}" filterMatchMode="contains" 
+                                filterBy="#{sharedCarInfo.name}">                     
+                        <h:outputText value="#{sharedCarInfo.name}"/>
+                    </ace:column>              
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_ownerMobileNumber}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.mobileNumber}">                        
+                        <h:outputText value="#{sharedCarInfo.mobileNumber}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_fromAddress}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.fromAddress}">                      
+                        <h:outputText value="#{sharedCarInfo.fromAddress}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_toAddress}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.toAddress}">                   
+                        <h:outputText value="#{sharedCarInfo.toAddress}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_startTime}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.startTime}">                        
+                        <h:outputText value="#{sharedCarInfo.startTime}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_returnTime}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.returnTime}">                        
+                        <h:outputText value="#{sharedCarInfo.returnTime}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_carOwner}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.carOwner}">                        
+                        <h:outputText value="#{sharedCarInfo.carOwner}"/>                    
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_clubbed}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.clubbed}">                        
+                        <h:outputText value="#{sharedCarInfo.clubbed}"/>                    
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_routeDescription}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.routeDescription}">                        
+                        <h:outputText value="#{sharedCarInfo.routeDescription}"/>
+                    </ace:column>
+                </ace:dataTable>
+                <br />
+                <ace:pushButton actionListener="#{sharedCarInfoController.renderSharingForm()}" title="Create Group" label="Create Group"/>
+            </h:form>
+            <h:form class="tableBooking" rendered="#{sharedCarInfoController.sharingOverviewRendered}">
+                <ace:dataTable value="#{sharedCarInfoController.groupList}" var="sharedCarInfo"
+                               selectionMode="multiple" stateMap="#{sharedCarInfoController.stateMap}">
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_ownerName}" filterMatchMode="contains" 
+                                filterBy="#{sharedCarInfo.name}">                     
+                        <h:outputText value="#{sharedCarInfo.name}"/>
+                    </ace:column>              
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_ownerMobileNumber}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.mobileNumber}">                        
+                        <h:outputText value="#{sharedCarInfo.mobileNumber}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_fromAddress}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.fromAddress}">                      
+                        <h:outputText value="#{sharedCarInfo.fromAddress}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_toAddress}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.toAddress}">                   
+                        <h:outputText value="#{sharedCarInfo.toAddress}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_startTime}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.startTime}">                        
+                        <h:outputText value="#{sharedCarInfo.startTime}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_returnTime}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.returnTime}">                        
+                        <h:outputText value="#{sharedCarInfo.returnTime}">
+                            <f:convertDateTime pattern="HH:mm" />
+                        </h:outputText>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_carOwner}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.carOwner}">                        
+                        <h:outputText value="#{sharedCarInfo.carOwner}"/>                    
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_clubbed}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.clubbed}">                        
+                        <h:outputText value="#{sharedCarInfo.clubbed}"/>                    
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListSharedCarInfoTitle_routeDescription}" filterMatchMode="contains"
+                                filterBy="#{sharedCarInfo.routeDescription}">                        
+                        <h:outputText value="#{sharedCarInfo.routeDescription}"/>
+                    </ace:column>
+                </ace:dataTable>
+                <br />
+                <h:panelGrid columns="2">
+                    <ace:pushButton actionListener="#{sharedCarInfoController.createGroup()}" title="Save Group" label="Save Group"/>
+                    <ace:pushButton actionListener="#{sharedCarInfoController.cancelGroupCreation()}" title="Cancel" label="Cancel"/>
+                </h:panelGrid>
+            </h:form>
+        </div>
+    </h:body>
+</html>

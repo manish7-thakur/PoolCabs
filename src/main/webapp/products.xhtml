@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Products</title>
+    </h:head>
+    <h:body>
+        <ui:include src="includes/header.xhtml" />
+        <h:panelGrid columns="2" >
+            <ace:pushButton label="Book a regular ride" />
+            <h:outputText value="Available @ 6/km, suitable for your daily updowns like office, college, school." /> 
+            <ace:pushButton label="Book a casual cab" />
+            <h:outputText value="Available @ 7/km, suitable for your casual shopping, movie, party &amp; outings." />
+            <ace:pushButton label="Book an Instant cab" />
+            <h:outputText value="Available @ 8/km, cab will reach you with in next 1 hour." />
+            <ace:pushButton label="Corporate pay/seat plan" />
+            <h:outputText value="Available @ 6/km, no need tobook a full cab now for your employee.Just tell us." />
+        </h:panelGrid>
+    </h:body>
+</html>
+

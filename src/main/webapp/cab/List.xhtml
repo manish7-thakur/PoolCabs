@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListCabTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListCabEmpty}" rendered="#{cabController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{cabController.items.rowCount > 0}">
+                    <h:outputText value="#{cabController.pagination.pageFirstItem + 1}..#{cabController.pagination.pageLastItem + 1}/#{cabController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{cabController.previous}" value="#{bundle.Previous} #{cabController.pagination.pageSize}" rendered="#{cabController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{cabController.next}" value="#{bundle.Next} #{cabController.pagination.pageSize}" rendered="#{cabController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{cabController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCabTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCabTitle_cabNo}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.cabNo}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCabTitle_driverName}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.driverName}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCabTitle_driverPhoneNumber}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.driverPhoneNumber}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCabTitle_createdDate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.createdDate}">
+                                <f:convertDateTime pattern="MM/dd/yyyy" />
+                            </h:outputText>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListCabTitle_modifiedDate}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.modifiedDate}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{cabController.prepareView}" value="#{bundle.ListCabViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{cabController.prepareEdit}" value="#{bundle.ListCabEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{cabController.destroy}" value="#{bundle.ListCabDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{cabController.prepareCreate}" value="#{bundle.ListCabCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListCabIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
