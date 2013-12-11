@@ -8,15 +8,26 @@
     <h:head>
         <title>Your Bookings</title>        
         <h:outputStylesheet name="css/jsfcrud.css"/>
+        <style type="text/css">
+            .backgroundClass{
+                background: url("../resources/images/Back9.jpg");
+                margin: 0;
+                min-width: 100%;
+                min-height: 900px;
+                background-repeat: repeat;
+                background-size: 100%; 
+            }
+        </style>
     </h:head>
-    <h:body>
-        <br/>
-        <h:outputText value="#{bundle.ListBookingTitle}"></h:outputText>
-        <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-        <h:outputText escape="false" value="#{bundle.ListBookingEmpty}" rendered="#{bookingController.items.rowCount == 0}"/>
-
+    <h:body class="backgroundClass">
         <br/>
         <div align="center">
+            <h:outputText value="#{bundle.ListBookingTitle}" class="heading"></h:outputText>
+            <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            <h:outputText escape="false" value="#{bundle.ListBookingEmpty}" rendered="#{bookingController.items.rowCount == 0}"/>
+
+            <br/>
+
             <h:form class="tableBooking">      
 
                 <ace:dataTable value="#{bookingController.userBookings}" 

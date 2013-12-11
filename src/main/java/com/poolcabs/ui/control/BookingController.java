@@ -90,6 +90,9 @@ public class BookingController implements Serializable {
                 userAddressList.add(item);
             }
             
+            getSelected().setCustomerName(currentUser.getName());
+            getSelected().setMobileNumber(currentUser.getMobileNumber());
+            
         }
         bookingType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("bookingType");
         if (null != bookingType && bookingType.equalsIgnoreCase("INSTANT")) {
