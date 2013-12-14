@@ -5,6 +5,7 @@
 package com.poolcabs.messaging.util;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class MailComposer {
     public MimeMessage compose() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileInputStream("/src/main/resources/mail/mail.properties"));
+            properties.load(getClass().getClassLoader().getResourceAsStream("mail/mail.properties"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(MailComposer.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

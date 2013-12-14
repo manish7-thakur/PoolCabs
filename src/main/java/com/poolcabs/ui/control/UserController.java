@@ -5,13 +5,11 @@
 package com.poolcabs.ui.control;
 
 import com.poolcabs.dao.UserFacade;
+import com.poolcabs.dao.util.JsfUtil;
 import com.poolcabs.messaging.service.UserRegistrationEmailMessageService;
 import com.poolcabs.model.User;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -19,6 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.component.UIComponent;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
 
@@ -41,10 +40,10 @@ public class UserController {
     public void init() {
         newUserBeingCreated = new User();
 
-        Set<String> addressList = new HashSet<String>();
-        addressList.add("Add1");
-        addressList.add("Add2");
-        newUserBeingCreated.setAddressSet(addressList);
+        //Set<String> addressList = new HashSet<String>();
+        //addressList.add("Add1");
+        //addressList.add("Add2");
+        //newUserBeingCreated.setAddressSet(addressList);
 //        newUserBeingCreated.setBirthDate(new Date());
 //        newUserBeingCreated.setMobileNumber(583930);
 //        newUserBeingCreated.setSex('F');
@@ -71,10 +70,17 @@ public class UserController {
     }
 
     public void save() {
-        // List<User> list = userfaceFacade.findAll();
+
         newUserBeingCreated.setCreatedDate(new Date());
         userfaceFacade.create(newUserBeingCreated);
-        mailService.sendMail(newUserBeingCreated);
+        try {
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CreateUser_Registration"));
+            mailService.sendMail(newUserBeingCreated);
+            final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            externalContext.redirect(externalContext.getRequestContextPath() + "/booking/userbookings.jsf");
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("CreateUser_failed"));
+        }
     }
 
     public void passwordValidator(FacesContext context, UIComponent component, Object value) {

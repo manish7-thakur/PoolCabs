@@ -36,34 +36,32 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
     @Column(name = "NAME")
     private String name;
-
     @Column(name = "MOBILE_NUMBER")
     private Long mobileNumber;
-    
     @Column(name = "EMAIL")
     private String email;
-
+    @Column(name = "ACTIVE")
+    private boolean active;
     @Column(name = "LOGIN_PASSWORD")
     private String password;
-    
     @Transient
     private String confirmPassword;
-    
     @ElementCollection
-    @OneToMany(cascade= CascadeType.ALL, fetch= FetchType.EAGER)
-    @JoinColumn(name="ADDRESSES_USED")    
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "ADDRESSES_USED")
     private Set<String> addressSet;
-    
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
-    
     @Version
     @Column(name = "MODIFIED_DATE")
     private Timestamp modifiedDate;
+
+    public User() {
+        active = Boolean.FALSE;
+    }
 
     public Long getId() {
         return id;
@@ -97,6 +95,14 @@ public class User implements Serializable {
         this.email = email;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -111,7 +117,7 @@ public class User implements Serializable {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
-    }   
+    }
 
     public Set<String> getAddressSet() {
         return addressSet;
@@ -120,7 +126,7 @@ public class User implements Serializable {
     public void setAddressSet(Set<String> addressSet) {
         this.addressSet = addressSet;
     }
-    
+
     public Date getCreatedDate() {
         return createdDate;
     }
