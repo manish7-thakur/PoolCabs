@@ -19,8 +19,8 @@
         </style>
     </h:head>
     <h:body class="backgroundClass">
-        <div class="bodypart" align="center" >
-            <h:form>
+        <div id="userForm" class="bodypart" align="center" >
+            <h:form rendered="#{userController.registrationForm}">
                 <br/>
                 <br/>
                 <h:outputText class="message" value="#{bundle.CreateNewUser}"></h:outputText>
@@ -64,9 +64,15 @@
                 </h:panelGrid>
                 <br/>
                 <br/>
-                <h:commandButton label="Submit" image="resources/images/Save.png" actionListener="#{userController.save}" >
+                <h:commandButton label="Submit" type="button" image="resources/images/Save.png" actionListener="#{userController.save}" >
 
                 </h:commandButton>            
+            </h:form>
+            <h:form class="backgroundClass" rendered="#{userController.registrationSuccessfull}">
+                <br/><br/><br/>
+                <h:outputText value="#{bundle.CreateUser_Registration}" escape="false"/>
+                <br/>
+                <h:commandButton label="HomePage"  action="index.jsf?faces-redirect=true" image="resources/images/GoToHomepage.jpg" />
             </h:form>
         </div>
     </h:body>

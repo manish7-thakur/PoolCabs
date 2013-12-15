@@ -35,30 +35,14 @@ public class UserController {
     @EJB
     private UserRegistrationEmailMessageService mailService;
     private User newUserBeingCreated;
+    private boolean registrationSuccessfull;
+    private boolean registrationForm;
 
     @PostConstruct
     public void init() {
         newUserBeingCreated = new User();
-
-        //Set<String> addressList = new HashSet<String>();
-        //addressList.add("Add1");
-        //addressList.add("Add2");
-        //newUserBeingCreated.setAddressSet(addressList);
-//        newUserBeingCreated.setBirthDate(new Date());
-//        newUserBeingCreated.setMobileNumber(583930);
-//        newUserBeingCreated.setSex('F');
-//        newUserBeingCreated.setStreetAddress("hgf");
-//        newUserBeingCreated.setCity("sdfsd");
-//        newUserBeingCreated.setState("state");
-//        newUserBeingCreated.setZipcode("sdfs");
-//        newUserBeingCreated.setLandmark("sfds");
-//        newUserBeingCreated.setDropStreetAdress("3eew");
-//        newUserBeingCreated.setDropCity("sdfs");
-//        newUserBeingCreated.setDropState("sdfsdf");
-//        newUserBeingCreated.setDropZipCode("asdas");
-//        newUserBeingCreated.setDropLandmark("asdsd");
-//        newUserBeingCreated.setCreatedDate(new Date());
-//        newUserBeingCreated.setModifiedDate(new Timestamp(325235));
+        registrationSuccessfull = false;
+        registrationForm = true;
     }
 
     public User getNewUserBeingCreated() {
@@ -69,18 +53,36 @@ public class UserController {
         this.newUserBeingCreated = newUserBeingCreated;
     }
 
-    public void save() {
+    public boolean isRegistrationSuccessfull() {
+        return registrationSuccessfull;
+    }
 
-        newUserBeingCreated.setCreatedDate(new Date());
-        userfaceFacade.create(newUserBeingCreated);
+    public void setRegistrationSuccessfull(boolean registrationSuccessfull) {
+        this.registrationSuccessfull = registrationSuccessfull;
+    }
+
+    public boolean isRegistrationForm() {
+        return registrationForm;
+    }
+
+    public void setRegistrationForm(boolean registrationForm) {
+        this.registrationForm = registrationForm;
+    }
+
+    public void save() {
         try {
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("CreateUser_Registration"));
-            mailService.sendMail(newUserBeingCreated);
-            final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            externalContext.redirect(externalContext.getRequestContextPath() + "/booking/userbookings.jsf");
+            newUserBeingCreated.setCreatedDate(new Date());
+            userfaceFacade.create(newUserBeingCreated);
+            showSuccessfullRegistartionForm();
+            mailService.sendMail(newUserBeingCreated);            
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("CreateUser_failed"));
         }
+    }
+
+    public void showSuccessfullRegistartionForm() {
+        registrationSuccessfull = true;
+        registrationForm = false;
     }
 
     public void passwordValidator(FacesContext context, UIComponent component, Object value) {
