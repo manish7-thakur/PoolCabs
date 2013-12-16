@@ -89,28 +89,30 @@
 
                     <h:panelGrid columns="1">
                         <h:panelGrid columns="1">
-                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupTime}" for="pickupTime" />
+                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupTime}" 
+                                           for="pickupTime" />
                         </h:panelGrid>
                         <h:panelGrid columns="1">
-                            <ace:dateTimeEntry id="pickupTime" timeZone="IST" timeOnly="true" pattern="hh a" renderAsPopup="true"
-                                               value="#{bookingController.rideStartTime}" title="#{bundle.CreateBookingTitle_pickupTime}" >
+                            <ace:dateTimeEntry id="pickupTime" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
+                                               value="#{bookingController.rideStartTime}"
+                                               title="#{bundle.CreateBookingTitle_pickupTime}" >
                             </ace:dateTimeEntry>
                             <h:message for="name" errorClass="error" infoClass="info" />
                         </h:panelGrid>
                     </h:panelGrid>
-                    <h:panelGrid columns="1">
-                        <h:panelGroup rendered="#{bookingController.selected.bookingType.value.equalsIgnoreCase('CASUAL')}">
-                        <h:panelGrid columns="1">
-                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupTime}" for="pickupTime" />
-                        </h:panelGrid>
-                        <h:panelGrid columns="1">
-                            <ace:dateTimeEntry id="casualPickupTime" timeZone="IST" timeOnly="true" pattern="hh a" renderAsPopup="true"
-                                               value="#{bookingController.rideStartTime}" title="#{bundle.CreateBookingTitle_pickupTime}" >
+
+                    <h:panelGroup rendered="#{not bookingController.selected.bookingType.value.equalsIgnoreCase('CASUAL')}" >
+                        <h:panelGrid columns="1">                    
+                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupTime}"  
+                                           for="casualPickupTime" />
+                            <ace:dateTimeEntry id="casualPickupTime" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
+                                               value="#{bookingController.rideStartTime}" stepMinute="10"  
+                                               title="#{bundle.CreateBookingTitle_pickupTime}" >
                             </ace:dateTimeEntry>
-                            <h:message for="name" errorClass="error" infoClass="info" />
+                            <h:message for="casualPickupTime" errorClass="error" infoClass="info" />                                                 
                         </h:panelGrid>
-                            </h:panelGroup>
-                    </h:panelGrid>
+                    </h:panelGroup>
+
 
                     <h:panelGrid columns="1">
                         <h:outputLabel value="#{bundle.CreateBookingLabel_roundTrip}" for="roundTrip" />

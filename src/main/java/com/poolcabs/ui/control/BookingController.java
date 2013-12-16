@@ -528,8 +528,8 @@ public class BookingController implements Serializable {
         if (null != currentUser) {
             currentUser.getAddressSet().add(getSelected().getPickupStreetAddress());
             currentUser.getAddressSet().add(getSelected().getDropStreetAddress());
+            userFacade.edit(currentUser);
         }
-        userFacade.edit(currentUser);
     }
 
     @FacesConverter(forClass = Booking.class)
