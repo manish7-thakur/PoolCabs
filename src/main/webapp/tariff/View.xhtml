@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewTariffTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewTariffLabel_id}"/>
+                    <h:outputText value="#{tariffController.selected.id}" title="#{bundle.ViewTariffTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewTariffLabel_regularTariff}"/>
+                    <h:outputText value="#{tariffController.selected.regularTariff}" title="#{bundle.ViewTariffTitle_regularTariff}"/>
+                    <h:outputText value="#{bundle.ViewTariffLabel_instantTariff}"/>
+                    <h:outputText value="#{tariffController.selected.instantTariff}" title="#{bundle.ViewTariffTitle_instantTariff}"/>
+                    <h:outputText value="#{bundle.ViewTariffLabel_casualTariff}"/>
+                    <h:outputText value="#{tariffController.selected.casualTariff}" title="#{bundle.ViewTariffTitle_casualTariff}"/>
+                    <h:outputText value="#{bundle.ViewTariffLabel_outstationTariff}"/>
+                    <h:outputText value="#{tariffController.selected.outstationTariff}" title="#{bundle.ViewTariffTitle_outstationTariff}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{tariffController.destroyAndView}" value="#{bundle.ViewTariffDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewTariffEditLink}"/>
+                <br />
+                <h:commandLink action="#{tariffController.prepareCreate}" value="#{bundle.ViewTariffCreateLink}" />
+                <br />
+                <h:commandLink action="#{tariffController.prepareList}" value="#{bundle.ViewTariffShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewTariffIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

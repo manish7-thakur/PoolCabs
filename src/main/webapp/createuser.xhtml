@@ -23,9 +23,13 @@
             <h:form rendered="#{userController.registrationForm}">
                 <br/>
                 <br/>
-                <h:outputText class="message" value="#{bundle.CreateNewUser}"></h:outputText>
+                <h:outputText class="message" rendered="#{null == userController.userInfo}" value="#{bundle.CreateNewUserHeading}"></h:outputText>
+                <h:outputText class="message" rendered="#{null != userController.userInfo}" value="#{bundle.AskUserToRegister}"></h:outputText>
                 <br/>
                 <br/>
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
                 <h:panelGrid columns="3">
                     <h:outputLabel for="name" value="Name*" />
                     <h:inputText id="name" class="input" label="Name" value="#{userController.newUserBeingCreated.name}"
@@ -64,7 +68,7 @@
                 </h:panelGrid>
                 <br/>
                 <br/>
-                <h:commandButton label="Submit" type="button" image="resources/images/Save.png" actionListener="#{userController.save}" >
+                <h:commandButton label="Submit" type="button" image="resources/images/Save.png" actionListener="#{userController.createNewUser()}" >
 
                 </h:commandButton>            
             </h:form>

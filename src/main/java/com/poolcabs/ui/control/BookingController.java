@@ -5,17 +5,21 @@ import com.poolcabs.dao.BookingFacade;
 import com.poolcabs.dao.UserFacade;
 import com.poolcabs.dao.util.JsfUtil;
 import com.poolcabs.dao.util.PaginationHelper;
+import com.poolcabs.messaging.service.BookingEmailMessageService;
 import com.poolcabs.model.Booking;
 import com.poolcabs.model.BookingType;
 import com.poolcabs.model.CabStatus;
 import com.poolcabs.model.GeoCode;
 import com.poolcabs.model.User;
 import com.poolcabs.model.datatype.DragDropItem;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,14 +54,18 @@ public class BookingController implements Serializable {
     private UserFacade userFacade;
     @EJB
     private BookingService bookingService;
+    @EJB
+    private BookingEmailMessageService bookingEmailMessageService;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private boolean googleMapRendered;
     private boolean bookingFormRendered;
     private boolean bookCabFormRendered;
+    private boolean emailFormRendered;
     private String bookingType;
     private Date rideStartTime;
     private List<Booking> bookingList;
+    List<Booking> itemizedBookingList;
     private Date minimumDateForCalender;
     private List<Booking> userBookings;
     private List<Booking> bookingsToBeBooked;
@@ -65,6 +73,7 @@ public class BookingController implements Serializable {
     private RowStateMap stateMap;
     private List<DragDropItem> userAddressList;
     User currentUser;
+    private String guestEmail;
 
     public BookingController() {
     }
@@ -74,13 +83,14 @@ public class BookingController implements Serializable {
         googleMapRendered = false;
         bookingFormRendered = true;
         bookCabFormRendered = false;
+        emailFormRendered = false;
         bookingListForm = true;
         stateMap = new RowStateMap();
         bookingList = ejbFacade.findAll();
         bookingsToBeBooked = new ArrayList<Booking>();
         userAddressList = new ArrayList<DragDropItem>();
 
-        currentUser = (User) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("user");
+        currentUser = (User) getSessionMap().get("user");
         if (null != currentUser) {
             userBookings = ejbFacade.findAllByPhoneNumber(currentUser.getMobileNumber());
             int i = 0;
@@ -93,7 +103,7 @@ public class BookingController implements Serializable {
             getSelected().setMobileNumber(currentUser.getMobileNumber());
 
         }
-        bookingType = (String) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("bookingType");
+        bookingType = (String) getSessionMap().get("bookingType");
         if (null != bookingType && bookingType.equalsIgnoreCase("INSTANT")) {
             Calendar calender = Calendar.getInstance();
             calender.set(Calendar.HOUR_OF_DAY, 0);
@@ -160,6 +170,7 @@ public class BookingController implements Serializable {
     public void renderGoogleMap() {
         googleMapRendered = true;
         bookingFormRendered = false;
+        emailFormRendered = false;
     }
 
     public void create() {
@@ -172,18 +183,21 @@ public class BookingController implements Serializable {
             if (null == current.getRideEndDate()) {
                 current.setRideEndDate(current.getRideStartDate());
             }
-            List<Booking> bookingList = createIndividualBookings(current);
+            itemizedBookingList = createIndividualBookings(current);
 
             if (current.isRoundTrip()) {
-                bookingList.addAll(createReturnBookingForEachBooking(bookingList));
+                itemizedBookingList.addAll(createReturnBookingForEachBooking(itemizedBookingList));
             }
-            for (Booking booking : bookingList) {
+            for (Booking booking : itemizedBookingList) {
                 getFacade().create(booking);
             }
             saveNewAddressForUser(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingCreated"));
-            final ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-            externalContext.redirect(externalContext.getRequestContextPath() + "/booking/userbookings.jsf");
+            if (null != currentUser) {
+                JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingCreated"));
+                getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/booking/userbookings.jsf");
+            } else {
+                renderEmailForm();
+            }
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
             //return null;
@@ -301,6 +315,14 @@ public class BookingController implements Serializable {
         return CabStatus.list();
     }
 
+    public boolean isEmailFormRendered() {
+        return emailFormRendered;
+    }
+
+    public void setEmailFormRendered(boolean emailFormRendered) {
+        this.emailFormRendered = emailFormRendered;
+    }
+
     public void renderCabBookingForm() {
         bookingsToBeBooked.clear();
         bookingsToBeBooked.addAll(stateMap.getSelected());
@@ -379,6 +401,14 @@ public class BookingController implements Serializable {
         this.bookingsToBeBooked = bookingsToBeBooked;
     }
 
+    public List<Booking> getItemizedBookingList() {
+        return itemizedBookingList;
+    }
+
+    public void setItemizedBookingList(List<Booking> itemizedBookingList) {
+        this.itemizedBookingList = itemizedBookingList;
+    }
+
     public void renderBookingForm() {
     }
 
@@ -437,6 +467,8 @@ public class BookingController implements Serializable {
     public void setBookingListForm(boolean bookingListForm) {
         this.bookingListForm = bookingListForm;
     }
+    
+    
 
     private List<Booking> createIndividualBookings(Booking current) {
         List<Booking> bookings = new ArrayList<Booking>();
@@ -488,6 +520,16 @@ public class BookingController implements Serializable {
         return returnBookings;
     }
 
+    public void sendInvoiceAndRegister() {
+        Map<String, Object> userInfo = new HashMap<String, Object>();
+        userInfo.put("name", getSelected().getCustomerName());
+        userInfo.put("phoneNumber", getSelected().getMobileNumber());
+        userInfo.put("email", guestEmail);
+        getSessionMap().put("userInfo", userInfo);
+        bookingEmailMessageService.sendMail(itemizedBookingList, guestEmail);
+        redirectToRegistrationPage();
+    }
+
     public List<Booking> getBookingList() {
         return bookingList;
     }
@@ -520,6 +562,14 @@ public class BookingController implements Serializable {
         this.userBookings = userBookings;
     }
 
+    public String getGuestEmail() {
+        return guestEmail;
+    }
+
+    public void setGuestEmail(String guestEmail) {
+        this.guestEmail = guestEmail;
+    }
+
     private void undoSelection() {
         stateMap.setAllSelected(false);
     }
@@ -529,6 +579,28 @@ public class BookingController implements Serializable {
             currentUser.getAddressSet().add(getSelected().getPickupStreetAddress());
             currentUser.getAddressSet().add(getSelected().getDropStreetAddress());
             userFacade.edit(currentUser);
+        }
+    }
+
+    private Map<String, Object> getSessionMap() {
+        return getExternalContext().getSessionMap();
+    }
+
+    private void renderEmailForm() {
+        googleMapRendered = false;
+        bookingFormRendered = false;
+        emailFormRendered = true; 
+    }
+
+    private ExternalContext getExternalContext() {
+        return FacesContext.getCurrentInstance().getExternalContext();
+    }
+
+    private void redirectToRegistrationPage() {
+        try {
+            getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/createuser.jsf");
+        } catch (IOException ex) {
+            Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

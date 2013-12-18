@@ -8,7 +8,9 @@ import com.poolcabs.dao.UserFacade;
 import com.poolcabs.dao.util.JsfUtil;
 import com.poolcabs.messaging.service.UserRegistrationEmailMessageService;
 import com.poolcabs.model.User;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -27,7 +29,7 @@ import javax.faces.validator.ValidatorException;
  */
 @ManagedBean
 @ViewScoped
-public class UserController {
+public class UserController implements Serializable {
 
     private static final Logger LOGGER = Logger.getLogger(UserController.class.getName());
     @EJB
@@ -37,12 +39,19 @@ public class UserController {
     private User newUserBeingCreated;
     private boolean registrationSuccessfull;
     private boolean registrationForm;
+    private Map<String, Object> userInfo;
 
     @PostConstruct
     public void init() {
         newUserBeingCreated = new User();
         registrationSuccessfull = false;
         registrationForm = true;
+        userInfo = (Map<String, Object>) getSessionMap().get("userInfo");
+        if (null != userInfo) {
+            newUserBeingCreated.setName((String) userInfo.get("name"));
+            newUserBeingCreated.setMobileNumber((Long) userInfo.get("phoneNumber"));
+            newUserBeingCreated.setEmail((String) userInfo.get("email"));
+        }
     }
 
     public User getNewUserBeingCreated() {
@@ -69,18 +78,50 @@ public class UserController {
         this.registrationForm = registrationForm;
     }
 
-    public void save() {
+    private void save() {
         try {
             newUserBeingCreated.setCreatedDate(new Date());
             userfaceFacade.create(newUserBeingCreated);
-            showSuccessfullRegistartionForm();
-            mailService.sendMail(newUserBeingCreated);            
+            showSuccessfulRegistrationForm();
+            mailService.sendMail(newUserBeingCreated);
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("CreateUser_failed"));
         }
     }
 
-    public void showSuccessfullRegistartionForm() {
+    public boolean userAlreadyExists() {
+        User existingUser = userfaceFacade.findByEmail(newUserBeingCreated.getEmail());
+        if (null != existingUser) {
+            return true;
+        }
+        return false;
+    }
+
+    public void createNewUser() {
+        if (userAlreadyExists()) {
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("Email_exists"));
+        } else {
+            save();
+        }
+    }
+
+    private Map<String, Object> getSessionMap() {
+        return getExternalContext().getSessionMap();
+    }
+
+    private ExternalContext getExternalContext() {
+        return FacesContext.getCurrentInstance().getExternalContext();
+    }
+
+    public Map<String, Object> getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(Map<String, Object> userInfo) {
+        this.userInfo = userInfo;
+    }
+
+    public void showSuccessfulRegistrationForm() {
         registrationSuccessfull = true;
         registrationForm = false;
     }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditTariffTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditTariffLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{tariffController.selected.id}" title="#{bundle.EditTariffTitle_id}" />
+                    <h:outputLabel value="#{bundle.EditTariffLabel_regularTariff}" for="regularTariff" />
+                    <h:inputText id="regularTariff" value="#{tariffController.selected.regularTariff}" title="#{bundle.EditTariffTitle_regularTariff}" />
+                    <h:outputLabel value="#{bundle.EditTariffLabel_instantTariff}" for="instantTariff" />
+                    <h:inputText id="instantTariff" value="#{tariffController.selected.instantTariff}" title="#{bundle.EditTariffTitle_instantTariff}" />
+                    <h:outputLabel value="#{bundle.EditTariffLabel_casualTariff}" for="casualTariff" />
+                    <h:inputText id="casualTariff" value="#{tariffController.selected.casualTariff}" title="#{bundle.EditTariffTitle_casualTariff}" />
+                    <h:outputLabel value="#{bundle.EditTariffLabel_outstationTariff}" for="outstationTariff" />
+                    <h:inputText id="outstationTariff" value="#{tariffController.selected.outstationTariff}" title="#{bundle.EditTariffTitle_outstationTariff}" />
+                </h:panelGrid>
+                <h:commandLink action="#{tariffController.update}" value="#{bundle.EditTariffSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditTariffViewLink}"/>
+                <br />
+                <h:commandLink action="#{tariffController.prepareList}" value="#{bundle.EditTariffShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditTariffIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

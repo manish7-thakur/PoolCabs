@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.LocalBean;
+import javax.ejb.Stateless;
 import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
@@ -24,6 +26,8 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
  *
  * @author Manish
  */
+@LocalBean
+@Stateless
 public class BookingEmailMessageService {
 
     private String subject = "Bookings at PoolCabs";

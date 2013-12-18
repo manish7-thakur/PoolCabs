@@ -187,6 +187,19 @@
                 <div style="width:100%; height:10%" id="results"></div>
                 <h:commandButton image="resources/images/save.jpg" value="Save" actionListener="#{bookingController.create}" />                
             </h:form>
+            <h:form id="emailForm" rendered="#{bookingController.emailFormRendered}">
+                <br/><br/>
+                <h:outputText class="message" escape="false" value="#{bundle.Email_BookingInvoice}" />
+                <br/>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.LoginEmailLabel}" />
+                    <h:inputText class="input" id="emailForInvoice" label="Email" required="true" requiredMessage="Please enter your email" value="#{bookingController.guestEmail}" />
+                </h:panelGrid>
+                <h:panelGrid columns="1">
+                    <h:message for="emailForInvoice" errorClass="error" infoClass="info" />
+                    <h:commandButton label="Done" image="resources/images/SendInvoice.jpg" actionListener="#{bookingController.sendInvoiceAndRegister}" />
+                </h:panelGrid>
+            </h:form>
         </div>
     </h:body>
 </html>
