@@ -2,6 +2,7 @@ package com.poolcabs.ui.control;
 
 import com.poolcabs.bookingservice.BookingService;
 import com.poolcabs.dao.BookingFacade;
+import com.poolcabs.dao.TariffFacade;
 import com.poolcabs.dao.UserFacade;
 import com.poolcabs.dao.util.JsfUtil;
 import com.poolcabs.dao.util.PaginationHelper;
@@ -10,6 +11,7 @@ import com.poolcabs.model.Booking;
 import com.poolcabs.model.BookingType;
 import com.poolcabs.model.CabStatus;
 import com.poolcabs.model.GeoCode;
+import com.poolcabs.model.Tariff;
 import com.poolcabs.model.User;
 import com.poolcabs.model.datatype.DragDropItem;
 import java.io.IOException;
@@ -53,6 +55,8 @@ public class BookingController implements Serializable {
     @EJB
     private UserFacade userFacade;
     @EJB
+    private TariffFacade tariffFacade;
+    @EJB
     private BookingService bookingService;
     @EJB
     private BookingEmailMessageService bookingEmailMessageService;
@@ -70,6 +74,7 @@ public class BookingController implements Serializable {
     private List<Booking> userBookings;
     private List<Booking> bookingsToBeBooked;
     private boolean bookingListForm;
+    private Tariff tariff;
     private RowStateMap stateMap;
     private List<DragDropItem> userAddressList;
     User currentUser;
@@ -89,6 +94,7 @@ public class BookingController implements Serializable {
         bookingList = ejbFacade.findAll();
         bookingsToBeBooked = new ArrayList<Booking>();
         userAddressList = new ArrayList<DragDropItem>();
+        tariff = tariffFacade.findAll().get(0);
 
         currentUser = (User) getSessionMap().get("user");
         if (null != currentUser) {
@@ -188,6 +194,7 @@ public class BookingController implements Serializable {
             if (current.isRoundTrip()) {
                 itemizedBookingList.addAll(createReturnBookingForEachBooking(itemizedBookingList));
             }
+            populateCharges(itemizedBookingList);
             for (Booking booking : itemizedBookingList) {
                 getFacade().create(booking);
             }
@@ -467,8 +474,6 @@ public class BookingController implements Serializable {
     public void setBookingListForm(boolean bookingListForm) {
         this.bookingListForm = bookingListForm;
     }
-    
-    
 
     private List<Booking> createIndividualBookings(Booking current) {
         List<Booking> bookings = new ArrayList<Booking>();
@@ -589,7 +594,7 @@ public class BookingController implements Serializable {
     private void renderEmailForm() {
         googleMapRendered = false;
         bookingFormRendered = false;
-        emailFormRendered = true; 
+        emailFormRendered = true;
     }
 
     private ExternalContext getExternalContext() {
@@ -601,6 +606,24 @@ public class BookingController implements Serializable {
             getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/createuser.jsf");
         } catch (IOException ex) {
             Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void populateCharges(List<Booking> itemizedBookingList) {
+        for (Booking booking : itemizedBookingList) {
+            if (booking.getBookingType().getValue().equals(BookingType.REGULAR.getValue())) {
+                booking.setTarrif(tariff.getRegularTariff());
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getRegularTariff() : null);
+            } else if (booking.getBookingType().getValue().equals(BookingType.CASUAL.getValue())) {
+                booking.setTarrif(tariff.getCasualTariff());
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getCasualTariff() : null);
+            } else if (booking.getBookingType().getValue().equals(BookingType.INSTANT.getValue())) {
+                booking.setTarrif(tariff.getInstantTariff());
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getInstantTariff() : null);
+            } else if (booking.getBookingType().getValue().equals(BookingType.OUTSTATION.getValue())) {
+                booking.setTarrif(tariff.getOutstationTariff());
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getOutstationTariff() : null);
+            }
         }
     }
 

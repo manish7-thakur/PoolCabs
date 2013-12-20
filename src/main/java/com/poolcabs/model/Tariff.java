@@ -25,13 +25,13 @@ public class Tariff implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "REGULAR_TARIFF")
-    private Integer regularTariff;
+    private Double regularTariff;
     @Column(name = "INSTANT_TARIFF")
-    private Integer instantTariff;
+    private Double instantTariff;
     @Column(name = "CASUAL_TARIFF")
-    private Integer casualTariff;
+    private Double casualTariff;
     @Column(name = "OUTSTATION_TARIFF")
-    private Integer outstationTariff;
+    private Double outstationTariff;
 
     public Long getId() {
         return id;
@@ -41,35 +41,35 @@ public class Tariff implements Serializable {
         this.id = id;
     }
 
-    public Integer getRegularTariff() {
+    public Double getRegularTariff() {
         return regularTariff;
     }
 
-    public void setRegularTariff(Integer regularTariff) {
+    public void setRegularTariff(Double regularTariff) {
         this.regularTariff = regularTariff;
     }
 
-    public Integer getInstantTariff() {
+    public Double getInstantTariff() {
         return instantTariff;
     }
 
-    public void setInstantTariff(Integer instantTariff) {
+    public void setInstantTariff(Double instantTariff) {
         this.instantTariff = instantTariff;
     }
 
-    public Integer getCasualTariff() {
+    public Double getCasualTariff() {
         return casualTariff;
     }
 
-    public void setCasualTariff(Integer casualTariff) {
+    public void setCasualTariff(Double casualTariff) {
         this.casualTariff = casualTariff;
     }
 
-    public Integer getOutstationTariff() {
+    public Double getOutstationTariff() {
         return outstationTariff;
     }
 
-    public void setOutstationTariff(Integer outstationTariff) {
+    public void setOutstationTariff(Double outstationTariff) {
         this.outstationTariff = outstationTariff;
     }
 

@@ -32,14 +32,6 @@
 
                 <ace:dataTable value="#{bookingController.userBookings}" 
                                var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="single">
-                    <ace:column headerText="#{bundle.ListBookingTitle_customerName}" filterMatchMode="contains" 
-                                filterBy="#{booking.customerName}">                     
-                        <h:outputText value="#{booking.customerName}"/>
-                    </ace:column>
-                    <ace:column headerText="#{bundle.ListBookingTitle_mobileNumber}" filterMatchMode="contains" 
-                                filterBy="#{booking.mobileNumber}">                     
-                        <h:outputText value="#{booking.mobileNumber}"/>
-                    </ace:column>
                     <ace:column headerText="#{bundle.ListBookingTitle_bookingType}" filterMatchMode="contains" 
                                 filterBy="#{booking.bookingType}">                     
                         <h:outputText value="#{booking.bookingType}"/>
@@ -64,6 +56,14 @@
                     <ace:column headerText="#{bundle.ListBookingTitle_dropStreetAddress}" filterMatchMode="contains"
                                 filterBy="#{booking.dropStreetAddress}">
                         <h:outputText value="#{booking.dropStreetAddress}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_tariff}" filterMatchMode="contains"
+                                filterBy="#{booking.tarrif}">
+                        <h:outputText value="#{booking.tarrif}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_totalCost}" filterMatchMode="contains"
+                                filterBy="#{booking.totalCost}">
+                        <h:outputText value="#{booking.totalCost}"/>
                     </ace:column>
                 </ace:dataTable>
             </h:form>

@@ -72,6 +72,10 @@ public class Booking implements Serializable, Cloneable {
     private boolean roundTrip;
     @Column(name = "DISTANCE_IN_KM")
     private Double distanceInKM;
+    @Column(name = "TARRIF")
+    private Double tarrif;
+    @Column(name="TOTAL_COST")
+    private Double totalCost;
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "CAB")
     private Cab cab;
@@ -218,6 +222,24 @@ public class Booking implements Serializable, Cloneable {
     public Double getDistanceInKM() {
         return distanceInKM;
     }
+
+    public Double getTarrif() {
+        return tarrif;
+    }
+
+    public void setTarrif(Double tarrif) {
+        this.tarrif = tarrif;
+    }
+
+    public Double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(Double totalCost) {
+        this.totalCost = totalCost;
+    }
+    
+    
 
     public Cab getCab() {
         return cab;

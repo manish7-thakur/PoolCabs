@@ -73,6 +73,7 @@ function showMap(){
         if (status == google.maps.DirectionsStatus.OK)         {
             //alert(response.routes[0].legs[0].distance.value);
             document.getElementById("distanceInKM").value = (response.routes[0].legs[0].distance.value)/1000;
+            document.getElementById("distanceInKMText").value = (response.routes[0].legs[0].distance.value)/1000;
             distance = "The distance between the two points on the chosen route is: "+response.routes[0].legs[0].distance.text;
             distance += "<br/>The aproximative driving time is: "+response.routes[0].legs[0].duration.text;
             document.getElementById("results").innerHTML = distance;

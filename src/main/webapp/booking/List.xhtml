@@ -10,13 +10,10 @@
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body>
-        <br/>
-        <h:outputText value="#{bundle.ListBookingTitle}"></h:outputText>
-
         <h:outputText escape="false" value="#{bundle.ListBookingEmpty}" rendered="#{bookingController.items.rowCount == 0}"/>
-
         <br/>
         <div align="center">
+
             <h:form id="bookingListForm" class="tableBooking" prependId="false" rendered="#{bookingController.bookingListForm}">      
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
@@ -84,9 +81,13 @@
                         <h:outputText value="#{booking.dropStreetAddress}"/>
                     </ace:column>
 
-                    <ace:column headerText="#{bundle.ListBookingTitle_roundTrip}" filterMatchMode="contains"
-                                filterBy="#{booking.roundTrip}">
-                        <h:outputText value="#{booking.roundTrip}"/>
+                    <ace:column headerText="#{bundle.ListBookingTitle_distanceInKM}" filterMatchMode="contains"
+                                filterBy="#{booking.distanceInKM}">
+                        <h:outputText value="#{booking.distanceInKM}"/>
+                    </ace:column>
+                    <ace:column headerText="#{bundle.ListBookingTitle_totalCost}" filterMatchMode="contains"
+                                filterBy="#{booking.totalCost}">
+                        <h:outputText value="#{booking.totalCost}"/>
                     </ace:column>
                     <ace:column>
                         <h:commandButton rendered="#{bookingController.selected ne null}" action="#{bookingController.destroy}" value="#{bundle.ListBookingDestroyLink}" />
@@ -158,8 +159,8 @@
                 </ace:dataTable>
                 <br/>
                 <h:panelGrid columns="2">
-                <ace:pushButton actionListener="#{bookingController.bookCab()}" label="Book Cab" />
-                <ace:pushButton actionListener="#{bookingController.cancelCabBooking()}" title="Cancel" label="Cancel"/>
+                    <ace:pushButton actionListener="#{bookingController.bookCab()}" label="Book Cab" />
+                    <ace:pushButton actionListener="#{bookingController.cancelCabBooking()}" title="Cancel" label="Cancel"/>
                 </h:panelGrid>
             </h:form>
         </div>
