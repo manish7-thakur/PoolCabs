@@ -143,8 +143,6 @@
 
                     </h:panelGrid>
                 </div>
-                <h:outputText value="Calculated Distance" />
-                <h:inputText id="distanceInKMText" value="#{bookingController.selected.distanceInKM}" disabled="true" />
                 <h:inputHidden id="distanceInKM" value="#{bookingController.selected.distanceInKM}" valueChangeListener="#{bookingController.valueChanged}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
 
                 </h:inputHidden>
@@ -175,12 +173,14 @@
                                       options="travelMode:'DRIVING'" />
                 </ace:gMap> 
 
-                <h:panelGroup rendered="#{not null eq bookingController.selected.distanceInKM}">
+                <h:panelGroup rendered="#{null ne bookingController.selected.distanceInKM}">
                     <h:outputText class="message" value="#{bundle.DistanceMessage}"></h:outputText>
-                    <h:outputText class="message" value="#{bookingController.selected.distanceInKM}"></h:outputText>
-                    <h:outputText class="message" value=" KM"></h:outputText>
+                    <h:outputText class="message" value="#{bookingController.selected.distanceInKM}"> 
+                        
+                    </h:outputText>
+                    <h:outputText class="message" value=" KM"></h:outputText>                    
                 </h:panelGroup>
-                <h:outputText class="message" rendered="#{null eq bookingController.selected.distanceInKM}" value="An error occurred while calculating distance" />
+                <h:outputText class="message" rendered="#{null eq bookingController.selected.distanceInKM}" value="#{bundle.CreateBookingTitle_GeocodeError}" />
                 <h:inputHidden id="distanceInKM1" value="#{bookingController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
                 </h:inputHidden>
                 <h:inputHidden id="pickupStreetAddress1" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
@@ -194,7 +194,13 @@
                 <h:inputHidden id="dropLongitude2" value="#{bookingController.selected.dropGeocode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
                 </h:inputHidden>
                 <br/>
-                <h:commandButton image="../resources/images/save.jpg" value="Save" actionListener="#{bookingController.create}" />                
+
+                <h:panelGrid columns="2">
+                    <h:commandButton image="../resources/images/Recalculate.jpg" onclick="initialize2(); true;" value="Recalculate" >
+                        <f:ajax execute="@form" event="click" listener="initialize2(); true" render="@form"/>
+                    </h:commandButton>
+                    <h:commandButton image="../resources/images/Save2.jpg" value="Save" actionListener="#{bookingController.create}" />
+                </h:panelGrid>
             </h:form>
             <h:form id="emailForm" rendered="#{bookingController.emailFormRendered}">
                 <br/><br/>

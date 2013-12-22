@@ -73,10 +73,74 @@ function showMap(){
         if (status == google.maps.DirectionsStatus.OK)         {
             //alert(response.routes[0].legs[0].distance.value);
             document.getElementById("distanceInKM").value = (response.routes[0].legs[0].distance.value)/1000;
-            document.getElementById("distanceInKMText").value = (response.routes[0].legs[0].distance.value)/1000;
             distance = "The distance between the two points on the chosen route is: "+response.routes[0].legs[0].distance.text;
             distance += "<br/>The aproximative driving time is: "+response.routes[0].legs[0].duration.text;
-            document.getElementById("results").innerHTML = distance;
+        }
+    });
+}
+
+//To Recalculate
+function  initialize2(){
+    geocoder = new google.maps.Geocoder(); // creating a new geocode object
+		
+    // getting the two address values
+    address1 = document.getElementById("pickupStreetAddress1").value;
+    address2 = document.getElementById("dropStreetAddress1").value;
+    //alert("" + address1+address2);
+    if(!address1 || (0 === address1.length) || ! address2 || (0 === address2.length)){
+        return true;
+    }
+		
+    // finding out the coordinates
+    if (geocoder)     {
+        geocoder.geocode( {
+            'address': address1
+        }, function(results, status)        {
+            if (status == google.maps.GeocoderStatus.OK)                 {
+                //location of first address (latitude + longitude)
+                location1 = results[0].geometry.location;
+                document.getElementById("pickupLatitude1").value = parseFloat(results[0].geometry.location.lat());
+                document.getElementById("pickupLongitude1").value = parseFloat(results[0].geometry.location.lng());
+
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+        geocoder.geocode( {
+            'address': address2
+        }, function(results, status)         {
+            if (status == google.maps.GeocoderStatus.OK)                 {
+                //location of second address (latitude + longitude)
+                location2 = results[0].geometry.location;
+                document.getElementById("dropLatitude1").value = parseFloat(results[0].geometry.location.lat());
+                document.getElementById("dropLongitude2").value = parseFloat(results[0].geometry.location.lng());
+                // calling the showMap() function to create and show the map 
+                showMap2();
+            } else {
+                alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+    }
+    
+    return true;
+}
+
+// creates and shows the map
+function showMap2(){
+    
+    // show route between the points
+    directionsService = new google.maps.DirectionsService();
+    var request = {
+        origin:location1, 
+        destination:location2,
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+    };
+    directionsService.route(request, function(response, status)     {
+        if (status == google.maps.DirectionsStatus.OK)         {
+            //alert(response.routes[0].legs[0].distance.value);
+            document.getElementById("distanceInKM1").value = (response.routes[0].legs[0].distance.value)/1000;
+            distance = "The distance between the two points on the chosen route is: "+response.routes[0].legs[0].distance.text;
+            distance += "<br/>The aproximative driving time is: "+response.routes[0].legs[0].duration.text;
         }
     });
 }
