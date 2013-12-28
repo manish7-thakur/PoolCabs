@@ -5,6 +5,7 @@
 package com.poolcabs.ui.control;
 
 import com.poolcabs.dto.BookingDTO;
+import java.io.Serializable;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -14,9 +15,9 @@ import javax.faces.context.FacesContext;
  *
  * @author Manish
  */
-@ManagedBean
+@ManagedBean(name = "indexController")
 @ViewScoped
-public class IndexController {
+public class IndexController implements Serializable{
 
     private BookingDTO bookingDTO;
  

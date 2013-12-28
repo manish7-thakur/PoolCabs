@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">-->
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -65,7 +65,7 @@
                     <h:panelGrid columns="2">
                         <h:panelGrid columns="1" >
                             <h:panelGrid columns="2">
-                                <h:commandButton id="regular" value="#{bookingDTO.bookingType}" class="flip" image="resources/images/Regular5.jpg" label="Regular" action="#{indexController.setCurrentBooking('REGULAR')}">
+                                <h:commandButton id="regular" class="flip" image="resources/images/Regular5.jpg" label="Regular" action="#{indexController.setCurrentBooking('REGULAR')}">
                                     <f:param name="bookingType" value="Regular" />
                                     <ace:tooltip speechBubble="true"  showEffect="grow" targetPosition="center"  for="regular" value="Available @ 6/km, suitable for your daily updowns like office, college, school" />
                                 </h:commandButton>

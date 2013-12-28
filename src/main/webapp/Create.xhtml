@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -31,7 +29,7 @@
                 <h:panelGrid columns="2">
                     <h:panelGrid columns="1">
                         <h:panelGrid columns="1">
-                            <h:outputLabel value="#{bundle.CreateBookingLabel_customerName}" for="customerName" />
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_customerName}" for="customerName" />
                         </h:panelGrid>
                         <h:panelGrid columns="2">
                             <h:inputText class="input" id="customerName" value="#{bookingController.selected.customerName}" title="#{bundle.CreateBookingTitle_customerName}" />
@@ -40,7 +38,7 @@
                     </h:panelGrid>
                     <h:panelGrid columns="1">
                         <h:panelGrid columns="1">
-                            <h:outputLabel value="#{bundle.CreateBookingLabel_mobileNumber}" for="mobileNumber" />
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_mobileNumber}" for="mobileNumber" />
                         </h:panelGrid> 
                         <h:panelGrid columns="2">
                             <h:inputText class="input" id="mobileNumber" value="#{bookingController.selected.mobileNumber}" title="#{bundle.CreateBookingTitle_mobileNumber}" />
@@ -49,7 +47,7 @@
                     </h:panelGrid>
                     <h:panelGrid columns="1">
                         <h:panelGrid columns="1">
-                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupStreetAddress}" escape="false" for="pickupStreetAddress" />
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupStreetAddress}" escape="false" for="pickupStreetAddress" />
                         </h:panelGrid>
                         <h:panelGrid columns="1">
                             <h:inputTextarea class="input" id="pickupStreetAddress" value="#{bookingController.selected.pickupStreetAddress}" onchange="initialize(); true;" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
@@ -59,7 +57,7 @@
 
                     <h:panelGrid columns="1">
                         <h:panelGrid columns="1">
-                            <h:outputLabel value="#{bundle.CreateBookingLabel_dropStreetAddress}" escape="false" for="dropStreetAddress" />
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_dropStreetAddress}" escape="false" for="dropStreetAddress" />
                         </h:panelGrid>
                         <h:panelGrid columns="1">
                             <h:inputTextarea class="input" id="dropStreetAddress" value="#{bookingController.selected.dropStreetAddress}"  onchange="initialize(); true;" title="#{bundle.CreateBookingTitle_dropStreetAddress}" />
@@ -68,7 +66,7 @@
                     </h:panelGrid>
                     <h:panelGrid columns="1">
                         <h:panelGrid columns="1">
-                            <h:outputLabel rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR') or bookingController.bookingType.equalsIgnoreCase('CASUAL') or bookingController.bookingType.equalsIgnoreCase('OUTSTATION')}" value="#{bundle.CreateBookingLabel_rideStartDate}" for="rideStartDate" />
+                            <h:outputLabel class="messageWhite" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR') or bookingController.bookingType.equalsIgnoreCase('CASUAL') or bookingController.bookingType.equalsIgnoreCase('OUTSTATION')}" value="#{bundle.CreateBookingLabel_rideStartDate}" for="rideStartDate" />
                         </h:panelGrid>
                         <h:panelGrid columns="1">
                             <ace:dateTimeEntry  id="rideStartDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR') or bookingController.bookingType.equalsIgnoreCase('CASUAL') or bookingController.bookingType.equalsIgnoreCase('OUTSTATION')}" mindate="#{bookingController.minimumDateForCalender}" value="#{bookingController.selected.rideStartDate}" title="#{bundle.CreateBookingTitle_rideStartDate}" 
@@ -78,7 +76,7 @@
                     </h:panelGrid>
                     <h:panelGrid columns="1">
                         <h:panelGrid columns="1">
-                            <h:outputLabel for="rideEndDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR')}" value="#{bundle.CreateBookingLabel_rideEndDate}" />
+                            <h:outputLabel class="messageWhite" for="rideEndDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR')}" value="#{bundle.CreateBookingLabel_rideEndDate}" />
                         </h:panelGrid>
                         <h:panelGrid columns="1">
                             <ace:dateTimeEntry id="rideEndDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR')}" mindate="#{bookingController.minimumDateForCalender}" value="#{bookingController.selected.rideEndDate}" title="#{bundle.CreateBookingTitle_rideEndDate}"
@@ -89,7 +87,7 @@
 
                     <h:panelGrid columns="1">
                         <h:panelGrid columns="1">
-                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupTime}" 
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}" 
                                            for="pickupTime" />
                         </h:panelGrid>
                         <h:panelGrid columns="1">
@@ -103,7 +101,7 @@
 
                     <h:panelGroup rendered="#{not bookingController.selected.bookingType.value.equalsIgnoreCase('CASUAL')}" >
                         <h:panelGrid columns="1">                    
-                            <h:outputLabel value="#{bundle.CreateBookingLabel_pickupTime}"  
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}"  
                                            for="casualPickupTime" />
                             <ace:dateTimeEntry id="casualPickupTime" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
                                                value="#{bookingController.rideStartTime}" stepMinute="10"  
@@ -115,7 +113,7 @@
 
 
                     <h:panelGrid columns="1">
-                        <h:outputLabel value="#{bundle.CreateBookingLabel_roundTrip}" for="roundTrip" />
+                        <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_roundTrip}" for="roundTrip" />
                         <h:selectBooleanCheckbox immediate="true" valueChangeListener="#{bookingController.roundTripValueChanged}" id="roundTrip" value="#{bookingController.selected.roundTrip}" title="#{bundle.CreateBookingTitle_roundTrip}" >
                             <f:ajax event="change" execute="@all" render="roundTripPanel" />
                         </h:selectBooleanCheckbox>
@@ -124,7 +122,7 @@
                     <h:panelGrid id="roundTripPanel" columns="1">
                         <h:panelGroup rendered="#{bookingController.selected.roundTrip}" >
                             <h:panelGrid columns="1">
-                                <h:outputLabel value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTime" />
+                                <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTime" />
                                 <ace:dateTimeEntry renderAsPopup="true" timeOnly="true" pattern="hh:mm a" immediate="true" id="returnPickupTime" 
                                                    value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
                             </h:panelGrid>

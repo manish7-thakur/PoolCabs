@@ -1,5 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html">
@@ -29,7 +27,7 @@
                     <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
                 <h:panelGrid columns="3">
-                    <h:outputText value="Email Address*" />
+                    <h:outputText class="messageWhite" value="Email Address*" />
 
                     <h:inputText id="email" class="input" value="#{userLoginController.email}" required="true"
                                  requiredMessage="Please fill in your email address" validatorMessage="Email is not valid">
@@ -37,7 +35,7 @@
                     </h:inputText>
                     <h:message for="email" errorClass="error" infoClass="info" />
 
-                    <h:outputText value="Password*" />
+                    <h:outputText class="messageWhite" value="Password*" />
 
                     <h:inputSecret id="password" class="input" value="#{userLoginController.password}" required="true"
                                    requiredMessage="Please fill in your password">                      

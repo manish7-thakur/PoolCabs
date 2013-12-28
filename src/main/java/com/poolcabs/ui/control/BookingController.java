@@ -38,6 +38,8 @@ import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
+import org.icefaces.ace.event.DateSelectEvent;
+import org.icefaces.ace.event.DateTextChangeEvent;
 import org.icefaces.ace.event.DragDropEvent;
 import org.icefaces.ace.event.RowEditEvent;
 import org.icefaces.ace.event.SelectEvent;
@@ -71,6 +73,7 @@ public class BookingController implements Serializable {
     private List<Booking> bookingList;
     List<Booking> itemizedBookingList;
     private Date minimumDateForCalender;
+    private Date minimumDateForRideEndDate;
     private List<Booking> userBookings;
     private List<Booking> bookingsToBeBooked;
     private boolean bookingListForm;
@@ -185,7 +188,6 @@ public class BookingController implements Serializable {
             current.setStatus(CabStatus.PENDING);
             current.setCreateDate(new Date());
             populateRideStartDate();
-            //renderGoogleMap();
             if (null == current.getRideEndDate()) {
                 current.setRideEndDate(current.getRideStartDate());
             }
@@ -198,7 +200,11 @@ public class BookingController implements Serializable {
             for (Booking booking : itemizedBookingList) {
                 getFacade().create(booking);
             }
-            saveNewAddressForUser(current);
+            try {
+                saveNewAddressForUser(current);
+            } catch (Exception e) {
+                Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, e);
+            }
             if (null != currentUser) {
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingCreated"));
                 getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/booking/userbookings.jsf");
@@ -549,6 +555,30 @@ public class BookingController implements Serializable {
 
     public void setMinimumDateForCalender(Date minimumDateForCalender) {
         this.minimumDateForCalender = minimumDateForCalender;
+    }
+
+    public Date getMinimumDateForRideEndDate() {
+        return minimumDateForRideEndDate;
+    }
+
+    public void setMinimumDateForRideEndDate(Date minimumDateForRideEndDate) {
+        this.minimumDateForRideEndDate = minimumDateForRideEndDate;
+    }
+
+    public void dateTextChangeListener(DateTextChangeEvent event) {
+        Date date = event.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 4);
+        minimumDateForRideEndDate = calendar.getTime();
+    }
+
+    public void dateSelectListener(DateSelectEvent event) {
+        Date date = event.getDate();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DAY_OF_MONTH, 4);
+        minimumDateForRideEndDate = calendar.getTime();
     }
 
     public String getBookingType() {

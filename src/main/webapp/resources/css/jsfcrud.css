@@ -37,6 +37,12 @@ root {
     color: white;
 
 }
+.messageWhite{
+    color: white;
+    font-family: Segoe UI,Helvetica,sans-serif;
+    font-size: 20px;
+}
+
 
 .messageBlack{
 
@@ -59,6 +65,11 @@ root {
     /*background-color: black;*/
     color: cyan;
     height: 30px;
+}
+
+.error{
+    color: red;
+    font-weight: bold;
 }
 .menuitem{
     font-family: Segoe UI, Helvetica, sans-serif;
