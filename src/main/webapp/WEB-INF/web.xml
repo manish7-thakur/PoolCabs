@@ -4,6 +4,10 @@
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>
     </context-param>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/index.jsf</location>
+    </error-page>
     <context-param>
         <param-name>org.icefaces.ace.gmapKey</param-name>
         <param-value>AIzaSyA9etVYs34fuhi4wmDBPgfkiKF97pi5l6M</param-value>

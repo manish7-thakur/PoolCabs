@@ -8,10 +8,13 @@ import com.poolcabs.messaging.util.MailComposer;
 import com.poolcabs.model.User;
 import java.io.StringWriter;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
@@ -38,7 +41,7 @@ public class UserRegistrationEmailMessageService {
         Template template = engine.getTemplate("mail/UserRegistrationInvoice.vsl");
         VelocityContext context = new VelocityContext();
         context.put("name", user.getName());
-        context.put("token", user.getId());
+        context.put("token", generateActivationLink(user.getId()));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         String body = writer.toString();
@@ -61,5 +64,15 @@ public class UserRegistrationEmailMessageService {
         properties.setProperty(Velocity.RESOURCE_LOADER, "classpath");
         properties.setProperty("classpath." + Velocity.RESOURCE_LOADER + ".class", ClasspathResourceLoader.class.getName());
         engine.init(properties);
+    }
+
+    private String generateActivationLink(Long id) {
+        String activationURL = ResourceBundle.getBundle("/Bundle").getString("ApplicationURL");
+        activationURL += "/user/activate.jsf?key=" + id;
+        return activationURL;
+    }
+
+    private ExternalContext getExternalContext() {
+        return FacesContext.getCurrentInstance().getExternalContext();
     }
 }

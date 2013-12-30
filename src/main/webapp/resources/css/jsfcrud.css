@@ -32,7 +32,7 @@ root {
 }
 
 .message{
-
+    font-family: Segoe UI,Helvetica,sans-serif;
     font-size: 30px;
     color: white;
 

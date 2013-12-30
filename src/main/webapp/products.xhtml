@@ -6,19 +6,36 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Products</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <style type="text/css">
+            .backgroundClass{
+                background: url("resources/images/Back9.jpg");
+                margin: 0;
+                min-width: 100%;
+                min-height: 900px;
+                background-repeat: repeat;
+                background-size: 100%; 
+            }
+        </style>
     </h:head>
-    <h:body>
-        <ui:include src="includes/header.xhtml" />
-        <h:panelGrid columns="2" >
-            <ace:pushButton label="Book a regular ride" />
-            <h:outputText value="Available @ 6/km, suitable for your daily updowns like office, college, school." /> 
-            <ace:pushButton label="Book a casual cab" />
-            <h:outputText value="Available @ 7/km, suitable for your casual shopping, movie, party &amp; outings." />
-            <ace:pushButton label="Book an Instant cab" />
-            <h:outputText value="Available @ 8/km, cab will reach you with in next 1 hour." />
-            <ace:pushButton label="Corporate pay/seat plan" />
-            <h:outputText value="Available @ 6/km, no need tobook a full cab now for your employee.Just tell us." />
-        </h:panelGrid>
+    <h:body class="backgroundClass">
+        <div id="userForm" class="bodypart" align="center" >
+            <div class="heading">
+            <h:outputText value="#{bundle.ServicesHeading}" />
+            </div>
+            <h:form>
+                <h:panelGrid class="bodypart" columns="2" >
+                    <h:commandButton label="Book a regular ride" image="/resources/images/RegularDecription.jpg" action="#{indexController.setCurrentBooking('REGULAR')}" />
+                    <h:outputText value="Available @ 6/km, suitable for your daily updowns like office, college, school." /> 
+                    <h:commandButton label="Book a casual cab" image="/resources/images/CasualDescription.jpg" action="#{indexController.setCurrentBooking('CASUAL')}" />
+                    <h:outputText value="Available @ 7/km, suitable for your casual shopping, movie, party &amp; outings." />
+                    <h:commandButton label="Book an Instant cab" image="/resources/images/InstantDescription.jpg" action="#{indexController.setCurrentBooking('INSTANT')}" />
+                    <h:outputText value="Available @ 8/km, cab will reach you with in next 1 hour." />
+                    <h:commandButton label="Outstation" image="/resources/images/OutstationDescription.jpg" action="#{indexController.setCurrentBooking('OUTSTATION')}"/>
+                    <h:outputText value="Available @ 3/km, no need tobook a full cab now for your employee.Just tell us." />
+                </h:panelGrid>
+            </h:form>
+        </div>
     </h:body>
 </html>
 

@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Activate User</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+        <style type="text/css">
+            .backgroundClass{
+                background: url("../resources/images/Register.jpg");
+                margin: 0;
+                min-width: 100%;
+                min-height: 900px;
+                background-repeat: repeat;
+                background-size: 100%; 
+            }
+        </style>
+    </h:head>
+    <h:body class="backgroundClass">        
+        <br/>       
+        <div class="bodypart" align="center" >
+            <h:outputText class="message" value="#{bundle.UserActivationHeading}"></h:outputText> 
+            <br/><br/> 
+            <h:panelGroup id="messagePanel" layout="block" rendered="#{userActivationController.valid}">
+                <h:messages class="bodypart" globalOnly="true" errorStyle="color: red" infoStyle="color: white" layout="table"/>
+            </h:panelGroup>
+            <br/>
+            <h:commandButton label="HomePage"  action="index.jsf?faces-redirect=true" image="../resources/images/GoToHomepage.jpg" />
+        </div>
+    </h:body>
+</html>
+

@@ -29,27 +29,27 @@
                     <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
                 <h:panelGrid columns="3">
-                    <h:outputLabel for="name" value="Name*" />
+                    <h:outputLabel class="messageWhite" for="name" value="Name*" />
                     <h:inputText id="name" class="input" label="Name" value="#{userController.newUserBeingCreated.name}"
                                  required="true" requiredMessage="Please enter your name">
                     </h:inputText>
                     <h:message for="name" errorClass="error" infoClass="info" />
 
-                    <h:outputText for="phoneNumber" value="Phone Number*" />
+                    <h:outputText class="messageWhite" for="phoneNumber" value="Phone Number*" />
                     <h:inputText id="phoneNumber" class="input" value="#{userController.newUserBeingCreated.mobileNumber}" maxlength="10"
                                  required="true" requiredMessage="Please fill in your mobile number"
                                  validatorMessage="Should be 10 digits" converterMessage="Only digits are allowed" >
                         <f:validateLength minimum="10" maximum="10" />
                     </h:inputText>
                     <h:message for="phoneNumber" errorClass="error" infoClass="info" />
-                    <h:outputText for="email" value="Email Address*" />
+                    <h:outputText class="messageWhite" for="email" value="Email Address*" />
                     <h:inputText id="email" class="input" value="#{userController.newUserBeingCreated.email}" required="true"
                                  requiredMessage="Please fill in your email address" validatorMessage="Email is not valid">
                         <f:validateRegex pattern="([A-Za-z0-9._%+]|-)+@([A-Za-z0-9.]|-)+\.[A-Za-z]{2,4}" />
                     </h:inputText>
                     <h:message for="email" errorClass="error" infoClass="info" />
 
-                    <h:outputText for="password" value="Password*" />
+                    <h:outputText class="messageWhite" for="password" value="Password*" />
                     <h:inputSecret id="password" class="input" value="#{userController.newUserBeingCreated.password}" required="true"
                                    requiredMessage="Please fill in your password" validatorMessage="Password is not Valid"
                                    >
@@ -58,7 +58,7 @@
                     </h:inputSecret>
                     <h:message for="password" errorClass="error" infoClass="info" />
 
-                    <h:outputText for="confirmPassword" value="Re-enter Password*" />
+                    <h:outputText class="messageWhite" for="confirmPassword" value="Re-enter Password*" />
                     <h:inputSecret id="confirmPassword" class="input" value="#{userController.newUserBeingCreated.confirmPassword}" required="true"
                                    requiredMessage="Please retype your password" validator="#{userController.passwordValidator}"> 
                     </h:inputSecret>
