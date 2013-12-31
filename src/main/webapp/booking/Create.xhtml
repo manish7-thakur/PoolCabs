@@ -19,7 +19,11 @@
             }
         </style>
     </h:head>
-    <h:body class="backgroundClass">
+    <h:body class="backgroundClass" style="background:  url(../resources/images/Register.jpg); margin: 0;
+                min-width: 100%;
+                min-height: 900px;
+                background-repeat: repeat;
+                background-size: 100%;">
         <div class="bodypart" align="center" >
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green" layout="table"/>
@@ -171,9 +175,7 @@
 
                 <h:panelGroup rendered="#{null ne bookingController.selected.distanceInKM}">
                     <h:outputText class="message" value="#{bundle.DistanceMessage}"></h:outputText>
-                    <h:outputText class="message" value="#{bookingController.selected.distanceInKM}"> 
-
-                    </h:outputText>
+                    <h:outputLabel class="message" value="#{bookingController.selected.distanceInKM}" /> 
                     <h:outputText class="message" value=" KM"></h:outputText>                    
                 </h:panelGroup>
                 <h:outputText class="message" rendered="#{null eq bookingController.selected.distanceInKM}" value="#{bundle.CreateBookingTitle_GeocodeError}" />

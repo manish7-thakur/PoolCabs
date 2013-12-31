@@ -8,7 +8,14 @@ root {
     padding-top: 0;
     font-size: 20px;
 }
-
+.backgroundClass{
+    background: url("../images/Register.jpg");
+    margin: 0;
+    min-width: 100%;
+    min-height: 900px;
+    background-repeat: repeat;
+    background-size: 100%; 
+}
 
 .heading{
     font-family: Segoe UI Light, Helvetica, sans-serif;
