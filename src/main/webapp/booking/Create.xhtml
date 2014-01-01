@@ -20,10 +20,10 @@
         </style>
     </h:head>
     <h:body class="backgroundClass" style="background:  url(../resources/images/Register.jpg); margin: 0;
-                min-width: 100%;
-                min-height: 900px;
-                background-repeat: repeat;
-                background-size: 100%;">
+            min-width: 100%;
+            min-height: 900px;
+            background-repeat: repeat;
+            background-size: 100%;">
         <div class="bodypart" align="center" >
             <h:panelGroup id="messagePanel" layout="block">
                 <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green" layout="table"/>
@@ -71,7 +71,7 @@
                             <h:panelGrid columns="1">
                                 <h:inputTextarea class="input" id="pickupStreetAddress" value="#{bookingController.selected.pickupStreetAddress}"
                                                  onchange="initialize();
-                                                         true;" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" >
+                                                     true;" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" >
                                     <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" dropListener="#{bookingController.handleDrop}">
                                         <ace:ajax execute="@this" render="@this @form pickupStreetAddress" />
                                     </ace:droppable>
@@ -87,7 +87,7 @@
                             <h:panelGrid columns="1">
                                 <h:inputTextarea class="input" id="dropStreetAddress" value="#{bookingController.selected.dropStreetAddress}"  
                                                  onchange="initialize();
-                                                         true;" title="#{bundle.CreateBookingTitle_dropStreetAddress}" >
+                                                     true;" title="#{bundle.CreateBookingTitle_dropStreetAddress}" >
                                     <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" dropListener="#{bookingController.handleDrop}">
                                         <ace:ajax execute="@this" render="@this @form dropStreetAddress" />
                                     </ace:droppable>
@@ -100,28 +100,24 @@
                             <ace:dateTimeEntry  id="rideStartDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR') or bookingController.bookingType.equalsIgnoreCase('CASUAL') or bookingController.bookingType.equalsIgnoreCase('OUTSTATION')}" 
                                                 mindate="#{bookingController.minimumDateForCalender}" valueChangeListener="#{bookingController.dateTextChangeListener}" value="#{bookingController.selected.rideStartDate}"
                                                 renderAsPopup="true" readOnlyInputText="true" >
-                                <ace:ajax event="dateSelect" listener="#{bookingController.dateSelectListener}" render="rideEndDateGrid"/>
-                                <ace:ajax event="dateTextChange" listener="#{bookingController.dateTextChangeListener}" render="@all rideEndDateGrid" />
+                                <ace:ajax event="dateSelect" listener="#{bookingController.dateSelectListener}" render="@all pickupTime rideEndDateGrid"/>
+                                <ace:ajax event="dateTextChange" listener="#{bookingController.dateTextChangeListener}" render="@all pickupTime rideEndDateGrid" />
                             </ace:dateTimeEntry>
                             <h:message for="name" errorClass="error" infoClass="info" />
                         </h:panelGrid>
                         <h:panelGrid columns="1" id="rideEndDateGrid">
                             <h:outputLabel class="messageWhite" for="rideEndDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR')}" value="#{bundle.CreateBookingLabel_rideEndDate}" />
-                            <ace:dateTimeEntry id="rideEndDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR')}" mindate="#{bookingController.minimumDateForRideEndDate}" value="#{bookingController.selected.rideEndDate}" title="#{bundle.CreateBookingTitle_rideEndDate}"
-                                               renderAsPopup="true" readOnlyInputText="true"/>
+                            <ace:dateTimeEntry id="rideEndDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR')}" value="#{bookingController.selected.rideEndDate}" title="#{bundle.CreateBookingTitle_rideEndDate}"
+                                               mindate="#{bookingController.minimumDateForRideEndDate}" renderAsPopup="true" readOnlyInputText="true"/>
                             <h:message for="name" errorClass="error" infoClass="info" />
                         </h:panelGrid>
 
                         <h:panelGrid columns="1">
-                            <h:panelGrid columns="1">
-                                <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}" for="pickupTime" />
-                            </h:panelGrid>
-                            <h:panelGrid columns="1">
-                                <ace:dateTimeEntry id="pickupTime" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
-                                                   value="#{bookingController.rideStartTime}" title="#{bundle.CreateBookingTitle_pickupTime}" >
-                                </ace:dateTimeEntry>
-                                <h:message for="name" errorClass="error" infoClass="info" />
-                            </h:panelGrid>
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}" for="pickupTime" />
+                            <ace:dateTimeEntry id="pickupTime" timeZone="IST" timeOnly="true"  pattern="hh:mm a" renderAsPopup="true"
+                                               minHour="#{bookingController.hour}" value="#{bookingController.rideStartTime}" title="#{bundle.CreateBookingTitle_pickupTime}" >
+                            </ace:dateTimeEntry>
+                            <h:message for="name" errorClass="error" infoClass="info" />
                         </h:panelGrid>
 
                         <h:panelGrid columns="1">
@@ -136,7 +132,7 @@
                                 <h:panelGrid columns="1">
                                     <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTime" />
                                     <ace:dateTimeEntry renderAsPopup="true" timeOnly="true" pattern="hh:mm a" immediate="true" id="returnPickupTime" 
-                                                       value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
+                                                       minHour="#{bookingController.hour}" value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
                                 </h:panelGrid>
                             </h:panelGroup>
                         </h:panelGrid>
@@ -195,7 +191,7 @@
 
                 <h:panelGrid columns="2">
                     <h:commandButton image="../resources/images/Recalculate.jpg" onclick="initialize2();
-                            true;" value="Recalculate" >
+                        true;" value="Recalculate" >
                         <f:ajax execute="@form" event="click" listener="initialize2(); true" render="@form"/>
                     </h:commandButton>
                     <h:commandButton image="../resources/images/Save2.jpg" value="Save" actionListener="#{bookingController.create}" />

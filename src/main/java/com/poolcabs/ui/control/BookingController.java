@@ -81,6 +81,7 @@ public class BookingController implements Serializable {
     private RowStateMap stateMap;
     private List<DragDropItem> userAddressList;
     User currentUser;
+    private int hour;
     private String guestEmail;
 
     public BookingController() {
@@ -123,7 +124,7 @@ public class BookingController implements Serializable {
         }
         if (null != bookingType && bookingType.equalsIgnoreCase("CASUAL")) {
             Calendar calender = Calendar.getInstance();
-            calender.add(Calendar.DAY_OF_MONTH, 1);
+            calender.add(Calendar.HOUR_OF_DAY, 6);
             minimumDateForCalender = calender.getTime();
         } else {
             minimumDateForCalender = new Date();
@@ -575,6 +576,9 @@ public class BookingController implements Serializable {
 
     public void dateSelectListener(DateSelectEvent event) {
         Date date = event.getDate();
+        if (bookingType.equalsIgnoreCase(BookingType.CASUAL.getValue())) {
+            setMinHour(date);
+        }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.add(Calendar.DAY_OF_MONTH, 4);
@@ -655,6 +659,29 @@ public class BookingController implements Serializable {
                 booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getOutstationTariff() : null);
             }
         }
+    }
+
+    private void setMinHour(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        Calendar current = Calendar.getInstance();
+        Calendar minimumDateForCalenderInstance = calendar.getInstance();
+        minimumDateForCalenderInstance.setTime(minimumDateForCalender);
+        calendar.setTime(date);
+        if (calendar.get(Calendar.DAY_OF_MONTH) > minimumDateForCalenderInstance.get(Calendar.DAY_OF_MONTH)) {
+            hour = 12;
+        } else {
+            calendar.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY));
+            calendar.add(Calendar.HOUR_OF_DAY, 6);
+            hour = calendar.get(Calendar.HOUR_OF_DAY);
+        }
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
     }
 
     @FacesConverter(forClass = Booking.class)
