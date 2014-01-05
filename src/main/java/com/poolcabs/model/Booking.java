@@ -29,7 +29,7 @@ import javax.persistence.Version;
  * @author Manish
  */
 @Entity
-@Table(name = "REGULAR_BOOKINGS_INFO")
+@Table(name = "BOOKINGS_INFO")
 public class Booking implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1L;
