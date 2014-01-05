@@ -4,10 +4,9 @@
  */
 package com.poolcabs.ui.control;
 
-import com.poolcabs.dao.UserFacade;
+import com.poolcabs.dao.AdministratorFacade;
 import com.poolcabs.dao.util.JsfUtil;
-import com.poolcabs.model.BookingType;
-import com.poolcabs.model.User;
+import com.poolcabs.model.Administrator;
 import java.io.Serializable;
 import java.util.ResourceBundle;
 import javax.ejb.EJB;
@@ -17,61 +16,52 @@ import javax.faces.context.FacesContext;
 
 /**
  *
- * @author Manish
+ * @author Administrator
  */
 @ManagedBean
 @SessionScoped
-public class UserLoginController implements Serializable{
+public class AdminLoginController implements Serializable {
 
-    private String email;
+    private String name;
     private String password;
-    private User current;
-    private BookingType currentBookingType;
+    private Administrator current;
     @EJB
-    private UserFacade userFacade;
-    
+    private AdministratorFacade administratorFacade;
+
     public String login() {
-        current = userFacade.findByEmailAndPassword(email, password);
+        current = administratorFacade.findByNameAndPassword(name, password);
         //System.out.println(current);
-        if (current == null) {            
+        if (current == null) {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoLoginFound"));
-            return (email = password = null);
+            return (name = password = null);
         } else {
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", current);
-            return "/booking/Create.jsf?faces-redirect=true";
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("admin", current);
+            return "/booking/List.jsf?faces-redirect=true";
         }
     }
-    
+
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "index?faces-redirect=true";
     }
-    
-    public String getEmail() {
-        return email;
+
+    public String getName() {
+        return name;
     }
-    
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setName(String name) {
+        this.name = name;
     }
-    
+
     public String getPassword() {
         return password;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public boolean isLoggedIn() {
         return current != null;
     }
-
-    public BookingType getCurrentBookingType() {
-        return currentBookingType;
-    }
-
-    public void setCurrentBookingType(BookingType currentBookingType) {
-        this.currentBookingType = currentBookingType;
-    }    
 }

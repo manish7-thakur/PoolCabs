@@ -28,7 +28,6 @@
                 </h:panelGroup>
                 <h:panelGrid columns="3">
                     <h:outputText class="messageWhite" value="Email Address*" />
-
                     <h:inputText id="email" class="input" value="#{userLoginController.email}" required="true"
                                  requiredMessage="Please fill in your email address" validatorMessage="Email is not valid">
                         <f:validateRegex pattern="([A-Za-z0-9._%+]|-)+@([A-Za-z0-9.]|-)+\.[A-Za-z]{2,4}" />
@@ -36,12 +35,10 @@
                     <h:message for="email" errorClass="error" infoClass="info" />
 
                     <h:outputText class="messageWhite" value="Password*" />
-
                     <h:inputSecret id="password" class="input" value="#{userLoginController.password}" required="true"
                                    requiredMessage="Please fill in your password">                      
                     </h:inputSecret>
                     <h:message for="password" errorClass="error" infoClass="info" />
-
                 </h:panelGrid>
                 <br/>
                 <h:commandButton label="Login" action="#{userLoginController.login}" image="/resources/images/Login5.jpg">

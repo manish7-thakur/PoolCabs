@@ -9,12 +9,12 @@
         <title>Pool Your Cabs</title>
         <h:outputStylesheet name="css/jsfcrud.css"/>
         <script type="text/javascript">
-            var image1 = new Image()
-            image1.src = "resources/images/slides/overflow.jpg"
-            var image2 = new Image()
-            image2.src = "resources/images/slides/captions.jpg"
-            var image3 = new Image()
-            image3.src = "resources/images/slides/features.jpg"
+            var image1 = new Image();
+            image1.src = "resources/images/slides/Slide1.jpg";
+            var image2 = new Image();
+            image2.src = "resources/images/slides/Slide2.jpg";
+            var image3 = new Image();
+            image3.src = "resources/images/slides/Slide3.jpg";
         </script>
         <script type="text/javascript" src="resources/js/SlideShow.js" />
         <style type="text/css">
@@ -65,7 +65,7 @@
                     <h:panelGrid columns="2">
                         <h:panelGrid columns="1" >
                             <h:panelGrid columns="2">
-                                <h:commandButton id="regular" class="flip" image="resources/images/Regular5.jpg" label="Regular" action="#{indexController.setCurrentBooking('REGULAR')}">
+                                <h:commandButton id="regular" class="flip" image="resources/images/Regular5.jpg" label="Regular" action="/products.jsf?faces-redirect=true">
                                     <f:param name="bookingType" value="Regular" />
                                     <ace:tooltip speechBubble="true"  showEffect="grow" targetPosition="center"  for="regular" value="Available @ 6/km, suitable for your daily updowns like office, college, school" />
                                 </h:commandButton>
@@ -75,11 +75,11 @@
                                 </h:commandButton>
                             </h:panelGrid>
                             <h:panelGrid columns="2">
-                                <h:commandButton id="instant" label="Instant" class="flip" image="resources/images/Instant2.jpg" action="#{indexController.setCurrentBooking('INSTANT')}">
+                                <h:commandButton id="instant" label="Instant" class="flip" image="resources/images/Instant2.jpg" action="/products.jsf?faces-redirect=true">
                                     <f:param name="bookingType" value="Instant" />
                                     <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="instant" value="Available @ 8/km, cab will reach you with in next 1 hour" />
                                 </h:commandButton>
-                                <h:commandButton id="Outstation" label="Outstation" class="flip" image="resources/images/Outstation6.jpg" action="#{indexController.setCurrentBooking('OUTSTATION')}">
+                                <h:commandButton id="Outstation" label="Outstation" class="flip" image="resources/images/Outstation6.jpg" action="/products.jsf?faces-redirect=true">
                                     <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="Outstation" value="Available @ 3/km, currently available between delhi, jaipur, &amp; agra" />
                                 </h:commandButton> 
                             </h:panelGrid>

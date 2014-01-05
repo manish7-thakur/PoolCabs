@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html">
+    <h:head>
+        <title>Admin Login</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:panelGrid columns="3">
+                <h:outputText value="User Name*" />
+                <h:inputText id="name" class="input" value="#{adminLoginController.name}" required="true"
+                             requiredMessage="Please fill in your name" >
+                </h:inputText>
+                <h:message for="name" errorClass="error" infoClass="info" />
+                <h:outputText value="Password*" />
+                <h:inputSecret id="password" class="input" value="#{adminLoginController.password}" required="true"
+                               requiredMessage="Please fill in your password">                      
+                </h:inputSecret>
+                <h:message for="password" errorClass="error" infoClass="info" />
+            </h:panelGrid>
+            <br/>
+            <h:commandButton label="Login" action="#{adminLoginController.login}" image="/resources/images/Login5.jpg">
+            </h:commandButton>
+        </h:form>
+    </h:body>
+</html>
+

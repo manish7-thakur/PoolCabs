@@ -114,6 +114,13 @@ public class BookingController implements Serializable {
 
         }
         bookingType = (String) getSessionMap().get("bookingType");
+        if(null == bookingType){
+            try {
+                getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/index.jsf");
+            } catch (IOException ex) {
+                Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         if (null != bookingType && bookingType.equalsIgnoreCase("INSTANT")) {
             Calendar calender = Calendar.getInstance();
             calender.set(Calendar.HOUR_OF_DAY, 0);
