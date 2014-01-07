@@ -32,7 +32,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 @Stateless
 public class UserRegistrationEmailMessageService {
 
-    private String subject = "PoolCabs Registration";
+    private String subject = "WowShareCabs Registration";
     private String emailTemplatePath = "mail/UserRegistrationInvoice.vsl";
 
     private MimeMessage createMailMessage(User user) {
@@ -42,6 +42,7 @@ public class UserRegistrationEmailMessageService {
         VelocityContext context = new VelocityContext();
         context.put("name", user.getName());
         context.put("token", generateActivationLink(user.getId()));
+        context.put("organization", ResourceBundle.getBundle("/Bundle").getString("Organization_Name"));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         String body = writer.toString();
