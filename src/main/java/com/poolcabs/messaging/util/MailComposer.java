@@ -49,6 +49,8 @@ public class MailComposer {
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(subject);
             message.setText(body);
+            message.setHeader("Content-Type", "text/html");
+            
         } catch (MessagingException ex) {
             Logger.getLogger(MailComposer.class.getName()).log(Level.SEVERE, null, ex);
         }

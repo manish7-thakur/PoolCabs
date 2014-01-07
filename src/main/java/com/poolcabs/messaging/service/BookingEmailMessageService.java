@@ -9,6 +9,7 @@ import com.poolcabs.model.Booking;
 import java.io.StringWriter;
 import java.util.List;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.LocalBean;
@@ -40,6 +41,7 @@ public class BookingEmailMessageService {
         VelocityContext context = new VelocityContext();
         context.put("name", bookings.get(0).getCustomerName());
         context.put("bookingList", bookings);
+        context.put("organization", ResourceBundle.getBundle("/Bundle").getString("Organization_Name"));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         String body = writer.toString();

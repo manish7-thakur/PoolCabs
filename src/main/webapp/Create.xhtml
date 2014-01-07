@@ -76,7 +76,7 @@
                                        for="pickupTime" />
                         <ace:dateTimeEntry id="pickupTime" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
                                            value="#{bookingController.rideStartTime}" minHour="#{bookingController.hour}" 
-                                           title="#{bundle.CreateBookingTitle_pickupTime}" required="true" requiredMessage="Please select time" >
+                                           title="#{bundle.CreateBookingTitle_pickupTime}" stepMinute="59" required="true" requiredMessage="Please select time" >
                         </ace:dateTimeEntry>
                         <h:message for="pickupTime" errorClass="error" infoClass="info" />                       
                     </h:panelGrid>
@@ -93,7 +93,7 @@
                             <h:panelGrid columns="1">
                                 <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTime" />
                                 <ace:dateTimeEntry renderAsPopup="true" timeOnly="true" pattern="hh:mm a" immediate="true" id="returnPickupTime" required="true" requiredMessage="Please select time"
-                                                   minHour="#{bookingController.hour}" value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
+                                                   minHour="#{bookingController.hour}" stepMinute="59" value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
                                 <h:message for="returnPickupTime" errorClass="error" infoClass="info" /> 
                             </h:panelGrid>
                         </h:panelGroup>
@@ -135,7 +135,7 @@
                     <h:outputLabel class="message" value="#{bookingController.selected.distanceInKM}" />
                     <h:outputText class="message" value=" KM"></h:outputText>
                 </h:panelGroup>
-                <h:outputText class="message" rendered="#{null eq bookingController.selected.distanceInKM}" value="#{bundle.CreateBookingTitle_GeocodeError}" />
+                <h:outputText class="message" rendered="#{null eq bookingController.selected.distanceInKM}"  escape="false" value="#{bundle.CreateBookingTitle_GeocodeError}" />
                 <h:inputHidden id="distanceInKM1" value="#{bookingController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
                 </h:inputHidden>
                 <h:inputHidden id="pickupStreetAddress1" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
