@@ -44,12 +44,12 @@ public class MailComposer {
 
         Session session = Session.getDefaultInstance(properties);
         MimeMessage message = new MimeMessage(session);
-        try {
-            message.setFrom();
+        try {            
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
             message.setSubject(subject);
             message.setText(body);
             message.setHeader("Content-Type", "text/html");
+            message.setFrom(new InternetAddress("noreply@wowsharecabs.in"));
             
         } catch (MessagingException ex) {
             Logger.getLogger(MailComposer.class.getName()).log(Level.SEVERE, null, ex);
