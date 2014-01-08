@@ -29,7 +29,7 @@
                 <h:messages errorStyle="color: red" globalOnly="true" infoStyle="color: green" layout="table"/>
             </h:panelGroup>
             <h:form id="bookingForm" prependId="false" rendered="#{bookingController.isBookingFormRendered()}">
-                <h:outputText class="message" value="#{bundle.CreateBookingTitle}"></h:outputText>                
+                <h:outputText class="message" value="#{bundle.CreateBookingTitle}"></h:outputText>   
                 <h:panelGrid columns="2">
                     <h:panelGrid columns="1">
                         <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_customerName}" for="customerName" />
@@ -161,15 +161,16 @@
             </h:form>
             <h:form id="emailForm" rendered="#{bookingController.emailFormRendered}">
                 <br/><br/>
-                <h:outputText class="message" escape="false" value="#{bundle.Email_BookingInvoice}" />
+                <h:outputText class="messageWhite" escape="false" value="#{bundle.Email_BookingInvoice}" />
                 <br/>
                 <h:panelGrid columns="2">
-                    <h:outputText value="#{bundle.LoginEmailLabel}" />
+                    <h:outputText class="messageWhite" value="#{bundle.LoginEmailLabel}" />
                     <h:inputText class="input" id="emailForInvoice" label="Email" required="true" requiredMessage="Please enter your email" value="#{bookingController.guestEmail}" />
                 </h:panelGrid>
                 <h:panelGrid columns="1">
                     <h:message for="emailForInvoice" errorClass="error" infoClass="info" />
                     <h:commandButton label="Done" image="resources/images/SendInvoice.jpg" actionListener="#{bookingController.sendInvoiceAndRegister}" />
+                    <h:commandButton label="HomePage"  action="index.jsf?faces-redirect=true" image="resources/images/GoToHomepage.jpg" />
                 </h:panelGrid>
             </h:form>
         </div>

@@ -31,7 +31,7 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 @Stateless
 public class BookingEmailMessageService {
 
-    private String subject = "Bookings at PoolCabs";
+    private String subject = "Bookings at WowShareCabs";
     private String emailTemplatePath = "mail/UserBookingInvoice.vsl";
 
     private MimeMessage createMailMessage(List<Booking> bookings, String email) {

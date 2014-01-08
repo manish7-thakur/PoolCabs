@@ -5,14 +5,29 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
     <h:head>
         <title>Facelet Title</title>
-        
+
     </h:head>
     <h:body>
         <ui:composition>
-            <div class="heading">
-            <h:outputText value="Welcome to PoolCabs" />
+            <div class="menubar">
+                <div class="navigator">
+                    <a class="menuitem" title="Home" href="index.jsf">
+                        <img src="resources/images/Home.jpg" />
+                    </a>
+                    <a class="menuitem" title="Services" href="products.jsf">
+                        <img src="resources/images/Services.jpg" />
+                    </a>
+                    <a class="menuitem" title="Contact us" href="contactUs.jsf">
+                        <img src="resources/images/ContactUs.jpg" />
+                    </a>
+                    <a class="menuitemRight" title="Sign In" href="login/signin.jsf">
+                        <img src="resources/images/SignIn.jpg" />
+                    </a>            
+                    <a class="menuitemRight" title="Register" href="createuser.jsf">
+                        <img src="resources/images/Registeration.jpg" />
+                    </a>
+                </div>
             </div>
-            <!--<h3 style="text-align: center">Share and Save</h3>-->
         </ui:composition>
     </h:body>
 </html>
