@@ -129,13 +129,13 @@
                           zoomLevel="3">
                     <ace:gMapServices name="Directions" points="#{bookingController.getPoints()}"
                                       options="travelMode:'DRIVING'" />
-                </ace:gMap> 
+                </ace:gMap>                 
                 <h:panelGroup rendered="#{null ne bookingController.selected.distanceInKM}">
-                    <h:outputText class="message" value="#{bundle.DistanceMessage}"></h:outputText>
-                    <h:outputLabel class="message" value="#{bookingController.selected.distanceInKM}" />
-                    <h:outputText class="message" value=" KM"></h:outputText>
+                    <h:outputText class="messageWhite" value="#{bundle.DistanceMessage}"></h:outputText>
+                    <h:outputLabel class="messageWhite" value="#{bookingController.selected.distanceInKM}" />
+                    <h:outputText class="messageWhite" value=" KM"></h:outputText>
                 </h:panelGroup>
-                <h:outputText class="message" rendered="#{null eq bookingController.selected.distanceInKM}"  escape="false" value="#{bundle.CreateBookingTitle_GeocodeError}" />
+                <h:outputText class="messageWhite" rendered="#{null eq bookingController.selected.distanceInKM}"  escape="false" value="#{bundle.CreateBookingTitle_GeocodeError}" />
                 <h:inputHidden id="distanceInKM1" value="#{bookingController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
                 </h:inputHidden>
                 <h:inputHidden id="pickupStreetAddress1" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
@@ -149,8 +149,6 @@
                 <h:inputHidden id="dropLongitude2" value="#{bookingController.selected.dropGeocode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
                 </h:inputHidden>
                 <br/>
-                <br/>
-
                 <h:panelGrid columns="2">
                     <h:commandButton image="resources/images/Recalculate.jpg" onclick="initialize2();
                         true;" value="Recalculate" >
