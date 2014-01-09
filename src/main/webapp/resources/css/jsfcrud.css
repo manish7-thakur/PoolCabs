@@ -31,6 +31,16 @@ root {
 
 }
 
+.list{
+    float: left;
+    height: 17px;
+    position: absolute;
+    text-align: left;
+    color: white;
+    width: 320px;
+    font-size: 15px;
+}
+
 .input{
     font-size: 1em;
     padding: 4px;

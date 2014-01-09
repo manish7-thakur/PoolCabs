@@ -121,8 +121,14 @@
                                 </h:panelGrid>
                             </h:panelGroup>
                         </h:panelGrid>
-
                     </h:panelGrid>
+                </div>
+                <div class="list" align="right">
+                    <ul>
+                        <li>#{bundle.Advance_Booking_6Hours}</li>
+                        <li>#{bundle.Time_WindowRule_Casual}</li>
+                        <li>#{bundle.Time_Window_Reduce}</li>
+                    </ul>
                 </div>
                 <h:inputHidden id="distanceInKM" value="#{bookingController.selected.distanceInKM}" valueChangeListener="#{bookingController.valueChanged}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
 
@@ -153,7 +159,7 @@
                     <ace:gMapServices name="Directions" points="#{bookingController.getPoints()}"
                                       options="travelMode:'DRIVING'" />
                 </ace:gMap> 
-                
+
                 <h:panelGroup rendered="#{null ne bookingController.selected.distanceInKM}">
                     <h:outputText class="messageWhite" value="#{bundle.DistanceMessage}"></h:outputText>
                     <h:outputLabel class="messageWhite" value="#{bookingController.selected.distanceInKM}" /> 
