@@ -34,7 +34,7 @@ root {
 .list{
     float: left;
     height: 17px;
-    position: absolute;
+    position: relative;
     text-align: left;
     color: white;
     width: 320px;

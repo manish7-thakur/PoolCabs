@@ -12,8 +12,8 @@
                           res-type="javax.sql.DataSource" statement-cache-size="0" statement-leak-reclaim="false" 
                           statement-leak-timeout-in-seconds="0" statement-timeout-in-seconds="-1" steady-pool-size="8" 
                           validate-atmost-once-period-in-seconds="0" wrap-jdbc-objects="true">
-        <property name="URL" value="jdbc:mysql://localhost:3306/poolcabs?relaxAutoCommit=true"/>
-        <property name="User" value="root"/>
+        <property name="URL" value="jdbc:mysql://localhost:3306/wowshare_cabs?relaxAutoCommit=true"/>
+        <property name="User" value="wowshare_user"/>
         <property name="Password" value="5zn2f#ptfmb"/>
     </jdbc-connection-pool>
 </resources>

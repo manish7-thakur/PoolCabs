@@ -17,7 +17,7 @@
         </style>
     </h:head>
     <h:body class="backgroundClass">        
-        <br/>       
+        <br/> 
         <div class="bodypart" align="center" >
             <h:outputText class="message" value="#{bundle.UserActivationHeading}"></h:outputText> 
             <br/><br/> 
@@ -25,7 +25,9 @@
                 <h:messages class="bodypart" globalOnly="true" errorStyle="color: red" infoStyle="color: white" layout="table"/>
             </h:panelGroup>
             <br/>
-            <h:commandButton label="HomePage"  action="index.jsf?faces-redirect=true" image="../resources/images/GoToHomepage.jpg" />
+            <h:form>
+                <h:commandButton label="HomePage"  action="index.jsf?faces-redirect=true" image="../resources/images/GoToHomepage.jpg" />
+            </h:form>
         </div>
     </h:body>
 </html>

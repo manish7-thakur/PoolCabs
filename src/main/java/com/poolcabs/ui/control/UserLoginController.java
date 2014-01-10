@@ -36,7 +36,11 @@ public class UserLoginController implements Serializable{
         if (current == null) {            
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoLoginFound"));
             return (email = password = null);
-        } else {
+        }else if(null != current && !current.isActive()){
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("UserNotActive"));
+            return (email = password = null);
+        }
+        else {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", current);
             return "/booking/Create.jsf?faces-redirect=true";
         }

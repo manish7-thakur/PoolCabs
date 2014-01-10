@@ -30,7 +30,6 @@
             </h:panelGroup>
             <h:form id="bookingForm" prependId="false" rendered="#{bookingController.isBookingFormRendered()}">
                 <h:outputText class="message" value="#{bundle.CreateBookingTitle}"></h:outputText> 
-                <h:panelGrid columns="2">
                     <h:panelGrid columns="2">
                         <h:panelGrid columns="1">
                             <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_customerName}" for="customerName" />
@@ -108,8 +107,6 @@
                             <li>#{bundle.Time_Window_Reduce}</li>
                         </ul>
                     </div>
-                </h:panelGrid>
-
                 <h:inputHidden id="distanceInKM" value="#{bookingController.selected.distanceInKM}" valueChangeListener="#{bookingController.valueChanged}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
 
                 </h:inputHidden>
