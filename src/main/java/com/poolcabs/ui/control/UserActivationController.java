@@ -25,12 +25,14 @@ public class UserActivationController implements Serializable {
     private Long key;
     @EJB
     private UserFacade userFacade;
-
     private boolean valid = true;
 
     @PostConstruct
     public void init() {
-        User user = userFacade.find(key);
+        User user = null;
+        if (null != key) {
+            user = userFacade.find(key);
+        }
         if (null != user && !user.isActive()) {
             user.setActive(true);
             try {

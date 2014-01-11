@@ -17,7 +17,7 @@ Thank you for booking your cab at $!organization. Please find the details of you
         <th>To</th>        
         <th>Time</th>
         <th>Distance(KM)</th>
-        <th>Charges</th>
+        <th>Charges(INR)</th>
 
     </tr>
         #foreach( $!booking in $!bookingList )
