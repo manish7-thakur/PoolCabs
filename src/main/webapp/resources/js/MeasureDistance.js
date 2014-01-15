@@ -101,11 +101,11 @@ function  initialize2(){
                 location1 = results[0].geometry.location;
                 document.getElementById("pickupLatitude1").value = parseFloat(results[0].geometry.location.lat());
                 document.getElementById("pickupLongitude1").value = parseFloat(results[0].geometry.location.lng());
-
             } else {
                 alert("Geocode was not successful for the following reason: " + status);
             }
         });
+        progress();
         geocoder.geocode( {
             'address': address2
         }, function(results, status)         {
@@ -120,8 +120,8 @@ function  initialize2(){
                 alert("Geocode was not successful for the following reason: " + status);
             }
         });
+        progress();             
     }
-    
     return true;
 }
 
@@ -135,6 +135,7 @@ function showMap2(){
         destination:location2,
         travelMode: google.maps.DirectionsTravelMode.DRIVING
     };
+    progress();
     directionsService.route(request, function(response, status)     {
         if (status == google.maps.DirectionsStatus.OK)         {
             //alert(response.routes[0].legs[0].distance.value);
@@ -143,37 +144,18 @@ function showMap2(){
             distance += "<br/>The aproximative driving time is: "+response.routes[0].legs[0].duration.text;
         }
     });
+    progress();
 }
 
-function measureDistance(){
-    geocoder = new google.maps.Geocoder();
-    addressP = document.getElementById("pickupStreetAddress").value;
-    addressD = document.getElementById("dropStreetAddress").value;
-    if (geocoder)     {
-        geocoder.geocode( {
-            'address': addressP
-        }, function(resultss, status)         {
-            if (status == google.maps.GeocoderStatus.OK)                {
-                //location of first address (latitude + longitude)
-                location1 = results[0].geometry.location;
-                document.getElementById("pickupLatitude1").value = parseFloat(results[0].geometry.location.lat());
-                document.getElementById("pickupLongitude1").value = parseFloat(results[0].geometry.location.lng());
-            } else {
-                alert("Geocode was not successful for the following reason: " + status);
-            }
-        });
-        geocoder.geocode( {
-            'address': addressD
-        }, function(results, status)         {
-            if (status == google.maps.GeocoderStatus.OK)                 {
-                //location of second address (latitude + longitude)
-                location2 = results[0].geometry.location;
-                lat1 = results[0].geometry.location.lat();
-                lng1 = results[0].geometry.location.lng();
-            } else {
-                alert("Geocode was not successful for the following reason: " + status);
-            }
-        });
-    }   
-
+var prg_width = 200;
+ 
+function progress() {
+    var node = document.getElementById('progress');
+    var w    = node.style.width.match(/\d+/);
+ 
+    if (w >= prg_width) {
+        w = 0;
+    }
+ 
+    node.style.width = parseInt(w) + 50 + 'px';
 }
