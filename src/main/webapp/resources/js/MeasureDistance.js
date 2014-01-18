@@ -55,7 +55,6 @@ function  initialize(){
             }
         });
     }
-    
     return true;
 }
 

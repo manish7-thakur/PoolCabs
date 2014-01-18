@@ -21,6 +21,8 @@
                     <h:inputText id="password" value="#{administratorController.selected.password}" title="#{bundle.CreateAdministratorTitle_password}" />
                     <h:outputLabel value="#{bundle.CreateAdministratorLabel_id}" for="id" />
                     <h:inputText id="id" value="#{administratorController.selected.id}" title="#{bundle.CreateAdministratorTitle_id}" />
+                    <h:outputLabel value="#{bundle.CreateAdministratorLabel_email}" for="id" />
+                    <h:inputText id="email" value="#{administratorController.selected.email}" title="#{bundle.CreateAdministratorTitle_email}" />
                 </h:panelGrid>
                 <br />
                 <h:commandLink action="#{administratorController.create}" value="#{bundle.CreateAdministratorSaveLink}" />

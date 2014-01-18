@@ -64,8 +64,9 @@
                             <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupStreetAddress}" escape="false" for="pickupStreetAddress" />
                             <h:inputTextarea class="input" id="pickupStreetAddress" value="#{bookingController.selected.pickupStreetAddress}"
                                              onchange="initialize();true;" required="true" requiredMessage="Please enter pickup address" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" >
-                                <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" dropListener="#{bookingController.handleDrop}">
-                                    <ace:ajax execute="@this" render="@this @form pickupStreetAddress" />
+                                <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" 
+                                               dropListener="#{bookingController.handleDrop}" >
+                                    <ace:ajax execute="@this" render="@this @form pickupStreetAddress" onSuccess="initialize(); true;" />
                                 </ace:droppable>
                             </h:inputTextarea>
                             <h:message for="pickupStreetAddress" errorClass="error" infoClass="info" />
@@ -76,7 +77,7 @@
                             <h:inputTextarea class="input" id="dropStreetAddress" value="#{bookingController.selected.dropStreetAddress}"  
                                              onchange="initialize();true;" required="true" requiredMessage="Please enter drop address" title="#{bundle.CreateBookingTitle_dropStreetAddress}" >
                                 <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" dropListener="#{bookingController.handleDrop}">
-                                    <ace:ajax execute="@this" render="@this @form dropStreetAddress" />
+                                    <ace:ajax execute="@this" render="@this @form dropStreetAddress" onSuccess="initialize(); true;" />
                                 </ace:droppable>
                             </h:inputTextarea>
                             <h:message for="dropStreetAddress" errorClass="error" infoClass="info" />
@@ -147,7 +148,7 @@
                 </h:inputHidden>
 
                 <br />
-                <h:commandButton image="../resources/images/Submit1.jpg" actionListener="#{bookingController.renderGoogleMap()}" value="#{bundle.CreateBookingSaveLink}" >                
+                <h:commandButton image="../resources/images/Submit3.jpg" actionListener="#{bookingController.renderGoogleMap()}" value="#{bundle.CreateBookingSaveLink}" >                
                 </h:commandButton>
 
             </h:form>

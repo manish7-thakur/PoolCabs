@@ -46,7 +46,9 @@
                     </h:panelGrid>
                     <h:panelGrid columns="1">
                         <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupStreetAddress}" escape="false" for="pickupStreetAddress" />
-                        <h:inputTextarea class="input" id="pickupStreetAddress" required="true" requiredMessage="Please enter pickup address" value="#{bookingController.selected.pickupStreetAddress}" onchange="initialize(); true;" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
+                        <h:inputTextarea class="input" id="pickupStreetAddress" required="true" requiredMessage="Please enter pickup address" 
+                                         value="#{bookingController.selected.pickupStreetAddress}" onchange="initialize(); true;" 
+                                         title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
                         <h:message for="pickupStreetAddress" errorClass="error" infoClass="info" />
                     </h:panelGrid>
 
@@ -124,7 +126,7 @@
                 </h:inputHidden>
 
                 <br />
-                <h:commandButton image="resources/images/Submit1.jpg" actionListener="#{bookingController.renderGoogleMap()}" value="#{bundle.CreateBookingSaveLink}" >                
+                <h:commandButton image="resources/images/Submit3.jpg" actionListener="#{bookingController.renderGoogleMap()}" value="#{bundle.CreateBookingSaveLink}" >                
                 </h:commandButton>
             </h:form>
 

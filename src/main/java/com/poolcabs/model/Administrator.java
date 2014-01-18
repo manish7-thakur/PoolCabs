@@ -28,6 +28,8 @@ public class Administrator implements Serializable {
     private String name;
     @Column(name = "PASSWORD")
     private String password;
+    @Column(name = "EMAIL")
+    private String email;
 
     public String getName() {
         return name;
@@ -43,6 +45,14 @@ public class Administrator implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getId() {
