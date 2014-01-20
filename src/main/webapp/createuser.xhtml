@@ -66,10 +66,8 @@
                 </h:panelGrid>
                 <br/>
                 <br/>
-                <h:commandButton label="Submit" type="button" image="resources/images/Save4.jpg" actionListener="#{userController.createNewUser()}" />  
-            </h:form>
-            <h:form>
-                <h:commandButton image="resources/images/Home3.jpg" action="/index.jsf?faces-redirect=true" />
+                <h:commandButton label="Submit" type="button" image="resources/images/Save4.jpg" actionListener="#{userController.createNewUser()}" /> 
+                <a href="index.jsf?faces-redirect=true"><img src="resources/images/Home3.jpg" /></a>
             </h:form>
             <h:form class="backgroundClass" rendered="#{userController.registrationSuccessfull}">
                 <br/><br/><br/>
