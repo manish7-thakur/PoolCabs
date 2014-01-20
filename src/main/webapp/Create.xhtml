@@ -47,14 +47,16 @@
                     <h:panelGrid columns="1">
                         <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupStreetAddress}" escape="false" for="pickupStreetAddress" />
                         <h:inputTextarea class="input" id="pickupStreetAddress" required="true" requiredMessage="Please enter pickup address" 
-                                         value="#{bookingController.selected.pickupStreetAddress}" onchange="initialize(); true;" 
+                                         value="#{bookingController.selected.pickupStreetAddress}" onblur="initialize(); true;" 
                                          title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
                         <h:message for="pickupStreetAddress" errorClass="error" infoClass="info" />
                     </h:panelGrid>
 
                     <h:panelGrid columns="1">
                         <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_dropStreetAddress}" escape="false" for="dropStreetAddress" />
-                        <h:inputTextarea class="input" id="dropStreetAddress" required="true" requiredMessage="Please enter drop address" value="#{bookingController.selected.dropStreetAddress}"  onchange="initialize(); true;" title="#{bundle.CreateBookingTitle_dropStreetAddress}" />
+                        <h:inputTextarea class="input" id="dropStreetAddress" required="true" requiredMessage="Please enter drop address"
+                                         value="#{bookingController.selected.dropStreetAddress}"  onblur="initialize(); true;" 
+                                         title="#{bundle.CreateBookingTitle_dropStreetAddress}" />
                         <h:message for="dropStreetAddress" errorClass="error" infoClass="info" />
                     </h:panelGrid>
                     <h:panelGrid columns="1">

@@ -63,7 +63,7 @@
                         <h:panelGrid columns="1">
                             <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupStreetAddress}" escape="false" for="pickupStreetAddress" />
                             <h:inputTextarea class="input" id="pickupStreetAddress" value="#{bookingController.selected.pickupStreetAddress}"
-                                             onchange="initialize();true;" required="true" requiredMessage="Please enter pickup address" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" >
+                                             onblur="initialize();true;" required="true" requiredMessage="Please enter pickup address" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" >
                                 <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" 
                                                dropListener="#{bookingController.handleDrop}" >
                                     <ace:ajax execute="@this" render="@this @form pickupStreetAddress" onSuccess="initialize(); true;" />
@@ -75,7 +75,7 @@
                         <h:panelGrid columns="1">
                             <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_dropStreetAddress}" escape="false" for="dropStreetAddress" />
                             <h:inputTextarea class="input" id="dropStreetAddress" value="#{bookingController.selected.dropStreetAddress}"  
-                                             onchange="initialize();true;" required="true" requiredMessage="Please enter drop address" title="#{bundle.CreateBookingTitle_dropStreetAddress}" >
+                                             onblur="initialize();true;" required="true" requiredMessage="Please enter drop address" title="#{bundle.CreateBookingTitle_dropStreetAddress}" >
                                 <ace:droppable tolerance="touch" scope="addressInfo" datasource="addressTable" dropListener="#{bookingController.handleDrop}">
                                     <ace:ajax execute="@this" render="@this @form dropStreetAddress" onSuccess="initialize(); true;" />
                                 </ace:droppable>
