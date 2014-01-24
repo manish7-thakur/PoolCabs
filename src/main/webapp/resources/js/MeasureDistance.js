@@ -144,6 +144,7 @@ function showMap2(){
         }
     });
     progress();
+    document.getElementById("googleMapForm").submit();
 }
 
 var prg_width = 200;

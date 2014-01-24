@@ -18,11 +18,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
@@ -81,8 +84,10 @@ public class BookingController implements Serializable {
     private RowStateMap stateMap;
     private List<DragDropItem> userAddressList;
     User currentUser;
-    private int hour;
+    private Integer hour;
+    private Integer returnHour;
     private String guestEmail;
+    private Map<String, Integer> timeWindowMap;
 
     public BookingController() {
     }
@@ -100,6 +105,9 @@ public class BookingController implements Serializable {
         userAddressList = new ArrayList<DragDropItem>();
         tariff = tariffFacade.findAll().get(0);
 
+        timeWindowMap = new TreeMap<String, Integer>();
+
+
         currentUser = (User) getSessionMap().get("user");
         if (null != currentUser) {
             userBookings = ejbFacade.findAllByPhoneNumber(currentUser.getMobileNumber());
@@ -114,7 +122,7 @@ public class BookingController implements Serializable {
 
         }
         bookingType = (String) getSessionMap().get("bookingType");
-        if(null == bookingType){
+        if (null == bookingType) {
             try {
                 getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/index.jsf");
             } catch (IOException ex) {
@@ -133,6 +141,7 @@ public class BookingController implements Serializable {
             Calendar calender = Calendar.getInstance();
             calender.add(Calendar.HOUR_OF_DAY, 6);
             minimumDateForCalender = calender.getTime();
+            populateTimeWindowMap(calender.get(Calendar.HOUR_OF_DAY));
         } else {
             minimumDateForCalender = new Date();
         }
@@ -227,12 +236,18 @@ public class BookingController implements Serializable {
 
     private void populateRideStartDate() {
         Calendar selectedDate = Calendar.getInstance();
-        selectedDate.setTime(rideStartTime);
         Calendar calendar = Calendar.getInstance();
+        if (null != rideStartTime) {
+            selectedDate.setTime(rideStartTime);
+        }
         calendar.setTime(current.getRideStartDate());
-        calendar.set(calendar.HOUR_OF_DAY, selectedDate.get(Calendar.HOUR_OF_DAY));
-        calendar.set(Calendar.MINUTE, selectedDate.get(Calendar.MINUTE));
-        calendar.set(Calendar.SECOND, 0);
+        if (bookingType.equalsIgnoreCase(BookingType.CASUAL.getValue())) {
+            calendar.set(calendar.HOUR_OF_DAY, hour);
+        } else {
+            calendar.set(calendar.HOUR_OF_DAY, selectedDate.get(Calendar.HOUR_OF_DAY));
+            calendar.set(Calendar.MINUTE, selectedDate.get(Calendar.MINUTE));
+            calendar.set(Calendar.SECOND, 0);
+        }
         current.setPickupTime(calendar.getTime());
     }
 
@@ -526,8 +541,10 @@ public class BookingController implements Serializable {
                 Booking returnClone = booking.clone();
                 Calendar instance = Calendar.getInstance();
                 instance.setTime(returnClone.getPickupTime());
-                instance.set(Calendar.HOUR_OF_DAY, returnClone.getReturnPickUpTime().getHours());
-                instance.set(Calendar.MINUTE, returnClone.getReturnPickUpTime().getMinutes());
+                //instance.set(Calendar.HOUR_OF_DAY, returnClone.getReturnPickUpTime().getHours());
+                //instance.set(Calendar.MINUTE, returnClone.getReturnPickUpTime().getMinutes());
+                instance.set(Calendar.HOUR_OF_DAY, returnHour);
+                instance.set(Calendar.MINUTE, 0);
                 instance.set(Calendar.SECOND, 0);
                 returnClone.setPickupTime(instance.getTime());
                 swapLocations(returnClone);
@@ -628,6 +645,14 @@ public class BookingController implements Serializable {
         }
     }
 
+    public Integer getReturnHour() {
+        return returnHour;
+    }
+
+    public void setReturnHour(Integer returnHour) {
+        this.returnHour = returnHour;
+    }
+
     private Map<String, Object> getSessionMap() {
         return getExternalContext().getSessionMap();
     }
@@ -675,20 +700,38 @@ public class BookingController implements Serializable {
         minimumDateForCalenderInstance.setTime(minimumDateForCalender);
         calendar.setTime(date);
         if (calendar.get(Calendar.DAY_OF_MONTH) > minimumDateForCalenderInstance.get(Calendar.DAY_OF_MONTH)) {
-            hour = 12;
+            //hour = 12;
+            populateTimeWindowMap(0);
         } else {
             calendar.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY));
             calendar.add(Calendar.HOUR_OF_DAY, 6);
-            hour = calendar.get(Calendar.HOUR_OF_DAY);
+            // hour = calendar.get(Calendar.HOUR_OF_DAY);
+            populateTimeWindowMap(calendar.get(Calendar.HOUR_OF_DAY));
         }
     }
 
-    public int getHour() {
+    public Integer getHour() {
         return hour;
     }
 
-    public void setHour(int hour) {
+    public void setHour(Integer hour) {
         this.hour = hour;
+    }
+
+    public Map<String, Integer> getTimeWindowMap() {
+        return timeWindowMap;
+    }
+
+    public void setTimeWindowMap(Map<String, Integer> timeWindowMap) {
+        this.timeWindowMap = timeWindowMap;
+    }
+
+    private void populateTimeWindowMap(int minHourApplicable) {
+        timeWindowMap.clear();
+        while (minHourApplicable <= 23) {
+            timeWindowMap.put(String.format("%02d", minHourApplicable) + ":" + "00" + " - " + String.format("%02d", minHourApplicable) + ":" + 59 + " " + "Hrs", minHourApplicable);
+            minHourApplicable++;
+        }
     }
 
     @FacesConverter(forClass = Booking.class)
@@ -725,6 +768,17 @@ public class BookingController implements Serializable {
             } else {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Booking.class.getName());
             }
+        }
+    }
+
+    static class ComparatorImpl implements Comparator<Entry<String, Integer>> {
+
+        public ComparatorImpl() {
+        }
+
+        @Override
+        public int compare(Entry<String, Integer> e1, Entry<String, Integer> e2) {
+            return e1.getValue().compareTo(e2.getValue());
         }
     }
 }
