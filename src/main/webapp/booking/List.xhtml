@@ -6,6 +6,8 @@
       xmlns:ace="http://www.icefaces.org/icefaces/components"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
+        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="../resources/js/MeasureDistance.js"></script>   
         <title>Bookings List</title>        
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
@@ -113,7 +115,10 @@
                     -->
                 </ace:dataTable>
                 <br/>
-                <ace:pushButton actionListener="#{bookingController.renderCabBookingForm()}" label="Book" />
+                <h:panelGrid columns="2">
+                    <ace:pushButton actionListener="#{bookingController.renderCabBookingForm()}" label="Book" />
+                    <ace:pushButton actionListener="#{bookingController.renderEditBookingForm()}" label="Edit" />
+                </h:panelGrid>
             </h:form>
 
             <h:form id="bookCab" class="tableBooking" prependId="false" rendered="#{bookingController.bookCabFormRendered}">      
@@ -163,6 +168,50 @@
                     <ace:pushButton actionListener="#{bookingController.cancelCabBooking()}" title="Cancel" label="Cancel"/>
                 </h:panelGrid>
             </h:form>
+            <h:form rendered="#{bookingController.editBookingForm}" prependId="false">
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditBookingLabel_status}" for="status" />
+                    <h:selectOneMenu id="status" value="#{bookingController.selected.status}" immediate="true">
+                        <f:selectItems value="#{bookingController.cabStatuses()}" />
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditBookingLabel_rideStartDate}" for="rideStartDate" />
+                    <h:inputText id="rideStartDate" value="#{bookingController.selected.rideStartDate}" title="#{bundle.EditBookingTitle_rideStartDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditBookingLabel_rideEndDate}" for="rideEndDate" />
+                    <h:inputText id="rideEndDate" value="#{bookingController.selected.rideEndDate}" title="#{bundle.EditBookingTitle_rideEndDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditBookingLabel_pickupTime}" for="pickupTime" />
+                    <h:inputText id="pickupTime" value="#{bookingController.selected.pickupTime}" title="#{bundle.EditBookingTitle_pickupTime}" >
+                        <f:convertDateTime pattern="MMM dd, yyyy h:mm:ss a" timeZone="IST"/>
+                    </h:inputText>
+
+                    <h:outputLabel value="#{bundle.EditBookingLabel_roundTrip}" for="roundTrip" />
+                    <h:inputText id="roundTrip" value="#{bookingController.selected.roundTrip}" title="#{bundle.EditBookingTitle_roundTrip}" />
+                    <h:outputLabel value="#{bundle.EditBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
+                    <h:inputText id="pickupStreetAddress1" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
+                    <h:outputLabel value="#{bundle.EditBookingLabel_dropStreetAddress}" for="dropStreetAddress" />
+                    <h:inputText id="dropStreetAddress1" value="#{bookingController.selected.dropStreetAddress}" title="#{bundle.CreateBookingTitle_dropStreetAddress}" />
+                    <h:inputText id="pickupLatitude1" value="#{bookingController.selected.pickupGeoCode.latitude}" title="#{bundle.CreateBookingLabel_pickupLatitude}">
+                    </h:inputText>
+                    <h:inputText  id="pickupLongitude1" value="#{bookingController.selected.pickupGeoCode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
+                    </h:inputText>
+                    <h:inputText id="dropLatitude1" value="#{bookingController.selected.dropGeocode.latitude}" title="#{bundle.CreateBookingLabel_dropLatitude}">
+                    </h:inputText>
+                    <h:inputText id="dropLongitude2" value="#{bookingController.selected.dropGeocode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditBookingLabel_distanceInKM}" for="pickupTime" />
+                    <h:inputText id="distanceInKM1" value="#{bookingController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
+                    </h:inputText>
+                    <div style="border: 1px solid black; width:200px; height:5px;">
+                        <div id="progress" style="height:5px; width:0px; background-color:red;"/>
+                    </div>    
+                    <h:commandButton value="Calculate Distance" onclick="return initialize2();" />
+                    <h:commandLink action="#{bookingController.update}" value="#{bundle.EditBookingSaveLink}"/>
+                </h:panelGrid>
+            </h:form>
+
         </div>
     </h:body>
 

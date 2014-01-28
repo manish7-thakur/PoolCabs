@@ -7,7 +7,7 @@
         <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
         <script type="text/javascript" src="../resources/js/MeasureDistance.js"></script>
         <h:outputStylesheet name="css/jsfcrud.css"/>
-        <title>Book you Cab</title>
+        <title>Book your Cab</title>
         <style type="text/css">
             .backgroundClass{
                 background: url("../resources/images/Register.jpg");
@@ -176,19 +176,22 @@
             </h:form>
 
             <h:form id="googleMapForm" prependId="false" rendered="#{bookingController.isGoogleMapRendered()}">
-                <h:outputText class="message" value="#{bundle.ReviewBookingTitle}"></h:outputText>
+                <div>
+                    <h:outputText class="message" value="#{bundle.ReviewBookingTitle}"></h:outputText>
+                </div>
+                <div id="directions" class="directions" />
                 <ace:gMap id="gMapDirections"  style="width: 675px; height: 500px" 
                           zoomLevel="3">
                     <ace:gMapServices name="Directions" points="#{bookingController.getPoints()}"
-                                      options="travelMode:'DRIVING'" />
+                                      options="travelMode:'DRIVING'" div="directions" />
                 </ace:gMap> 
-
+                 <!--
                 <h:panelGroup rendered="#{null ne bookingController.selected.distanceInKM}">
                     <h:outputText class="messageWhite" value="#{bundle.DistanceMessage}"></h:outputText>
                     <h:outputLabel class="messageWhite" value="#{bookingController.selected.distanceInKM}" /> 
                     <h:outputText class="messageWhite" value=" KM"></h:outputText>                    
                 </h:panelGroup>
-                <h:outputText class="messageWhite" rendered="#{null eq bookingController.selected.distanceInKM}" escape="false" value="#{bundle.CreateBookingTitle_GeocodeError}" />
+                <h:outputText class="messageWhite" rendered="#{null eq bookingController.selected.distanceInKM}" escape="false" value="#{bundle.CreateBookingTitle_GeocodeError}" /> -->
                 <h:inputHidden id="distanceInKM1" value="#{bookingController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
                 </h:inputHidden>
                 <h:inputHidden id="pickupStreetAddress1" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
@@ -202,15 +205,11 @@
                 <h:inputHidden id="dropLongitude2" value="#{bookingController.selected.dropGeocode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
                 </h:inputHidden>
                 <br/>
-                <div style="border: 1px solid black; width:200px; height:5px;">
+                <!--<div style="border: 1px solid black; width:200px; height:5px;">
                     <div id="progress" style="height:5px; width:0px; background-color:red;"/>
-                </div>
+                </div> -->
                 <h:panelGrid columns="2">
-                    <h:commandButton image="../resources/images/Recalculate.jpg" onclick="initialize2();
-                        true;" value="Recalculate" >
-                        <f:ajax execute="@form" event="click" render="@form"/>
-                    </h:commandButton>
-                    <h:commandButton image="../resources/images/Save2.jpg" value="Save" actionListener="#{bookingController.create}" />
+                    <h:commandButton image="../resources/images/Save4.jpg" value="Save" actionListener="#{bookingController.create}" />
                 </h:panelGrid>
             </h:form>
             <h:form id="emailForm" rendered="#{bookingController.emailFormRendered}">

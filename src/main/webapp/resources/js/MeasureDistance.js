@@ -121,7 +121,7 @@ function  initialize2(){
         });
         progress();             
     }
-    return true;
+    return false;
 }
 
 // creates and shows the map
@@ -144,7 +144,7 @@ function showMap2(){
         }
     });
     progress();
-    document.getElementById("googleMapForm").submit();
+   
 }
 
 var prg_width = 200;

@@ -88,6 +88,7 @@ public class BookingController implements Serializable {
     private Integer returnHour;
     private String guestEmail;
     private Map<String, Integer> timeWindowMap;
+    private boolean editBookingFormRendered;
 
     public BookingController() {
     }
@@ -99,6 +100,7 @@ public class BookingController implements Serializable {
         bookCabFormRendered = false;
         emailFormRendered = false;
         bookingListForm = true;
+        editBookingFormRendered = false;
         stateMap = new RowStateMap();
         bookingList = ejbFacade.findAll();
         bookingsToBeBooked = new ArrayList<Booking>();
@@ -261,9 +263,8 @@ public class BookingController implements Serializable {
         return "Edit";
     }
 
-    public void update(RowEditEvent bookingEditEvent) {
+    public void update() {
         try {
-            current = (Booking) bookingEditEvent.getObject();
             getFacade().edit(current);
             recreateModel();
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingUpdated"));
@@ -292,6 +293,14 @@ public class BookingController implements Serializable {
         current = null;
     }
 
+    public boolean isEditBookingForm() {
+        return editBookingFormRendered;
+    }
+
+    public void setEditBookingForm(boolean editBookingForm) {
+        this.editBookingFormRendered = editBookingForm;
+    }
+
     public void cancelCabBooking() {
         undoSelection();
         renderbookingListForm();
@@ -307,11 +316,11 @@ public class BookingController implements Serializable {
     }
 
     public void rowSelected(SelectEvent bookingSelectEvent) {
-        bookingsToBeBooked.add((Booking) bookingSelectEvent.getObject());
+        current = (Booking) bookingSelectEvent.getObject();
     }
 
     public void rowUnselected(UnselectEvent bookingUnselectEvent) {
-        bookingsToBeBooked.remove((Booking) bookingUnselectEvent.getObject());
+        current = null;
     }
 
     public String destroyAndView() {
@@ -364,6 +373,13 @@ public class BookingController implements Serializable {
         bookingsToBeBooked.addAll(stateMap.getSelected());
         bookingListForm = false;
         bookCabFormRendered = true;
+    }
+
+    public void renderEditBookingForm() {
+        bookingsToBeBooked.clear();
+        bookingListForm = false;
+        bookCabFormRendered = false;
+        editBookingFormRendered = true;
     }
 
     public void renderbookingListForm() {
@@ -445,9 +461,6 @@ public class BookingController implements Serializable {
         this.itemizedBookingList = itemizedBookingList;
     }
 
-    public void renderBookingForm() {
-    }
-
     public String next() {
         getPagination().nextPage();
         recreateModel();
@@ -512,6 +525,9 @@ public class BookingController implements Serializable {
         Calendar endInstance = Calendar.getInstance();
         startInstance.setTime(current.getPickupTime());
         endInstance.setTime(current.getRideEndDate());
+        if (startInstance.compareTo(endInstance) == 0) {
+            return bookings;
+        }
         while (startInstance.compareTo(endInstance) <= 0) {
             try {
                 clone = (Booking) current.clone();

@@ -121,7 +121,18 @@ root {
     width: 220px;
     font-size: 13px;
 }
-
+.directions{
+    float: right;
+    font-size: 14px;
+    height: 501px;
+    margin-right: 13px;
+    margin-top: -10px;
+    overflow-x: auto;
+    overflow-y: scroll;
+    position: relative;
+    text-align: inherit;
+    width: 315px;
+}
 .flip{
     /*margin-top: 5%;*/
 
