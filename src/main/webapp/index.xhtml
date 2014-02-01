@@ -30,10 +30,10 @@
     </h:head>
     <h:body onload="slideShow();" class="backgroundClass">
         <div class="bodypart" >
-            <br/>
             <div class="heading">
                 <h:outputText value="#{bundle.HomePage_Heading}" />
             </div>
+            <ui:include src="/includes/header.xhtml" />
             <div class="menubar">
                 <div class="navigator">
                     <a class="menuitem" title="Home" href="index.jsf">
@@ -57,7 +57,6 @@
             <br/>
             <br/>
             <h:outputText class="messageBlack" value="Take your ride now" />
-            <br/>
             <br/>
             <h:form>
                 <div align="center">

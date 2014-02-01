@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Manish
  */
-@WebFilter("/booking/Create.jsf")
+@WebFilter(urlPatterns = {"/booking/Create.jsf", "/booking/userbookings.jsf"})
 public class LoginFilter implements Filter {
 
     @Override

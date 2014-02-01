@@ -1,6 +1,5 @@
 package com.poolcabs.ui.control;
 
-import com.poolcabs.bookingservice.BookingService;
 import com.poolcabs.dao.BookingFacade;
 import com.poolcabs.dao.TariffFacade;
 import com.poolcabs.dao.UserFacade;
@@ -18,12 +17,10 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
 import java.util.logging.Level;
@@ -44,10 +41,8 @@ import javax.faces.model.SelectItem;
 import org.icefaces.ace.event.DateSelectEvent;
 import org.icefaces.ace.event.DateTextChangeEvent;
 import org.icefaces.ace.event.DragDropEvent;
-import org.icefaces.ace.event.RowEditEvent;
 import org.icefaces.ace.event.SelectEvent;
 import org.icefaces.ace.event.UnselectEvent;
-import org.icefaces.ace.model.table.RowStateMap;
 
 @ManagedBean(name = "bookingController")
 @ViewScoped
@@ -62,33 +57,24 @@ public class BookingController implements Serializable {
     @EJB
     private TariffFacade tariffFacade;
     @EJB
-    private BookingService bookingService;
-    @EJB
     private BookingEmailMessageService bookingEmailMessageService;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private boolean googleMapRendered;
     private boolean bookingFormRendered;
-    private boolean bookCabFormRendered;
     private boolean emailFormRendered;
     private String bookingType;
     private Date rideStartTime;
-    private List<Booking> bookingList;
     List<Booking> itemizedBookingList;
     private Date minimumDateForCalender;
     private Date minimumDateForRideEndDate;
-    private List<Booking> userBookings;
-    private List<Booking> bookingsToBeBooked;
-    private boolean bookingListForm;
     private Tariff tariff;
-    private RowStateMap stateMap;
     private List<DragDropItem> userAddressList;
     User currentUser;
     private Integer hour;
     private Integer returnHour;
     private String guestEmail;
     private Map<String, Integer> timeWindowMap;
-    private boolean editBookingFormRendered;
 
     public BookingController() {
     }
@@ -97,32 +83,12 @@ public class BookingController implements Serializable {
     public void init() {
         googleMapRendered = false;
         bookingFormRendered = true;
-        bookCabFormRendered = false;
         emailFormRendered = false;
-        bookingListForm = true;
-        editBookingFormRendered = false;
-        stateMap = new RowStateMap();
-        bookingList = ejbFacade.findAll();
-        bookingsToBeBooked = new ArrayList<Booking>();
+
         userAddressList = new ArrayList<DragDropItem>();
         tariff = tariffFacade.findAll().get(0);
-
         timeWindowMap = new TreeMap<String, Integer>();
-
-
         currentUser = (User) getSessionMap().get("user");
-        if (null != currentUser) {
-            userBookings = ejbFacade.findAllByPhoneNumber(currentUser.getMobileNumber());
-            int i = 0;
-            for (String address : currentUser.getAddressSet()) {
-                DragDropItem item = new DragDropItem(++i, address);
-                userAddressList.add(item);
-            }
-
-            getSelected().setCustomerName(currentUser.getName());
-            getSelected().setMobileNumber(currentUser.getMobileNumber());
-
-        }
         bookingType = (String) getSessionMap().get("bookingType");
         if (null == bookingType) {
             try {
@@ -263,47 +229,8 @@ public class BookingController implements Serializable {
         return "Edit";
     }
 
-    public void update() {
-        try {
-            getFacade().edit(current);
-            recreateModel();
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingUpdated"));
-            // return "View";
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            // return null;
-        }
-    }
-
-    public void bookCab() {
-        try {
-            bookingService.allocateCab(bookingsToBeBooked);
-            bookingService.informAllThroughMessage(bookingsToBeBooked);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingUpdated"));
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            // return null;
-        }
-        undoSelection();
-        recreateModel();
-        renderbookingListForm();
-    }
-
     public void cancelUpdate() {
         current = null;
-    }
-
-    public boolean isEditBookingForm() {
-        return editBookingFormRendered;
-    }
-
-    public void setEditBookingForm(boolean editBookingForm) {
-        this.editBookingFormRendered = editBookingForm;
-    }
-
-    public void cancelCabBooking() {
-        undoSelection();
-        renderbookingListForm();
     }
 
     public String destroy() {
@@ -313,14 +240,6 @@ public class BookingController implements Serializable {
         recreatePagination();
         recreateModel();
         return "List";
-    }
-
-    public void rowSelected(SelectEvent bookingSelectEvent) {
-        current = (Booking) bookingSelectEvent.getObject();
-    }
-
-    public void rowUnselected(UnselectEvent bookingUnselectEvent) {
-        current = null;
     }
 
     public String destroyAndView() {
@@ -336,14 +255,6 @@ public class BookingController implements Serializable {
         }
     }
 
-    public RowStateMap getStateMap() {
-        return stateMap;
-    }
-
-    public void setStateMap(RowStateMap stateMap) {
-        this.stateMap = stateMap;
-    }
-
     public List<DragDropItem> getUserAddressList() {
         return userAddressList;
     }
@@ -356,35 +267,12 @@ public class BookingController implements Serializable {
         return current.getPickupStreetAddress() + ":" + current.getDropStreetAddress();
     }
 
-    public List<CabStatus> cabStatuses() {
-        return CabStatus.list();
-    }
-
     public boolean isEmailFormRendered() {
         return emailFormRendered;
     }
 
     public void setEmailFormRendered(boolean emailFormRendered) {
         this.emailFormRendered = emailFormRendered;
-    }
-
-    public void renderCabBookingForm() {
-        bookingsToBeBooked.clear();
-        bookingsToBeBooked.addAll(stateMap.getSelected());
-        bookingListForm = false;
-        bookCabFormRendered = true;
-    }
-
-    public void renderEditBookingForm() {
-        bookingsToBeBooked.clear();
-        bookingListForm = false;
-        bookCabFormRendered = false;
-        editBookingFormRendered = true;
-    }
-
-    public void renderbookingListForm() {
-        bookingListForm = true;
-        bookCabFormRendered = false;
     }
 
     private void performDestroy() {
@@ -445,14 +333,6 @@ public class BookingController implements Serializable {
         pagination = null;
     }
 
-    public List<Booking> getBookingsToBeBooked() {
-        return bookingsToBeBooked;
-    }
-
-    public void setBookingsToBeBooked(List<Booking> bookingsToBeBooked) {
-        this.bookingsToBeBooked = bookingsToBeBooked;
-    }
-
     public List<Booking> getItemizedBookingList() {
         return itemizedBookingList;
     }
@@ -493,28 +373,12 @@ public class BookingController implements Serializable {
         this.googleMapRendered = googleMapRendered;
     }
 
-    public boolean isBookCabFormRendered() {
-        return bookCabFormRendered;
-    }
-
-    public void setBookCabFormRendered(boolean bookCabFormRendered) {
-        this.bookCabFormRendered = bookCabFormRendered;
-    }
-
     public boolean isBookingFormRendered() {
         return bookingFormRendered;
     }
 
     public void setBookingFormRendered(boolean bookingFormRendered) {
         this.bookingFormRendered = bookingFormRendered;
-    }
-
-    public boolean isBookingListForm() {
-        return bookingListForm;
-    }
-
-    public void setBookingListForm(boolean bookingListForm) {
-        this.bookingListForm = bookingListForm;
     }
 
     private List<Booking> createIndividualBookings(Booking current) {
@@ -578,16 +442,8 @@ public class BookingController implements Serializable {
         userInfo.put("phoneNumber", getSelected().getMobileNumber());
         userInfo.put("email", guestEmail);
         getSessionMap().put("userInfo", userInfo);
-        bookingEmailMessageService.sendMail(itemizedBookingList, guestEmail);
         redirectToRegistrationPage();
-    }
-
-    public List<Booking> getBookingList() {
-        return bookingList;
-    }
-
-    public void setBookingList(List<Booking> bookingList) {
-        this.bookingList = bookingList;
+        bookingEmailMessageService.sendMail(itemizedBookingList, guestEmail);
     }
 
     public Date getMinimumDateForCalender() {
@@ -633,24 +489,12 @@ public class BookingController implements Serializable {
         this.bookingType = bookingType;
     }
 
-    public List<Booking> getUserBookings() {
-        return userBookings;
-    }
-
-    public void setUserBookings(List<Booking> userBookings) {
-        this.userBookings = userBookings;
-    }
-
     public String getGuestEmail() {
         return guestEmail;
     }
 
     public void setGuestEmail(String guestEmail) {
         this.guestEmail = guestEmail;
-    }
-
-    private void undoSelection() {
-        stateMap.setAllSelected(false);
     }
 
     private void saveNewAddressForUser(Booking current) {
@@ -784,17 +628,6 @@ public class BookingController implements Serializable {
             } else {
                 throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Booking.class.getName());
             }
-        }
-    }
-
-    static class ComparatorImpl implements Comparator<Entry<String, Integer>> {
-
-        public ComparatorImpl() {
-        }
-
-        @Override
-        public int compare(Entry<String, Integer> e1, Entry<String, Integer> e2) {
-            return e1.getValue().compareTo(e2.getValue());
         }
     }
 }

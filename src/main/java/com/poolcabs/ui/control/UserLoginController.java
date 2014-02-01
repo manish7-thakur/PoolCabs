@@ -26,7 +26,6 @@ public class UserLoginController implements Serializable{
     private String email;
     private String password;
     private User current;
-    private BookingType currentBookingType;
     @EJB
     private UserFacade userFacade;
     
@@ -69,13 +68,5 @@ public class UserLoginController implements Serializable{
     
     public boolean isLoggedIn() {
         return current != null;
-    }
-
-    public BookingType getCurrentBookingType() {
-        return currentBookingType;
-    }
-
-    public void setCurrentBookingType(BookingType currentBookingType) {
-        this.currentBookingType = currentBookingType;
-    }    
+    }   
 }

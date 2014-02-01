@@ -22,15 +22,12 @@
     <h:body class="backgroundClass">
         <br/>
         <div align="center">
-            <h:outputText value="#{bundle.ListBookingTitle}" class="heading"></h:outputText>
+            <h:outputText value="#{bundle.ListBookingTitle} #{sessionGlobals.userName}" class="heading"></h:outputText>
             <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-            <h:outputText escape="false" value="#{bundle.ListBookingEmpty}" rendered="#{bookingController.items.rowCount == 0}"/>
-
+            <ui:include src="/includes/header.xhtml" />
             <br/>
-
             <h:form class="tableBooking">      
-
-                <ace:dataTable value="#{bookingController.userBookings}" 
+                <ace:dataTable value="#{bookingListAndEditController.userBookings}" 
                                var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="single">
                     <ace:column headerText="#{bundle.ListBookingTitle_bookingType}" filterMatchMode="contains" 
                                 filterBy="#{booking.bookingType}">                     

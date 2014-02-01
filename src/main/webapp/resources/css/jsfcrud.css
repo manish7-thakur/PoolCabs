@@ -80,7 +80,7 @@ root {
 .menubar{
     /*    display: inline-block;*/
     /*background-color: black;*/
-    color: cyan;
+    color: white;
     height: 30px;
 }
 
@@ -101,6 +101,8 @@ root {
 .menuitemRight{
     float: right;
     margin-right: 10px;
+    color: white;
+    font-size: 20px;
 }
 
 .tableBooking {

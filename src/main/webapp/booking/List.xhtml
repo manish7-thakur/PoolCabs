@@ -12,22 +12,21 @@
         <h:outputStylesheet name="css/jsfcrud.css"/>
     </h:head>
     <h:body>
-        <h:outputText escape="false" value="#{bundle.ListBookingEmpty}" rendered="#{bookingController.items.rowCount == 0}"/>
         <br/>
         <div align="center">
 
-            <h:form id="bookingListForm" class="tableBooking" prependId="false" rendered="#{bookingController.bookingListForm}">      
+            <h:form id="bookingListForm" class="tableBooking" prependId="false" rendered="#{bookingListAndEditController.bookingListForm}">      
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
-                <ace:dataTable value="#{bookingController.bookingList}" 
+                <ace:dataTable value="#{bookingListAndEditController.bookingList}" 
                                var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="multiple"
-                               rowSelectListener="#{bookingController.rowSelected}"                           
-                               rowUnselectListener="#{bookingController.rowUnselected}" stateMap="#{bookingController.stateMap}">
+                               rowSelectListener="#{bookingListAndEditController.rowSelected}"                           
+                               rowUnselectListener="#{bookingListAndEditController.rowUnselected}" stateMap="#{bookingListAndEditController.stateMap}">
                     <ace:ajax event="editSubmit" render="@this" />
                     <ace:column headerText="#{bundle.ListBookingTitle_EditHeaderText}">
-                        <ace:rowEditor rowEditListener="#{bookingController.update}"
-                                       rowEditCancelListener="#{bookingController.cancelUpdate()}">
+                        <ace:rowEditor rowEditListener="#{bookingListAndEditController.update}"
+                                       rowEditCancelListener="#{bookingListAndEditController.cancelUpdate()}">
 
                         </ace:rowEditor>
                     </ace:column>
@@ -59,7 +58,7 @@
                             </f:facet>
                             <f:facet name="input">
                                 <h:selectOneMenu value="#{booking.status}" immediate="true">
-                                    <f:selectItems value="#{bookingController.cabStatuses()}" />
+                                    <f:selectItems value="#{bookingListAndEditController.cabStatuses()}" />
                                 </h:selectOneMenu>
                             </f:facet>
                         </ace:cellEditor>                           
@@ -92,7 +91,7 @@
                         <h:outputText value="#{booking.totalCost}"/>
                     </ace:column>
                     <ace:column>
-                        <h:commandButton rendered="#{bookingController.selected ne null}" action="#{bookingController.destroy}" value="#{bundle.ListBookingDestroyLink}" />
+                        <h:commandButton rendered="#{bookingListAndEditController.selected ne null}" action="#{bookingListAndEditController.destroy}" value="#{bundle.ListBookingDestroyLink}" />
                     </ace:column> 
                   <!--  <ace:column headerText="#{bundle.ListBookingTitle_createDate}" filterMatchMode="contains"
                                 filterBy="#{booking.createDate}">
@@ -106,24 +105,24 @@
                          <f:facet name="header">
                              <h:outputText value="&nbsp;"/>
                          </f:facet>
-                         <h:commandLink action="#{bookingController.prepareView}" value="#{bundle.ListBookingViewLink}"/>
+                         <h:commandLink action="#{bookingListAndEditController.prepareView}" value="#{bundle.ListBookingViewLink}"/>
                          <h:outputText value=" "/>
-                         <h:commandLink action="#{bookingController.prepareEdit}" value="#{bundle.ListBookingEditLink}"/>
+                         <h:commandLink action="#{bookingListAndEditController.prepareEdit}" value="#{bundle.ListBookingEditLink}"/>
                          <h:outputText value=" "/>
-                         <h:commandLink action="#{bookingController.destroy}" value="#{bundle.ListBookingDestroyLink}"/>
+                         <h:commandLink action="#{bookingListAndEditController.destroy}" value="#{bundle.ListBookingDestroyLink}"/>
                      </h:column>
                     -->
                 </ace:dataTable>
                 <br/>
                 <h:panelGrid columns="2">
-                    <ace:pushButton actionListener="#{bookingController.renderCabBookingForm()}" label="Book" />
-                    <ace:pushButton actionListener="#{bookingController.renderEditBookingForm()}" label="Edit" />
+                    <ace:pushButton actionListener="#{bookingListAndEditController.renderCabBookingForm()}" label="Book" />
+                    <ace:pushButton actionListener="#{bookingListAndEditController.renderEditBookingForm()}" label="Edit" />
                 </h:panelGrid>
             </h:form>
 
-            <h:form id="bookCab" class="tableBooking" prependId="false" rendered="#{bookingController.bookCabFormRendered}">      
+            <h:form id="bookCab" class="tableBooking" prependId="false" rendered="#{bookingListAndEditController.bookCabFormRendered}">      
 
-                <ace:dataTable value="#{bookingController.bookingsToBeBooked}" 
+                <ace:dataTable value="#{bookingListAndEditController.bookingsToBeBooked}" 
                                var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="multiple"
                                >
                     <ace:ajax event="editSubmit" render="@this" />
@@ -164,51 +163,51 @@
                 </ace:dataTable>
                 <br/>
                 <h:panelGrid columns="2">
-                    <ace:pushButton actionListener="#{bookingController.bookCab()}" label="Book Cab" />
-                    <ace:pushButton actionListener="#{bookingController.cancelCabBooking()}" title="Cancel" label="Cancel"/>
+                    <ace:pushButton actionListener="#{bookingListAndEditController.bookCab()}" label="Book Cab" />
+                    <ace:pushButton actionListener="#{bookingListAndEditController.cancelCabBooking()}" title="Cancel" label="Cancel"/>
                 </h:panelGrid>
             </h:form>
-            <h:form rendered="#{bookingController.editBookingForm}" prependId="false">
+            <h:form rendered="#{bookingListAndEditController.editBookingForm}" prependId="false">
                 <h:panelGrid columns="2">
                     <h:outputLabel value="#{bundle.EditBookingLabel_status}" for="status" />
-                    <h:selectOneMenu id="status" value="#{bookingController.selected.status}" immediate="true">
-                        <f:selectItems value="#{bookingController.cabStatuses()}" />
+                    <h:selectOneMenu id="status" value="#{bookingListAndEditController.selected.status}" immediate="true">
+                        <f:selectItems value="#{bookingListAndEditController.cabStatuses()}" />
                     </h:selectOneMenu>
                     <h:outputLabel value="#{bundle.EditBookingLabel_rideStartDate}" for="rideStartDate" />
-                    <h:inputText id="rideStartDate" value="#{bookingController.selected.rideStartDate}" title="#{bundle.EditBookingTitle_rideStartDate}" >
+                    <h:inputText id="rideStartDate" value="#{bookingListAndEditController.selected.rideStartDate}" title="#{bundle.EditBookingTitle_rideStartDate}" >
                         <f:convertDateTime pattern="MM/dd/yyyy" />
                     </h:inputText>
                     <h:outputLabel value="#{bundle.EditBookingLabel_rideEndDate}" for="rideEndDate" />
-                    <h:inputText id="rideEndDate" value="#{bookingController.selected.rideEndDate}" title="#{bundle.EditBookingTitle_rideEndDate}" >
+                    <h:inputText id="rideEndDate" value="#{bookingListAndEditController.selected.rideEndDate}" title="#{bundle.EditBookingTitle_rideEndDate}" >
                         <f:convertDateTime pattern="MM/dd/yyyy" />
                     </h:inputText>
                     <h:outputLabel value="#{bundle.EditBookingLabel_pickupTime}" for="pickupTime" />
-                    <h:inputText id="pickupTime" value="#{bookingController.selected.pickupTime}" title="#{bundle.EditBookingTitle_pickupTime}" >
+                    <h:inputText id="pickupTime" value="#{bookingListAndEditController.selected.pickupTime}" title="#{bundle.EditBookingTitle_pickupTime}" >
                         <f:convertDateTime pattern="MMM dd, yyyy h:mm:ss a" timeZone="IST"/>
                     </h:inputText>
 
                     <h:outputLabel value="#{bundle.EditBookingLabel_roundTrip}" for="roundTrip" />
-                    <h:inputText id="roundTrip" value="#{bookingController.selected.roundTrip}" title="#{bundle.EditBookingTitle_roundTrip}" />
+                    <h:inputText id="roundTrip" value="#{bookingListAndEditController.selected.roundTrip}" title="#{bundle.EditBookingTitle_roundTrip}" />
                     <h:outputLabel value="#{bundle.EditBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
-                    <h:inputText id="pickupStreetAddress1" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
+                    <h:inputText id="pickupStreetAddress1" value="#{bookingListAndEditController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
                     <h:outputLabel value="#{bundle.EditBookingLabel_dropStreetAddress}" for="dropStreetAddress" />
-                    <h:inputText id="dropStreetAddress1" value="#{bookingController.selected.dropStreetAddress}" title="#{bundle.CreateBookingTitle_dropStreetAddress}" />
-                    <h:inputText id="pickupLatitude1" value="#{bookingController.selected.pickupGeoCode.latitude}" title="#{bundle.CreateBookingLabel_pickupLatitude}">
+                    <h:inputText id="dropStreetAddress1" value="#{bookingListAndEditController.selected.dropStreetAddress}" title="#{bundle.CreateBookingTitle_dropStreetAddress}" />
+                    <h:inputText id="pickupLatitude1" value="#{bookingListAndEditController.selected.pickupGeoCode.latitude}" title="#{bundle.CreateBookingLabel_pickupLatitude}">
                     </h:inputText>
-                    <h:inputText  id="pickupLongitude1" value="#{bookingController.selected.pickupGeoCode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
+                    <h:inputText  id="pickupLongitude1" value="#{bookingListAndEditController.selected.pickupGeoCode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
                     </h:inputText>
-                    <h:inputText id="dropLatitude1" value="#{bookingController.selected.dropGeocode.latitude}" title="#{bundle.CreateBookingLabel_dropLatitude}">
+                    <h:inputText id="dropLatitude1" value="#{bookingListAndEditController.selected.dropGeocode.latitude}" title="#{bundle.CreateBookingLabel_dropLatitude}">
                     </h:inputText>
-                    <h:inputText id="dropLongitude2" value="#{bookingController.selected.dropGeocode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
+                    <h:inputText id="dropLongitude2" value="#{bookingListAndEditController.selected.dropGeocode.longitude}" title="#{bundle.CreateBookingTitle_pickupLongitude}">
                     </h:inputText>
                     <h:outputLabel value="#{bundle.EditBookingLabel_distanceInKM}" for="pickupTime" />
-                    <h:inputText id="distanceInKM1" value="#{bookingController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
+                    <h:inputText id="distanceInKM1" value="#{bookingListAndEditController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
                     </h:inputText>
                     <div style="border: 1px solid black; width:200px; height:5px;">
                         <div id="progress" style="height:5px; width:0px; background-color:red;"/>
                     </div>    
                     <h:commandButton value="Calculate Distance" onclick="return initialize2();" />
-                    <h:commandLink action="#{bookingController.update}" value="#{bundle.EditBookingSaveLink}"/>
+                    <h:commandLink action="#{bookingListAndEditController.updateAndRenderListForm}" value="#{bundle.EditBookingSaveLink}"/>
                 </h:panelGrid>
             </h:form>
 
