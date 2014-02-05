@@ -47,6 +47,20 @@ public class UserFacade extends AbstractFacade<User> {
             return (User) objectList.get(0);
         }
     }
+    
+        public User findByPhoneNumberAndPassword(Long phoneNumber, String password) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        javax.persistence.criteria.CriteriaQuery cq = cb.createQuery(User.class);
+        Root<User> userRoot = cq.from(User.class);
+        cq.where(cb.and(cb.equal(userRoot.get("mobileNumber"), phoneNumber), cb.equal(userRoot.get("password"), password)));
+        Query q = em.createQuery(cq);
+        List<Object> objectList = q.getResultList();
+        if (objectList.isEmpty()) {
+            return null;
+        } else {
+            return (User) objectList.get(0);
+        }
+    }
 
     public User findByEmail(String email) {
         CriteriaBuilder cb = em.getCriteriaBuilder();

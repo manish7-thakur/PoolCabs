@@ -27,12 +27,13 @@
                     <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
                 <h:panelGrid columns="3">
-                    <h:outputText class="messageWhite" value="Email Address*" />
-                    <h:inputText id="email" class="input" value="#{userLoginController.email}" required="true"
-                                 requiredMessage="Please fill in your email address" validatorMessage="Email is not valid">
-                        <f:validateRegex pattern="([A-Za-z0-9._%+]|-)+@([A-Za-z0-9.]|-)+\.[A-Za-z]{2,4}" />
+                    <h:outputText class="messageWhite" value="Mobile Number*" />
+                    <h:inputText class="input" id="mobileNumber" maxlength="10" required="true" requiredMessage="Please enter mobile number"
+                                 validatorMessage="Should be 10 digits" converterMessage="Only digits are allowed" 
+                                 value="#{userLoginController.phoneNumber}">
+                        <f:validateLength minimum="10" maximum="10" />
                     </h:inputText>
-                    <h:message for="email" errorClass="error" infoClass="info" />
+                    <h:message for="mobileNumber" errorClass="error" infoClass="info" />
 
                     <h:outputText class="messageWhite" value="Password*" />
                     <h:inputSecret id="password" class="input" value="#{userLoginController.password}" required="true"

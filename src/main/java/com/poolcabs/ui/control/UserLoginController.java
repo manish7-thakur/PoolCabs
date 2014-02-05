@@ -21,52 +21,53 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean
 @SessionScoped
-public class UserLoginController implements Serializable{
+public class UserLoginController implements Serializable {
 
-    private String email;
+    private Long phoneNumber;
     private String password;
     private User current;
     @EJB
     private UserFacade userFacade;
-    
+
     public String login() {
-        current = userFacade.findByEmailAndPassword(email, password);
+        current = userFacade.findByPhoneNumberAndPassword(phoneNumber, password);
         //System.out.println(current);
-        if (current == null) {            
+        if (current == null) {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("NoLoginFound"));
-            return (email = password = null);
-        }else if(null != current && !current.isActive()){
+            phoneNumber = null;
+            return (password = null);
+        } else if (null != current && !current.isActive()) {
             JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("UserNotActive"));
-            return (email = password = null);
-        }
-        else {
+            phoneNumber = null;
+            return (password = null);
+        } else {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", current);
             return "/booking/Create.jsf?faces-redirect=true";
         }
     }
-    
+
     public String logout() {
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "index?faces-redirect=true";
     }
-    
-    public String getEmail() {
-        return email;
+
+    public Long getPhoneNumber() {
+        return phoneNumber;
     }
-    
-    public void setEmail(String email) {
-        this.email = email;
+
+    public void setPhoneNumber(Long phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-    
+
     public String getPassword() {
         return password;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public boolean isLoggedIn() {
         return current != null;
-    }   
+    }
 }
