@@ -58,7 +58,7 @@
             <groupId>org.icefaces</groupId>
             <artifactId>icefaces-ace</artifactId>
             <version>3.2.0</version>
-            <scope>compile</scope>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <repositories>

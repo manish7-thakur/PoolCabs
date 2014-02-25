@@ -26,7 +26,7 @@ public class BookingPoller {
     private BookingService bookingService;
 
     public void poll() {
-        List<Booking> bookingList = facade.findAllPending();
+        List<Booking> bookingList = facade.findAllPendingForNextHour();
         bookingService.book(bookingList);
     }
 }

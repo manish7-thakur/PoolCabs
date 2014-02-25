@@ -6,6 +6,8 @@ package com.poolcabs.dao;
 
 import com.poolcabs.model.Booking;
 import com.poolcabs.model.CabStatus;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,11 +35,16 @@ public class BookingFacade extends AbstractFacade<Booking> {
         super(Booking.class);
     }
 
-    public List<Booking> findAllPending() {
+    public List<Booking> findAllPendingForNextHour() {
         javax.persistence.criteria.CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<Booking> bookingRoot = cq.from(Booking.class);
-        cq.where(cb.equal(bookingRoot.get("status"), CabStatus.PENDING));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(Calendar.HOUR, 1);
+        cq.where(cb.and(cb.equal(bookingRoot.get("status"), CabStatus.PENDING), cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime())));
+        calendar.add(Calendar.HOUR, 2);
+        cb.and(cb.lessThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
         return getEntityManager().createQuery(cq).getResultList();
     }
     

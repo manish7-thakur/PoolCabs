@@ -21,7 +21,7 @@ public class BookingPollerTimer {
     @EJB
     private BookingPoller poller;
     
-    //@Schedule(minute = "*", hour = "*", persistent = false)
+    @Schedule(minute = "*", hour = "*", persistent = false)
     public void pollTimer() {
         Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "Starting BookingPoller at : {0}", new Date());
         startBookingPoller();

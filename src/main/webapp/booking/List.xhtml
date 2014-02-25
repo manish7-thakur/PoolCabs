@@ -14,7 +14,6 @@
     <h:body>
         <br/>
         <div align="center">
-
             <h:form id="bookingListForm" class="tableBooking" prependId="false" rendered="#{bookingListAndEditController.bookingListForm}">      
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
@@ -121,7 +120,6 @@
             </h:form>
 
             <h:form id="bookCab" class="tableBooking" prependId="false" rendered="#{bookingListAndEditController.bookCabFormRendered}">      
-
                 <ace:dataTable value="#{bookingListAndEditController.bookingsToBeBooked}" 
                                var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="multiple"
                                >
@@ -185,7 +183,6 @@
                     <h:inputText id="pickupTime" value="#{bookingListAndEditController.selected.pickupTime}" title="#{bundle.EditBookingTitle_pickupTime}" >
                         <f:convertDateTime pattern="MMM dd, yyyy h:mm:ss a" timeZone="IST"/>
                     </h:inputText>
-
                     <h:outputLabel value="#{bundle.EditBookingLabel_roundTrip}" for="roundTrip" />
                     <h:inputText id="roundTrip" value="#{bookingListAndEditController.selected.roundTrip}" title="#{bundle.EditBookingTitle_roundTrip}" />
                     <h:outputLabel value="#{bundle.EditBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
@@ -210,8 +207,6 @@
                     <h:commandLink action="#{bookingListAndEditController.updateAndRenderListForm}" value="#{bundle.EditBookingSaveLink}"/>
                 </h:panelGrid>
             </h:form>
-
         </div>
     </h:body>
-
 </html>
