@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ListSettingsTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:form styleClass="jsfcrud_list_form">
+                <h:panelGroup id="messagePanel" layout="block">
+                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+                </h:panelGroup>
+                <h:outputText escape="false" value="#{bundle.ListSettingsEmpty}" rendered="#{settingsController.items.rowCount == 0}"/>
+                <h:panelGroup rendered="#{settingsController.items.rowCount > 0}">
+                    <h:outputText value="#{settingsController.pagination.pageFirstItem + 1}..#{settingsController.pagination.pageLastItem + 1}/#{settingsController.pagination.itemsCount}"/>&nbsp;
+                    <h:commandLink action="#{settingsController.previous}" value="#{bundle.Previous} #{settingsController.pagination.pageSize}" rendered="#{settingsController.pagination.hasPreviousPage}"/>&nbsp;
+                    <h:commandLink action="#{settingsController.next}" value="#{bundle.Next} #{settingsController.pagination.pageSize}" rendered="#{settingsController.pagination.hasNextPage}"/>&nbsp;
+                    <h:dataTable value="#{settingsController.items}" var="item" border="0" cellpadding="2" cellspacing="0" rowClasses="jsfcrud_odd_row,jsfcrud_even_row" rules="all" style="border:solid 1px">
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSettingsTitle_id}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.id}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSettingsTitle_permissibleDistanceForPickup}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.permissibleDistanceForPickup}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSettingsTitle_permissibleDistanceForDrop}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.permissibleDistanceForDrop}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSettingsTitle_permissibleTimeWindow}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.permissibleTimeWindow}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSettingsTitle_clubBookingCount}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.clubBookingCount}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="#{bundle.ListSettingsTitle_vendorEmail}"/>
+                            </f:facet>
+                            <h:outputText value="#{item.vendorEmail}"/>
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">
+                                <h:outputText value="&nbsp;"/>
+                            </f:facet>
+                            <h:commandLink action="#{settingsController.prepareView}" value="#{bundle.ListSettingsViewLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{settingsController.prepareEdit}" value="#{bundle.ListSettingsEditLink}"/>
+                            <h:outputText value=" "/>
+                            <h:commandLink action="#{settingsController.destroy}" value="#{bundle.ListSettingsDestroyLink}"/>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGroup>
+                <br />
+                <h:commandLink action="#{settingsController.prepareCreate}" value="#{bundle.ListSettingsCreateLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ListSettingsIndexLink}"/>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

@@ -92,7 +92,7 @@ public class BookingController implements Serializable {
         bookingType = (String) getSessionMap().get("bookingType");
         if (null == bookingType) {
             try {
-                getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/index.jsf");
+                getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/products.jsf");
             } catch (IOException ex) {
                 Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -556,10 +556,10 @@ public class BookingController implements Serializable {
     private void setMinHour(Date date) {
         Calendar calendar = Calendar.getInstance();
         Calendar current = Calendar.getInstance();
-        Calendar minimumDateForCalenderInstance = calendar.getInstance();
+        Calendar minimumDateForCalenderInstance = Calendar.getInstance();
         minimumDateForCalenderInstance.setTime(minimumDateForCalender);
         calendar.setTime(date);
-        if (calendar.get(Calendar.DAY_OF_MONTH) > minimumDateForCalenderInstance.get(Calendar.DAY_OF_MONTH)) {
+        if (calendar.after(minimumDateForCalenderInstance)) {
             //hour = 12;
             populateTimeWindowMap(0);
         } else {

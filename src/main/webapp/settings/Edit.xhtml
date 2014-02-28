@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditSettingsTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditSettingsLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{settingsController.selected.id}" title="#{bundle.EditSettingsTitle_id}" />
+                    <h:outputLabel value="#{bundle.EditSettingsLabel_permissibleDistanceForPickup}" for="permissibleDistanceForPickup" />
+                    <h:inputText id="permissibleDistanceForPickup" value="#{settingsController.selected.permissibleDistanceForPickup}" title="#{bundle.EditSettingsTitle_permissibleDistanceForPickup}" />
+                    <h:outputLabel value="#{bundle.EditSettingsLabel_permissibleDistanceForDrop}" for="permissibleDistanceForDrop" />
+                    <h:inputText id="permissibleDistanceForDrop" value="#{settingsController.selected.permissibleDistanceForDrop}" title="#{bundle.EditSettingsTitle_permissibleDistanceForDrop}" />
+                    <h:outputLabel value="#{bundle.EditSettingsLabel_permissibleTimeWindow}" for="permissibleTimeWindow" />
+                    <h:inputText id="permissibleTimeWindow" value="#{settingsController.selected.permissibleTimeWindow}" title="#{bundle.EditSettingsTitle_permissibleTimeWindow}" />
+                    <h:outputLabel value="#{bundle.EditSettingsLabel_clubBookingCount}" for="clubBookingCount" />
+                    <h:inputText id="clubBookingCount" value="#{settingsController.selected.clubBookingCount}" title="#{bundle.EditSettingsTitle_clubBookingCount}" />
+                    <h:outputLabel value="#{bundle.EditSettingsLabel_vendorEmail}" for="vendorEmail" />
+                    <h:inputText id="vendorEmail" value="#{settingsController.selected.vendorEmail}" title="#{bundle.EditSettingsTitle_vendorEmail}" />
+                </h:panelGrid>
+                <h:commandLink action="#{settingsController.update}" value="#{bundle.EditSettingsSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditSettingsViewLink}"/>
+                <br />
+                <h:commandLink action="#{settingsController.prepareList}" value="#{bundle.EditSettingsShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditSettingsIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>
