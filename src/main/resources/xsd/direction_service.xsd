@@ -1,0 +1,134 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="DirectionsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element type="xs:string" name="status"/>
+                <xs:element name="route">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element type="xs:string" name="summary"/>
+                            <xs:element name="leg">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="step" maxOccurs="unbounded" minOccurs="0">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element type="xs:string" name="travel_mode"/>
+                                                    <xs:element name="start_location">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:double" name="lat"/>
+                                                                <xs:element type="xs:double" name="lng"/>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element name="end_location">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:double" name="lat"/>
+                                                                <xs:element type="xs:double" name="lng"/>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element name="polyline">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:string" name="points"/>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element name="duration">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:integer" name="value"/>
+                                                                <xs:element type="xs:string" name="text"/>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element type="xs:string" name="html_instructions"/>
+                                                    <xs:element name="distance">
+                                                        <xs:complexType>
+                                                            <xs:sequence>
+                                                                <xs:element type="xs:integer" name="value"/>
+                                                                <xs:element type="xs:string" name="text"/>
+                                                            </xs:sequence>
+                                                        </xs:complexType>
+                                                    </xs:element>
+                                                    <xs:element type="xs:string" name="maneuver" minOccurs="0"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="duration">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element type="xs:integer" name="value"/>
+                                                    <xs:element type="xs:string" name="text"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="distance">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element type="xs:integer" name="value"/>
+                                                    <xs:element type="xs:string" name="text"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="start_location">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element type="xs:double" name="lat"/>
+                                                    <xs:element type="xs:double" name="lng"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="end_location">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element type="xs:double" name="lat"/>
+                                                    <xs:element type="xs:double" name="lng"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element type="xs:string" name="start_address"/>
+                                        <xs:element type="xs:string" name="end_address"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element type="xs:string" name="copyrights"/>
+                            <xs:element name="overview_polyline">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element type="xs:string" name="points"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                            <xs:element name="bounds">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="southwest">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element type="xs:double" name="lat"/>
+                                                    <xs:element type="xs:double" name="lng"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                        <xs:element name="northeast">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element type="xs:double" name="lat"/>
+                                                    <xs:element type="xs:double" name="lng"/>
+                                                </xs:sequence>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>

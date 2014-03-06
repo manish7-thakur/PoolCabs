@@ -45,6 +45,7 @@ public class MailComposer {
         }
 
         Session session = Session.getInstance(properties, new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(
                         "admin@wowsharecabs.in", "5zn2f#ptfmb");

@@ -55,4 +55,12 @@ public class BookingFacade extends AbstractFacade<Booking> {
         cq.where(cb.equal(bookingRoot.get("mobileNumber"), phoneNumber));
         return getEntityManager().createQuery(cq).getResultList();
     }
+    
+        public List<Booking> findAllWithMissingGeocodeInfo(){
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery();
+        Root<Booking> bookingRoot = cq.from(Booking.class);
+        cq.where(cb.isNull(bookingRoot.get("distanceInKM")));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
 }

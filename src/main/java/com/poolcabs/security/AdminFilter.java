@@ -23,10 +23,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Manish
  */
-@WebFilter(filterName = "AdminFilter", urlPatterns = {"/booking/List.jsf", "/settings/*"})
+@WebFilter(filterName = "AdminFilter", urlPatterns = {"/settings/*" , "/booking/List.jsf"})
 public class AdminFilter implements Filter {
 
     private static final boolean debug = true;
+    //private String[]  = {"/booking/List.jsf", "/settings/*"};
     // The filter configuration object we are associated with.  If
     // this value is null, this filter instance is not currently
     // configured. 
