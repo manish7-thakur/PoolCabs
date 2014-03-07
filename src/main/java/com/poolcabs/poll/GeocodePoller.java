@@ -35,7 +35,7 @@ public class GeocodePoller {
 
     public void poll() {
         try{
-        List<Booking> bookingList = facade.findAllWithMissingGeocodeInfo();
+        List<Booking> bookingList = facade.findAllFutureBookingsWithMissingGeocodeInfo();
         geocodeService.geocode(bookingList);
         }catch(Exception ex){
             Logger.getLogger(GeocodePoller.class.getName()).log(Level.SEVERE, null, ex);

@@ -56,11 +56,11 @@ public class BookingFacade extends AbstractFacade<Booking> {
         return getEntityManager().createQuery(cq).getResultList();
     }
     
-        public List<Booking> findAllWithMissingGeocodeInfo(){
+        public List<Booking> findAllFutureBookingsWithMissingGeocodeInfo(){
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<Booking> bookingRoot = cq.from(Booking.class);
-        cq.where(cb.isNull(bookingRoot.get("distanceInKM")));
+        cq.where(cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), new Date()), cb.isNull(bookingRoot.get("distanceInKM")));
         return getEntityManager().createQuery(cq).getResultList();
     }
 }
