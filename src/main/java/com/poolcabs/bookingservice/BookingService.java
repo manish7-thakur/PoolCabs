@@ -18,6 +18,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
@@ -38,7 +40,6 @@ public class BookingService {
     private BookingMessagingService bookingMessagingService;
     @EJB
     private SettingsFacade settingsFacade;
-    
     private static double MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP;
     private static double MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP;
     private static long MAXIMUM_PERMISSIBLE_TIME_WINDOW_MINUTES;
@@ -48,22 +49,26 @@ public class BookingService {
     public void book(List<Booking> bookingList) {
         initializeProperties();
         for (int i = 0; i < bookingList.size(); i++) {
-            Booking booking = bookingList.get(i);
-            clubbedBookings.add(bookingList.get(i));
-            for (int j = i + 1; j < bookingList.size(); j++) {
-                double pickUpDistance = distanceCalculator.getStraightLineDistance(bookingList.get(j).getPickupGeoCode(), booking.getPickupGeoCode());
-                double dropDistance = distanceCalculator.getStraightLineDistance(bookingList.get(j).getDropGeocode(), booking.getDropGeocode());
-                if (pickUpDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP && dropDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP && pickUpTimeInPermissibleWindow(bookingList.get(j).getPickupTime(), booking.getPickupTime())) {
-                    clubbedBookings.add(bookingList.get(j));
-                    if (clubbedBookings.size() == CAB_SIZE) {
-                        allocateCab(clubbedBookings);
-                        informAllThroughMessage(clubbedBookings);
-                        bookingList.removeAll(clubbedBookings);
-                        --i;
+            try {
+                Booking booking = bookingList.get(i);
+                clubbedBookings.add(bookingList.get(i));
+                for (int j = i + 1; j < bookingList.size(); j++) {
+                    double pickUpDistance = distanceCalculator.getStraightLineDistance(bookingList.get(j).getPickupGeoCode(), booking.getPickupGeoCode());
+                    double dropDistance = distanceCalculator.getStraightLineDistance(bookingList.get(j).getDropGeocode(), booking.getDropGeocode());
+                    if (pickUpDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP && dropDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP && pickUpTimeInPermissibleWindow(bookingList.get(j).getPickupTime(), booking.getPickupTime())) {
+                        clubbedBookings.add(bookingList.get(j));
+                        if (clubbedBookings.size() == CAB_SIZE) {
+                            allocateCab(clubbedBookings);
+                            informAllThroughMessage(clubbedBookings);
+                            bookingList.removeAll(clubbedBookings);
+                            --i;
+                        }
                     }
                 }
+                clubbedBookings.clear();
+            } catch (Exception ex) {
+                Logger.getLogger(BookingService.class.getName()).log(Level.SEVERE, null, ex);
             }
-            clubbedBookings.clear();
         }
 
     }
@@ -75,9 +80,9 @@ public class BookingService {
             booking.setStatus(CabStatus.BOOKED);
             booking.setCab(cab);
             bookingFacade.edit(booking);
-        }       
+        }
     }
- 
+
     private Cab getFreeCab() {
         return cabFacade.findAllFreeCabs().get(0);
     }

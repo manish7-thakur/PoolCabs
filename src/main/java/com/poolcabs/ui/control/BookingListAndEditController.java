@@ -10,7 +10,6 @@ import com.poolcabs.dao.util.JsfUtil;
 import com.poolcabs.model.Booking;
 import com.poolcabs.model.CabStatus;
 import com.poolcabs.model.User;
-import com.poolcabs.model.datatype.DragDropItem;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

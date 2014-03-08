@@ -25,9 +25,9 @@ public class BookingPollerTimer {
 
     @Schedule(minute = "*/5", hour = "*", persistent = false)
     public void pollTimer() {
-        Logger.getLogger(GeocodePollerTimer.class.getName()).log(Level.INFO, "Starting GeocodePoller at : {0}", new Date());
+        Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "Starting GeocodePoller at : {0}", new Date());
         startGeocodePoller();
-        Logger.getLogger(GeocodePollerTimer.class.getName()).log(Level.INFO, "GeocodePoller finished at : {0}", new Date());
+        Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "GeocodePoller finished at : {0}", new Date());
         Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "Starting BookingPoller at : {0}", new Date());
         startBookingPoller();
         Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "BookingPoller finished at : {0}", new Date());

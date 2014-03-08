@@ -17,7 +17,7 @@ import javax.ejb.Stateless;
 
 /**
  *
- * @author Administrator
+ * @author Manish
  */
 @LocalBean
 @Stateless
@@ -34,11 +34,7 @@ public class GeocodePoller {
     private GeocodeService geocodeService;
 
     public void poll() {
-        try{
         List<Booking> bookingList = facade.findAllFutureBookingsWithMissingGeocodeInfo();
         geocodeService.geocode(bookingList);
-        }catch(Exception ex){
-            Logger.getLogger(GeocodePoller.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

@@ -18,6 +18,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -53,7 +54,7 @@ public class Booking implements Serializable, Cloneable {
     private Date rideEndDate;
     @Column(name = "PICKUP_STREET_ADDRESS")
     private String pickupStreetAddress;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "PICKUP_GEOCODE")
     private GeoCode pickupGeoCode;
     @Column(name = "PICKUP_TIME")
@@ -61,7 +62,7 @@ public class Booking implements Serializable, Cloneable {
     private Date pickupTime;
     @Column(name = "DROP_STREET_ADDRESS")
     private String dropStreetAddress;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "DROP_GEOCODE")
     private GeoCode dropGeocode;
     @Column(name = "DROP_TIME")

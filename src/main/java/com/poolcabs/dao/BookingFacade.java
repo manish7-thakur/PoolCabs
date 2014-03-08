@@ -47,20 +47,28 @@ public class BookingFacade extends AbstractFacade<Booking> {
         cb.and(cb.lessThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
         return getEntityManager().createQuery(cq).getResultList();
     }
-    
-    public List<Booking> findAllByPhoneNumber(Long phoneNumber){
+
+    public List<Booking> findAllByPhoneNumber(Long phoneNumber) {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<Booking> bookingRoot = cq.from(Booking.class);
         cq.where(cb.equal(bookingRoot.get("mobileNumber"), phoneNumber));
         return getEntityManager().createQuery(cq).getResultList();
     }
-    
-        public List<Booking> findAllFutureBookingsWithMissingGeocodeInfo(){
+
+    public List<Booking> findAllFutureBookingsWithMissingGeocodeInfo() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<Booking> bookingRoot = cq.from(Booking.class);
         cq.where(cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), new Date()), cb.isNull(bookingRoot.get("distanceInKM")));
+        return getEntityManager().createQuery(cq).getResultList();
+    }
+
+    public List<Booking> findAllPastBookingsNotMasked() {
+        CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
+        CriteriaQuery cq = cb.createQuery();
+        Root<Booking> bookingRoot = cq.from(Booking.class);
+        cq.where(cb.lessThan(bookingRoot.<Date>get("pickupTime"), new Date()), cb.isNotNull(bookingRoot.get("pickupGeoCode").get("latitude")));
         return getEntityManager().createQuery(cq).getResultList();
     }
 }
