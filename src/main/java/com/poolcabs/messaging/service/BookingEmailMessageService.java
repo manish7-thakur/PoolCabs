@@ -34,7 +34,7 @@ public class BookingEmailMessageService {
     private String subject = "Bookings at WowShareCabs";
     private String emailTemplatePath = "mail/UserBookingInvoice.vsl";
 
-    private MimeMessage createMailMessage(List<Booking> bookings, String email) {
+    private MimeMessage createMailMessage(List<Booking> bookings, String[] toEmaiAddress) {
         VelocityEngine engine = new VelocityEngine();
         configure(engine);
         Template template = engine.getTemplate(emailTemplatePath);
@@ -45,13 +45,13 @@ public class BookingEmailMessageService {
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         String body = writer.toString();
-        MailComposer composer = new MailComposer(email, body, subject);
+        MailComposer composer = new MailComposer(toEmaiAddress, body, subject);
         MimeMessage message = composer.compose();
         return message;
     }
 
-    public void sendMail(List<Booking> bookings, String email) {
-        MimeMessage message = createMailMessage(bookings, email);
+    public void sendMail(List<Booking> bookings, String[] toEmaiAddress) {
+        MimeMessage message = createMailMessage(bookings, toEmaiAddress);
         try {
             Transport.send(message);
         } catch (MessagingException ex) {

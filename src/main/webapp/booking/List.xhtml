@@ -13,11 +13,11 @@
     </h:head>
     <h:body>
         <br/>
+        <h:panelGroup id="messagePanel" layout="block">
+            <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+        </h:panelGroup>
         <div align="center">
             <h:form id="bookingListForm" class="tableBooking" prependId="false" rendered="#{bookingListAndEditController.bookingListForm}">      
-                <h:panelGroup id="messagePanel" layout="block">
-                    <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
-                </h:panelGroup>
                 <ace:dataTable value="#{bookingListAndEditController.bookingList}" 
                                var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="multiple"
                                rowSelectListener="#{bookingListAndEditController.rowSelected}"                           
@@ -25,7 +25,7 @@
                     <ace:ajax event="editSubmit" render="@this" />
                     <ace:column headerText="#{bundle.ListBookingTitle_EditHeaderText}">
                         <ace:rowEditor rowEditListener="#{bookingListAndEditController.update}"
-                                       rowEditCancelListener="#{bookingListAndEditController.cancelUpdate()}">
+                                       >
 
                         </ace:rowEditor>
                     </ace:column>
@@ -89,9 +89,6 @@
                                 filterBy="#{booking.totalCost}">
                         <h:outputText value="#{booking.totalCost}"/>
                     </ace:column>
-                    <ace:column>
-                        <h:commandButton rendered="#{bookingListAndEditController.selected ne null}" action="#{bookingListAndEditController.destroy}" value="#{bundle.ListBookingDestroyLink}" />
-                    </ace:column> 
                   <!--  <ace:column headerText="#{bundle.ListBookingTitle_createDate}" filterMatchMode="contains"
                                 filterBy="#{booking.createDate}">
                         <h:outputText value="#{booking.createDate}" />
@@ -113,9 +110,10 @@
                     -->
                 </ace:dataTable>
                 <br/>
-                <h:panelGrid columns="2">
-                    <ace:pushButton actionListener="#{bookingListAndEditController.renderCabBookingForm()}" label="Book" />
-                    <ace:pushButton actionListener="#{bookingListAndEditController.renderEditBookingForm()}" label="Edit" />
+                <h:panelGrid columns="3">
+                    <ace:pushButton disabled="#{bookingListAndEditController.bookingsToBeBooked.size() eq 0}" actionListener="#{bookingListAndEditController.renderCabBookingForm()}" label="Book" />
+                    <ace:pushButton disabled="#{bookingListAndEditController.bookingsToBeBooked.size() ne 1}" actionListener="#{bookingListAndEditController.renderEditBookingForm()}" label="Edit" />
+                    <ace:pushButton disabled="#{bookingListAndEditController.bookingsToBeBooked.size() eq 0}" actionListener="#{bookingListAndEditController.delete()}" label="#{bundle.ListBookingDestroyLink}" />
                 </h:panelGrid>
             </h:form>
 
@@ -162,7 +160,7 @@
                 <br/>
                 <h:panelGrid columns="2">
                     <ace:pushButton actionListener="#{bookingListAndEditController.bookCab()}" label="Book Cab" />
-                    <ace:pushButton actionListener="#{bookingListAndEditController.cancelCabBooking()}" title="Cancel" label="Cancel"/>
+                    <ace:pushButton actionListener="#{bookingListAndEditController.cancel}" title="Cancel" label="Cancel"/>
                 </h:panelGrid>
             </h:form>
             <h:form rendered="#{bookingListAndEditController.editBookingForm}" prependId="false">
@@ -205,6 +203,7 @@
                     </div>    
                     <h:commandButton value="Calculate Distance" onclick="return initialize2();" />
                     <h:commandLink action="#{bookingListAndEditController.updateAndRenderListForm}" value="#{bundle.EditBookingSaveLink}"/>
+                    <h:commandButton actionListener="#{bookingListAndEditController.cancel}" value="Cancel" label="Cancel"/>
                 </h:panelGrid>
             </h:form>
         </div>

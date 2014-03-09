@@ -14,6 +14,7 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -24,11 +25,11 @@ import javax.mail.internet.MimeMessage;
 public class MailComposer {
 
     private String from;
-    private String to;
+    private String to[];
     private String body;
     private String subject;
 
-    public MailComposer(String to, String body, String subject) {
+    public MailComposer(String[] to, String body, String subject) {
         this.to = to;
         this.body = body;
         this.subject = subject;
@@ -53,7 +54,8 @@ public class MailComposer {
         });
         MimeMessage message = new MimeMessage(session);
         try {
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(to));
+            InternetAddress[] internetAddress = createInternetAddressFromStrings(to);
+            message.setRecipients(Message.RecipientType.TO, internetAddress);
             message.setSubject(subject);
             message.setText(body);
             message.setHeader("Content-Type", "text/html");
@@ -64,5 +66,17 @@ public class MailComposer {
         }
 
         return message;
+    }
+
+    private InternetAddress[] createInternetAddressFromStrings(String[] to) {
+        InternetAddress[] internetAddress = new InternetAddress[to.length];
+        for(int i =0 ;i<to.length;i++){
+            try {
+                internetAddress[i] = new InternetAddress(to[i]);
+            } catch (AddressException ex) {
+                Logger.getLogger(MailComposer.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return internetAddress;
     }
 }

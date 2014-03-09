@@ -41,8 +41,6 @@ import javax.faces.model.SelectItem;
 import org.icefaces.ace.event.DateSelectEvent;
 import org.icefaces.ace.event.DateTextChangeEvent;
 import org.icefaces.ace.event.DragDropEvent;
-import org.icefaces.ace.event.SelectEvent;
-import org.icefaces.ace.event.UnselectEvent;
 
 @ManagedBean(name = "bookingController")
 @ViewScoped
@@ -233,28 +231,6 @@ public class BookingController implements Serializable {
         current = null;
     }
 
-    public String destroy() {
-        // current = (Booking) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        performDestroy();
-        recreatePagination();
-        recreateModel();
-        return "List";
-    }
-
-    public String destroyAndView() {
-        performDestroy();
-        recreateModel();
-        updateCurrentItem();
-        if (selectedItemIndex >= 0) {
-            return "View";
-        } else {
-            // all items were removed - go back to list
-            recreateModel();
-            return "List";
-        }
-    }
-
     public List<DragDropItem> getUserAddressList() {
         return userAddressList;
     }
@@ -275,14 +251,7 @@ public class BookingController implements Serializable {
         this.emailFormRendered = emailFormRendered;
     }
 
-    private void performDestroy() {
-        try {
-            getFacade().remove(current);
-            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingDeleted"));
-        } catch (Exception e) {
-            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-        }
-    }
+
 
     public void handleDrop(DragDropEvent e) {
         DragDropItem item = (DragDropItem) e.getData();
@@ -443,7 +412,7 @@ public class BookingController implements Serializable {
         userInfo.put("email", guestEmail);
         getSessionMap().put("userInfo", userInfo);
         redirectToRegistrationPage();
-        bookingEmailMessageService.sendMail(itemizedBookingList, guestEmail);
+        bookingEmailMessageService.sendMail(itemizedBookingList, guestEmail.split(","));
     }
 
     public Date getMinimumDateForCalender() {

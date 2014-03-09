@@ -10,6 +10,7 @@ import com.poolcabs.dao.SettingsFacade;
 import com.poolcabs.distanceservice.HaversineDistanceCalculator;
 import com.poolcabs.messaging.MessagingRunnble;
 import com.poolcabs.messaging.service.BookingMessagingService;
+import com.poolcabs.messaging.service.ClubbedBookingsEmailMessageService;
 import com.poolcabs.model.Booking;
 import com.poolcabs.model.Cab;
 import com.poolcabs.model.CabStatus;
@@ -40,10 +41,13 @@ public class BookingService {
     private BookingMessagingService bookingMessagingService;
     @EJB
     private SettingsFacade settingsFacade;
+    @EJB
+    private ClubbedBookingsEmailMessageService mailService;
     private static double MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP;
     private static double MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP;
     private static long MAXIMUM_PERMISSIBLE_TIME_WINDOW_MINUTES;
     private static int CAB_SIZE;
+    private static String VENDOR_EMAIL;
     private List<Booking> clubbedBookings = new ArrayList<Booking>();
 
     public void book(List<Booking> bookingList) {
@@ -58,8 +62,9 @@ public class BookingService {
                     if (pickUpDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP && dropDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP && pickUpTimeInPermissibleWindow(bookingList.get(j).getPickupTime(), booking.getPickupTime())) {
                         clubbedBookings.add(bookingList.get(j));
                         if (clubbedBookings.size() == CAB_SIZE) {
-                            allocateCab(clubbedBookings);
-                            informAllThroughMessage(clubbedBookings);
+                            updateBookings(clubbedBookings);
+                            //informAllThroughMessage(clubbedBookings);
+                            sendMailForClubbedBookings(clubbedBookings);
                             bookingList.removeAll(clubbedBookings);
                             --i;
                         }
@@ -73,12 +78,9 @@ public class BookingService {
 
     }
 
-    public void allocateCab(List<Booking> clubbedBookings) {
-        Cab cab = getFreeCab();
-        cab.setBooked(true);
+    public void updateBookings(List<Booking> clubbedBookings) {
         for (Booking booking : clubbedBookings) {
             booking.setStatus(CabStatus.BOOKED);
-            booking.setCab(cab);
             bookingFacade.edit(booking);
         }
     }
@@ -90,6 +92,11 @@ public class BookingService {
     public void informAllThroughMessage(List<Booking> clubbedBookings) {
         List<URL> messageURLList = bookingMessagingService.createMessagingURLList(clubbedBookings);
         new Thread(new MessagingRunnble(messageURLList)).start();
+    }
+
+    public void sendMailForClubbedBookings(List<Booking> clubbedBookings) {
+        String[] emailAdress = VENDOR_EMAIL.split(",");
+        mailService.sendMail(clubbedBookings, emailAdress);
     }
 
     private boolean pickUpTimeInPermissibleWindow(Date date1, Date date2) {

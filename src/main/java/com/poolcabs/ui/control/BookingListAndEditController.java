@@ -20,13 +20,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import org.icefaces.ace.event.RowEditEvent;
 import org.icefaces.ace.event.SelectEvent;
 import org.icefaces.ace.event.UnselectEvent;
 import org.icefaces.ace.model.table.RowStateMap;
 
 /**
  *
- * @author Administrator
+ * @author Manish
  */
 @ManagedBean
 @ViewScoped
@@ -76,14 +77,15 @@ public class BookingListAndEditController {
     }
 
     public void renderCabBookingForm() {
-        bookingsToBeBooked.clear();
+        clearBookingList();
         bookingsToBeBooked.addAll(stateMap.getSelected());
         bookingListForm = false;
         bookCabFormRendered = true;
     }
 
     public void renderEditBookingForm() {
-        bookingsToBeBooked.clear();
+        current = (Booking) bookingsToBeBooked.get(0);
+        clearBookingList();
         bookingListForm = false;
         bookCabFormRendered = false;
         editBookingFormRendered = true;
@@ -98,31 +100,61 @@ public class BookingListAndEditController {
     public void updateAndRenderListForm() {
         update();
         renderbookingListForm();
+        clearBookingList();
+        undoSelection();
     }
 
     public void bookCab() {
         try {
-            bookingService.allocateCab(bookingsToBeBooked);
+            bookingService.updateBookings(bookingsToBeBooked);
             bookingService.informAllThroughMessage(bookingsToBeBooked);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingUpdated"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-            // return null;
         }
+        clearBookingList();
         undoSelection();
         renderbookingListForm();
     }
 
     public void update() {
         try {
-            getFacade().edit(current);
+            getFacade().edit(getSelected());
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingUpdated"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
     }
 
-    public void cancelCabBooking() {
+    public void update(RowEditEvent event) {
+        try {
+            getFacade().edit((Booking) event.getObject());
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingUpdated"));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        }
+    }
+
+    private void performDestroy(Booking booking) {
+        try {
+            getFacade().remove(booking);
+            JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingDeleted"));
+        } catch (Exception e) {
+            JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
+        }
+    }
+
+    public void delete() {
+        for (Booking booking : bookingsToBeBooked) {
+            performDestroy(booking);
+        }
+        bookingList.removeAll(bookingsToBeBooked);
+        clearBookingList();
+        undoSelection();
+    }
+
+    public void cancel() {
+        clearBookingList();
         undoSelection();
         renderbookingListForm();
     }
@@ -132,11 +164,11 @@ public class BookingListAndEditController {
     }
 
     public void rowSelected(SelectEvent bookingSelectEvent) {
-        current = (Booking) bookingSelectEvent.getObject();
+        bookingsToBeBooked.add((Booking) bookingSelectEvent.getObject());
     }
 
     public void rowUnselected(UnselectEvent bookingUnselectEvent) {
-        current = null;
+        bookingsToBeBooked.remove((Booking) bookingUnselectEvent.getObject());
     }
 
     private void undoSelection() {
@@ -201,5 +233,9 @@ public class BookingListAndEditController {
 
     public void setBookingList(List<Booking> bookingList) {
         this.bookingList = bookingList;
+    }
+
+    private void clearBookingList() {
+        bookingsToBeBooked.clear();
     }
 }

@@ -20,8 +20,8 @@ public class GeocodeMaskPollerTimer {
 
     @EJB
     private GeocodeMaskPoller geocodeMaskPoller;
-    
-    @Schedule(minute = "*", hour = "*", persistent = false)
+
+    @Schedule(minute = "0", hour = "0", persistent = false)
     public void pollTimer() {
         Logger.getLogger(GeocodeMaskPollerTimer.class.getName()).log(Level.INFO, "Starting GeocodeMaskPoller at : {0}", new Date());
         startGeocodeMaskPoller();

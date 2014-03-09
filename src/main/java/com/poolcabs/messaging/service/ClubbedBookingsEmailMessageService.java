@@ -5,16 +5,15 @@
 package com.poolcabs.messaging.service;
 
 import com.poolcabs.messaging.util.MailComposer;
-import com.poolcabs.model.User;
+import com.poolcabs.model.Booking;
 import java.io.StringWriter;
+import java.util.List;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.mail.MessagingException;
 import javax.mail.Transport;
 import javax.mail.internet.MimeMessage;
@@ -30,33 +29,33 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
  */
 @LocalBean
 @Stateless
-public class UserRegistrationEmailMessageService {
+public class ClubbedBookingsEmailMessageService {
 
-    private String subject = "WowShareCabs Registration";
-    private String emailTemplatePath = "mail/UserRegistrationInvoice.vsl";
+    private String subject = "Clubbed Bookings";
+    private String emailTemplatePath = "mail/ClubbedBookingsNotification.vsl";
 
-    private MimeMessage createMailMessage(User user) {
+    private MimeMessage createMailMessage(List<Booking> bookings, String[] toEmailAddress) {
         VelocityEngine engine = new VelocityEngine();
         configure(engine);
-        Template template = engine.getTemplate("mail/UserRegistrationInvoice.vsl");
+        Template template = engine.getTemplate(emailTemplatePath);
         VelocityContext context = new VelocityContext();
-        context.put("name", user.getName());
-        context.put("token", generateActivationLink(user.getId()));
+        context.put("name", bookings.get(0).getCustomerName());
+        context.put("bookingList", bookings);
         context.put("organization", ResourceBundle.getBundle("/Bundle").getString("Organization_Name"));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
         String body = writer.toString();
-        MailComposer composer = new MailComposer(user.getEmail().split(","), body, subject);
+        MailComposer composer = new MailComposer(toEmailAddress, body, subject);
         MimeMessage message = composer.compose();
         return message;
     }
 
-    public void sendMail(User user) {
-        MimeMessage message = createMailMessage(user);
+    public void sendMail(List<Booking> bookings, String[] toEmailAddress) {
+        MimeMessage message = createMailMessage(bookings, toEmailAddress);
         try {
             Transport.send(message);
         } catch (MessagingException ex) {
-            Logger.getLogger(UserRegistrationEmailMessageService.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ClubbedBookingsEmailMessageService.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -65,15 +64,5 @@ public class UserRegistrationEmailMessageService {
         properties.setProperty(Velocity.RESOURCE_LOADER, "classpath");
         properties.setProperty("classpath." + Velocity.RESOURCE_LOADER + ".class", ClasspathResourceLoader.class.getName());
         engine.init(properties);
-    }
-
-    private String generateActivationLink(Long id) {
-        String activationURL = ResourceBundle.getBundle("/Bundle").getString("ApplicationURL");
-        activationURL += "/user/activate.jsf?key=" + id;
-        return activationURL;
-    }
-
-    private ExternalContext getExternalContext() {
-        return FacesContext.getCurrentInstance().getExternalContext();
     }
 }
