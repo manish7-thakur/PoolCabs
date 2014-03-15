@@ -27,8 +27,8 @@ public class MessagingRunnble implements Runnable {
 
     @Override
     public void run() {
-        InputStream in = null;
         try {
+            InputStream in = null;
             for (URL url : urlList) {
                 in = url.openStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -37,7 +37,7 @@ public class MessagingRunnble implements Runnable {
                 while ((i = reader.readLine()) != null) {
                     response += i;
                 }
-                Logger.getLogger(MessagingRunnble.class.getName()).log(Level.SEVERE, "URL : " + url + "Response : " + response);
+                Logger.getLogger(MessagingRunnble.class.getName()).log(Level.SEVERE, "URL : {0} Response : {1}", new Object[]{url, response});
             }
         } catch (IOException ex) {
             Logger.getLogger(MessagingRunnble.class.getName()).log(Level.SEVERE, null, ex);

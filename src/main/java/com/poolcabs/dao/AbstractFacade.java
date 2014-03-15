@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
  * @author Manish
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -27,10 +28,12 @@ public abstract class AbstractFacade<T> {
         getEntityManager().persist(entity);
     }
 
-    public void edit(T entity) {
-        getEntityManager().merge(entity);
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
+    public T edit(T entity) {
+        return getEntityManager().merge(entity);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
@@ -61,5 +64,4 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
 }

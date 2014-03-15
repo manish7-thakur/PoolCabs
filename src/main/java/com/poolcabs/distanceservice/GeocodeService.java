@@ -42,8 +42,10 @@ public class GeocodeService {
                 DirectionsResponse response = JAXBHelper.<DirectionsResponse>unmarshall(url.openStream(), JAXBHelper.getSchemaFor(DirectionsResponse.class), "com.poolcabs.generated.directionservice");
                 if (response.getStatus().equalsIgnoreCase("OK")) {
                     enrichBookingWithGeocodeInfo(booking, response);
+                    bookingFacade.edit(booking);
+                } else {
+                    Logger.getLogger(GeocodeService.class.getName()).log(Level.SEVERE, response.getStatus());
                 }
-                bookingFacade.edit(booking);
             } catch (MalformedURLException ex) {
                 Logger.getLogger(GeocodeService.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -83,5 +85,12 @@ public class GeocodeService {
         booking.getPickupGeoCode().setLongitude(leg.getStartLocation().getLng());
         booking.getDropGeocode().setLatitude(leg.getEndLocation().getLat());
         booking.getDropGeocode().setLongitude(leg.getEndLocation().getLng());
+        booking.setTotalCost(booking.getDistanceInKM() * booking.getTarrif());
     }
+
+    public void startGeocoding() {
+        List<Booking> bookingList = bookingFacade.findAllFutureBookingsWithMissingGeocodeInfo();
+        geocode(bookingList);
+    }
+    
 }

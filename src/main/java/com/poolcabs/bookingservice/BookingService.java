@@ -55,8 +55,16 @@ public class BookingService {
         for (int i = 0; i < bookingList.size(); i++) {
             try {
                 Booking booking = bookingList.get(i);
+                if (null == booking.getPickupGeoCode().getLatitude() || null == booking.getPickupGeoCode().getLongitude()
+                        || null == booking.getDropGeocode().getLatitude() || null == booking.getDropGeocode().getLongitude()) {
+                    continue;
+                }
                 clubbedBookings.add(bookingList.get(i));
                 for (int j = i + 1; j < bookingList.size(); j++) {
+                    if (null == bookingList.get(j).getPickupGeoCode().getLatitude() || null == bookingList.get(j).getPickupGeoCode().getLongitude()
+                            || null == bookingList.get(j).getDropGeocode().getLatitude() || null == bookingList.get(j).getDropGeocode().getLongitude()) {
+                        continue;
+                    }
                     double pickUpDistance = distanceCalculator.getStraightLineDistance(bookingList.get(j).getPickupGeoCode(), booking.getPickupGeoCode());
                     double dropDistance = distanceCalculator.getStraightLineDistance(bookingList.get(j).getDropGeocode(), booking.getDropGeocode());
                     if (pickUpDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP && dropDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP && pickUpTimeInPermissibleWindow(bookingList.get(j).getPickupTime(), booking.getPickupTime())) {
@@ -116,6 +124,12 @@ public class BookingService {
         MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP = settings.getPermissibleDistanceForPickup();
         MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP = settings.getPermissibleDistanceForDrop();
         MAXIMUM_PERMISSIBLE_TIME_WINDOW_MINUTES = settings.getPermissibleTimeWindow();
+        VENDOR_EMAIL = settings.getVendorEmail();
         CAB_SIZE = settings.getClubBookingCount();
+    }
+
+    public void startBooking() {
+        List<Booking> bookingList = bookingFacade.findAllPendingForNextHour();
+        book(bookingList);
     }
 }

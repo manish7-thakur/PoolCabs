@@ -35,7 +35,7 @@ public class BookingListAndEditController {
 
     private boolean bookingListForm;
     private boolean bookCabFormRendered;
-    private List<Booking> bookingsToBeBooked;
+    private List<Booking> selectedBookings;
     private boolean editBookingFormRendered;
     @EJB
     private BookingService bookingService;
@@ -51,7 +51,7 @@ public class BookingListAndEditController {
     public void init() {
         bookingListForm = true;
         bookCabFormRendered = false;
-        bookingsToBeBooked = new ArrayList<Booking>();
+        selectedBookings = new ArrayList<Booking>();
         editBookingFormRendered = false;
         stateMap = new RowStateMap();
         bookingList = ejbFacade.findAll();
@@ -78,13 +78,13 @@ public class BookingListAndEditController {
 
     public void renderCabBookingForm() {
         clearBookingList();
-        bookingsToBeBooked.addAll(stateMap.getSelected());
+        selectedBookings.addAll(stateMap.getSelected());
         bookingListForm = false;
         bookCabFormRendered = true;
     }
 
     public void renderEditBookingForm() {
-        current = (Booking) bookingsToBeBooked.get(0);
+        current = (Booking) selectedBookings.get(0);
         clearBookingList();
         bookingListForm = false;
         bookCabFormRendered = false;
@@ -106,8 +106,8 @@ public class BookingListAndEditController {
 
     public void bookCab() {
         try {
-            bookingService.updateBookings(bookingsToBeBooked);
-            bookingService.informAllThroughMessage(bookingsToBeBooked);
+            bookingService.updateBookings(selectedBookings);
+            bookingService.informAllThroughMessage(selectedBookings);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingUpdated"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -119,7 +119,8 @@ public class BookingListAndEditController {
 
     public void update() {
         try {
-            getFacade().edit(getSelected());
+            Booking updatedBooking = getFacade().edit(getSelected());
+            bookingList.set(bookingList.indexOf(getSelected()), updatedBooking);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingUpdated"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
@@ -145,10 +146,10 @@ public class BookingListAndEditController {
     }
 
     public void delete() {
-        for (Booking booking : bookingsToBeBooked) {
+        for (Booking booking : selectedBookings) {
             performDestroy(booking);
         }
-        bookingList.removeAll(bookingsToBeBooked);
+        bookingList.removeAll(selectedBookings);
         clearBookingList();
         undoSelection();
     }
@@ -164,11 +165,11 @@ public class BookingListAndEditController {
     }
 
     public void rowSelected(SelectEvent bookingSelectEvent) {
-        bookingsToBeBooked.add((Booking) bookingSelectEvent.getObject());
+        selectedBookings.add((Booking) bookingSelectEvent.getObject());
     }
 
     public void rowUnselected(UnselectEvent bookingUnselectEvent) {
-        bookingsToBeBooked.remove((Booking) bookingUnselectEvent.getObject());
+        selectedBookings.remove((Booking) bookingUnselectEvent.getObject());
     }
 
     private void undoSelection() {
@@ -196,11 +197,11 @@ public class BookingListAndEditController {
     }
 
     public List<Booking> getBookingsToBeBooked() {
-        return bookingsToBeBooked;
+        return selectedBookings;
     }
 
     public void setBookingsToBeBooked(List<Booking> bookingsToBeBooked) {
-        this.bookingsToBeBooked = bookingsToBeBooked;
+        this.selectedBookings = bookingsToBeBooked;
     }
 
     public boolean isBookCabFormRendered() {
@@ -236,6 +237,6 @@ public class BookingListAndEditController {
     }
 
     private void clearBookingList() {
-        bookingsToBeBooked.clear();
+        selectedBookings.clear();
     }
 }

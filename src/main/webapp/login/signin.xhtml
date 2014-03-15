@@ -18,11 +18,11 @@
     <h:body class="backgroundClass">
         <div class="bodypart" align="center" >
             <div class="heading">
-                <h:outputText value="Please enter your email &amp; password to login" />
+                <h:outputText value="#{bundle.LoginPage_Header}" />
             </div>
             <br/>
             <br/>
-            <h:form>
+            <h:form prependId="false">
                 <h:panelGroup id="messagePanel" layout="block">
                     <h:messages globalOnly="true" errorStyle="color: red" infoStyle="color: green" layout="table"/>
                 </h:panelGroup>
@@ -42,7 +42,7 @@
                     <h:message for="password" errorClass="error" infoClass="info" />
                 </h:panelGrid>
                 <br/>
-                <h:commandButton label="Login" action="#{userLoginController.login}" image="/resources/images/Login5.jpg">
+                <h:commandButton id="loginButton" label="Login" type="submit" action="#{userLoginController.login}" image="/resources/images/Login5.jpg">
                 </h:commandButton>
             </h:form>
             <br/>

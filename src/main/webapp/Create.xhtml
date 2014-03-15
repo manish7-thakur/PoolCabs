@@ -205,7 +205,7 @@
                 <h:panelGrid columns="1">
                     <h:message for="emailForInvoice" errorClass="error" infoClass="info" />
                     <h:commandButton label="Done" image="resources/images/SendInvoice.jpg" actionListener="#{bookingController.sendInvoiceAndRegister}" />
-                    <h:commandButton label="HomePage"  action="index.jsf?faces-redirect=true" image="resources/images/GoToHomepage.jpg" />
+                    <a href="index.jsf?faces-redirect=true"><img src="resources/images/GoToHomepage.jpg" /></a>
                 </h:panelGrid>
             </h:form>
         </div>

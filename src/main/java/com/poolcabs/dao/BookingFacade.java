@@ -10,6 +10,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.ejb.TransactionAttribute;
+import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -35,6 +37,7 @@ public class BookingFacade extends AbstractFacade<Booking> {
         super(Booking.class);
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Booking> findAllPendingForNextHour() {
         javax.persistence.criteria.CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
@@ -42,9 +45,9 @@ public class BookingFacade extends AbstractFacade<Booking> {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.HOUR, 1);
-        cq.where(cb.and(cb.equal(bookingRoot.get("status"), CabStatus.PENDING), cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime())));
+        cb.and(cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
         calendar.add(Calendar.HOUR, 2);
-        cb.and(cb.lessThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
+        cq.where(cb.and(cb.equal(bookingRoot.get("status"), CabStatus.PENDING), cb.lessThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime())));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
@@ -56,6 +59,7 @@ public class BookingFacade extends AbstractFacade<Booking> {
         return getEntityManager().createQuery(cq).getResultList();
     }
 
+    @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
     public List<Booking> findAllFutureBookingsWithMissingGeocodeInfo() {
         CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();

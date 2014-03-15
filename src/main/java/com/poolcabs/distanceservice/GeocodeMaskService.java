@@ -31,7 +31,7 @@ public class GeocodeMaskService {
     public void maskGeocode(List<Booking> bookingList) {
         for (Booking booking : bookingList) {
             try {
-                deleteAndMaskGeocodeInfo(booking);
+                maskGeocodeInfo(booking);
                 bookingFacade.edit(booking);
             } catch (Exception ex) {
                 Logger.getLogger(GeocodePoller.class.getName()).log(Level.SEVERE, null, ex);
@@ -39,10 +39,15 @@ public class GeocodeMaskService {
         }
     }
 
-    private void deleteAndMaskGeocodeInfo(Booking booking) {
+    private void maskGeocodeInfo(Booking booking) {
         booking.getPickupGeoCode().setLatitude(null);
         booking.getPickupGeoCode().setLongitude(null);
         booking.getDropGeocode().setLatitude(null);
         booking.getDropGeocode().setLongitude(null);
+    }
+
+    public void startGeocodeMasking() {
+        List<Booking> bookingList = bookingFacade.findAllPastBookingsNotMasked();
+        maskGeocode(bookingList);
     }
 }
