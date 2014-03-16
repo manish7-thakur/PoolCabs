@@ -16,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -45,9 +46,10 @@ public class BookingFacade extends AbstractFacade<Booking> {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.HOUR, 1);
-        cb.and(cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
+        Predicate greater = cb.and(cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
         calendar.add(Calendar.HOUR, 2);
-        cq.where(cb.and(cb.equal(bookingRoot.get("status"), CabStatus.PENDING), cb.lessThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime())));
+        Predicate lowerAndStatus = cb.and(cb.equal(bookingRoot.get("status"), CabStatus.PENDING), cb.lessThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
+        cq.where(cb.and(greater, lowerAndStatus));
         return getEntityManager().createQuery(cq).getResultList();
     }
 
