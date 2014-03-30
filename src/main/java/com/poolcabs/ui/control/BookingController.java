@@ -29,14 +29,10 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.DataModel;
-import javax.faces.model.ListDataModel;
 import javax.faces.model.SelectItem;
 import org.icefaces.ace.event.DateSelectEvent;
 import org.icefaces.ace.event.DateTextChangeEvent;
@@ -87,6 +83,15 @@ public class BookingController implements Serializable {
         tariff = tariffFacade.findAll().get(0);
         timeWindowMap = new TreeMap<String, Integer>();
         currentUser = (User) getSessionMap().get("user");
+        if (null != currentUser) {
+            int i = 0;
+            for (String address : currentUser.getAddressSet()) {
+                DragDropItem item = new DragDropItem(++i, address);
+                userAddressList.add(item);
+            }
+            getSelected().setCustomerName(currentUser.getName());
+            getSelected().setMobileNumber(currentUser.getMobileNumber());
+        }
         bookingType = (String) getSessionMap().get("bookingType");
         if (null == bookingType) {
             try {
@@ -125,40 +130,6 @@ public class BookingController implements Serializable {
         return ejbFacade;
     }
 
-    public PaginationHelper getPagination() {
-        if (pagination == null) {
-            pagination = new PaginationHelper(10) {
-                @Override
-                public int getItemsCount() {
-                    return getFacade().count();
-                }
-
-                @Override
-                public DataModel createPageDataModel() {
-                    return new ListDataModel(getFacade().findRange(new int[]{getPageFirstItem(), getPageFirstItem() + getPageSize()}));
-                }
-            };
-        }
-        return pagination;
-    }
-
-    public String prepareList() {
-        recreateModel();
-        return "List";
-    }
-
-    public String prepareView() {
-        current = (Booking) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "View";
-    }
-
-    public String prepareCreate() {
-        //current = new Booking();
-        selectedItemIndex = -1;
-        return "Create";
-    }
-
     public void renderGoogleMap() {
         googleMapRendered = true;
         bookingFormRendered = false;
@@ -183,11 +154,9 @@ public class BookingController implements Serializable {
             for (Booking booking : itemizedBookingList) {
                 getFacade().create(booking);
             }
-            try {
-                saveNewAddressForUser(current);
-            } catch (Exception e) {
-                Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, e);
-            }
+
+            saveNewAddressForUser(current);
+
             if (null != currentUser) {
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingCreated"));
                 getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/booking/userbookings.jsf");
@@ -221,12 +190,6 @@ public class BookingController implements Serializable {
         current.setDistanceInKM((Double) event.getNewValue());
     }
 
-    public String prepareEdit() {
-        current = (Booking) getItems().getRowData();
-        selectedItemIndex = pagination.getPageFirstItem() + getItems().getRowIndex();
-        return "Edit";
-    }
-
     public void cancelUpdate() {
         current = null;
     }
@@ -250,8 +213,6 @@ public class BookingController implements Serializable {
     public void setEmailFormRendered(boolean emailFormRendered) {
         this.emailFormRendered = emailFormRendered;
     }
-
-
 
     public void handleDrop(DragDropEvent e) {
         DragDropItem item = (DragDropItem) e.getData();
@@ -279,13 +240,6 @@ public class BookingController implements Serializable {
         }
     }
 
-    public DataModel getItems() {
-        if (items == null) {
-            items = getPagination().createPageDataModel();
-        }
-        return items;
-    }
-
     public Date getRideStartTime() {
         return rideStartTime;
     }
@@ -308,18 +262,6 @@ public class BookingController implements Serializable {
 
     public void setItemizedBookingList(List<Booking> itemizedBookingList) {
         this.itemizedBookingList = itemizedBookingList;
-    }
-
-    public String next() {
-        getPagination().nextPage();
-        recreateModel();
-        return "List";
-    }
-
-    public String previous() {
-        getPagination().previousPage();
-        recreateModel();
-        return "List";
     }
 
     public void roundTripValueChanged(ValueChangeEvent event) {
@@ -470,7 +412,13 @@ public class BookingController implements Serializable {
         if (null != currentUser) {
             currentUser.getAddressSet().add(getSelected().getPickupStreetAddress());
             currentUser.getAddressSet().add(getSelected().getDropStreetAddress());
-            userFacade.edit(currentUser);
+            User pesistedUser = null;
+            try {
+                pesistedUser = userFacade.edit(currentUser);
+            } catch (Exception e) {
+                Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, e);
+            }
+            getSessionMap().put("user", pesistedUser);
         }
     }
 
@@ -560,43 +508,6 @@ public class BookingController implements Serializable {
         while (minHourApplicable <= 23) {
             timeWindowMap.put(String.format("%02d", minHourApplicable) + ":" + "00" + " - " + String.format("%02d", minHourApplicable) + ":" + 59 + " " + "Hrs", minHourApplicable);
             minHourApplicable++;
-        }
-    }
-
-    @FacesConverter(forClass = Booking.class)
-    public static class BookingControllerConverter implements Converter {
-
-        public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
-            if (value == null || value.length() == 0) {
-                return null;
-            }
-            BookingController controller = (BookingController) facesContext.getApplication().getELResolver().
-                    getValue(facesContext.getELContext(), null, "bookingController");
-            return controller.ejbFacade.find(getKey(value));
-        }
-
-        java.lang.Long getKey(String value) {
-            java.lang.Long key;
-            key = Long.valueOf(value);
-            return key;
-        }
-
-        String getStringKey(java.lang.Long value) {
-            StringBuffer sb = new StringBuffer();
-            sb.append(value);
-            return sb.toString();
-        }
-
-        public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-            if (object == null) {
-                return null;
-            }
-            if (object instanceof Booking) {
-                Booking o = (Booking) object;
-                return getStringKey(o.getId());
-            } else {
-                throw new IllegalArgumentException("object " + object + " is of type " + object.getClass().getName() + "; expected type: " + Booking.class.getName());
-            }
         }
     }
 }

@@ -6,7 +6,6 @@ package com.poolcabs.ui.control;
 
 import com.poolcabs.dao.UserFacade;
 import com.poolcabs.dao.util.JsfUtil;
-import com.poolcabs.model.BookingType;
 import com.poolcabs.model.User;
 import java.io.Serializable;
 import java.util.ResourceBundle;

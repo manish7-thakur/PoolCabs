@@ -47,8 +47,8 @@ public class UserFacade extends AbstractFacade<User> {
             return (User) objectList.get(0);
         }
     }
-    
-        public User findByPhoneNumberAndPassword(Long phoneNumber, String password) {
+
+    public User findByPhoneNumberAndPassword(Long phoneNumber, String password) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         javax.persistence.criteria.CriteriaQuery cq = cb.createQuery(User.class);
         Root<User> userRoot = cq.from(User.class);
@@ -81,6 +81,20 @@ public class UserFacade extends AbstractFacade<User> {
         javax.persistence.criteria.CriteriaQuery cq = cb.createQuery(User.class);
         Root<User> userRoot = cq.from(User.class);
         cq.where(cb.equal(userRoot.get("mobileNumber"), phoneNumber));
+        Query q = em.createQuery(cq);
+        List<Object> objectList = q.getResultList();
+        if (objectList.isEmpty()) {
+            return null;
+        } else {
+            return (User) objectList.get(0);
+        }
+    }
+
+    public User findByActivationKey(String key) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        javax.persistence.criteria.CriteriaQuery cq = cb.createQuery(User.class);
+        Root<User> userRoot = cq.from(User.class);
+        cq.where(cb.equal(userRoot.get("activationKey"), key));
         Query q = em.createQuery(cq);
         List<Object> objectList = q.getResultList();
         if (objectList.isEmpty()) {

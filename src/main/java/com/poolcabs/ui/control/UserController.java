@@ -11,7 +11,9 @@ import com.poolcabs.model.User;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Map;
+import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,6 +24,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
+import org.apache.commons.lang.math.RandomUtils;
 
 /**
  *
@@ -81,6 +84,7 @@ public class UserController implements Serializable {
     private void save() {
         try {
             newUserBeingCreated.setCreatedDate(new Date());
+            newUserBeingCreated.setActivationKey(UUID.randomUUID().toString());
             userfaceFacade.create(newUserBeingCreated);
             showSuccessfulRegistrationForm();
             mailService.sendMail(newUserBeingCreated);
@@ -94,12 +98,16 @@ public class UserController implements Serializable {
         if (null != existingUser) {
             return true;
         }
+        existingUser = userfaceFacade.findByPhoneNumber(newUserBeingCreated.getMobileNumber());
+        if (null != existingUser) {
+            return true;
+        }
         return false;
     }
 
     public void createNewUser() {
         if (userAlreadyExists()) {
-            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("Email_exists"));
+            JsfUtil.addErrorMessage(ResourceBundle.getBundle("/Bundle").getString("Email_PhoneNumber_exists"));
         } else {
             save();
         }

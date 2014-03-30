@@ -41,7 +41,7 @@ public class UserRegistrationEmailMessageService {
         Template template = engine.getTemplate("mail/UserRegistrationInvoice.vsl");
         VelocityContext context = new VelocityContext();
         context.put("name", user.getName());
-        context.put("token", generateActivationLink(user.getId()));
+        context.put("token", generateActivationLink(user.getActivationKey()));
         context.put("organization", ResourceBundle.getBundle("/Bundle").getString("Organization_Name"));
         StringWriter writer = new StringWriter();
         template.merge(context, writer);
@@ -67,7 +67,7 @@ public class UserRegistrationEmailMessageService {
         engine.init(properties);
     }
 
-    private String generateActivationLink(Long id) {
+    private String generateActivationLink(String id) {
         String activationURL = ResourceBundle.getBundle("/Bundle").getString("ApplicationURL");
         activationURL += "/user/activate.jsf?key=" + id;
         return activationURL;

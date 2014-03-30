@@ -43,11 +43,11 @@ public class BookingService {
     private SettingsFacade settingsFacade;
     @EJB
     private ClubbedBookingsEmailMessageService mailService;
-    private static double MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP;
-    private static double MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP;
-    private static long MAXIMUM_PERMISSIBLE_TIME_WINDOW_MINUTES;
-    private static int CAB_SIZE;
-    private static String VENDOR_EMAIL;
+    private static double MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP = 2;
+    private static double MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP = 2;
+    private static long MAXIMUM_PERMISSIBLE_TIME_WINDOW_MINUTES = 10;
+    private static int CAB_SIZE = 3;
+    private static String VENDOR_EMAIL = "";
     private List<Booking> clubbedBookings = new ArrayList<Booking>();
 
     public void book(List<Booking> bookingList) {
@@ -119,13 +119,16 @@ public class BookingService {
     }
 
     private void initializeProperties() {
-        Settings settings;
-        settings = settingsFacade.findAll().get(0);
-        MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP = settings.getPermissibleDistanceForPickup();
-        MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP = settings.getPermissibleDistanceForDrop();
-        MAXIMUM_PERMISSIBLE_TIME_WINDOW_MINUTES = settings.getPermissibleTimeWindow();
-        VENDOR_EMAIL = settings.getVendorEmail();
-        CAB_SIZE = settings.getClubBookingCount();
+        List<Settings> settingsList;
+        settingsList = settingsFacade.findAll();
+        Settings settings = settingsList.get(0);
+        if (null != settings) {
+            MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP = settings.getPermissibleDistanceForPickup();
+            MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP = settings.getPermissibleDistanceForDrop();
+            MAXIMUM_PERMISSIBLE_TIME_WINDOW_MINUTES = settings.getPermissibleTimeWindow();
+            VENDOR_EMAIL = settings.getVendorEmail();
+            CAB_SIZE = settings.getClubBookingCount();
+        }
     }
 
     public void startBooking() {

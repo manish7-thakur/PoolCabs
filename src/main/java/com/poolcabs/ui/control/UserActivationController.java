@@ -22,7 +22,7 @@ import javax.faces.bean.RequestScoped;
 public class UserActivationController implements Serializable {
 
     @ManagedProperty(value = "#{param.key}")
-    private Long key;
+    private String key;
     @EJB
     private UserFacade userFacade;
     private boolean valid = true;
@@ -31,10 +31,11 @@ public class UserActivationController implements Serializable {
     public void init() {
         User user = null;
         if (null != key) {
-            user = userFacade.find(key);
+            user = userFacade.findByActivationKey(key);
         }
         if (null != user && !user.isActive()) {
             user.setActive(true);
+            user.setActivationKey(null);
             try {
                 userFacade.edit(user);
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("UserActivated"));
@@ -56,11 +57,11 @@ public class UserActivationController implements Serializable {
         this.valid = valid;
     }
 
-    public Long getKey() {
+    public String getKey() {
         return key;
     }
 
-    public void setKey(Long key) {
+    public void setKey(String key) {
         this.key = key;
     }
 }

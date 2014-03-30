@@ -206,8 +206,8 @@ form.jsfcrud_list_form td, td td {
 }
 
 tr.jsfcrud_odd_row {
-    background-color: #fefeff;
-    color: #4e6a71;
+    background-color: tomato;
+    color: #FFFFFF;
 }
 
 

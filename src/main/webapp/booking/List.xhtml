@@ -18,14 +18,13 @@
         </h:panelGroup>
         <div align="center">
             <h:form id="bookingListForm" class="tableBooking" prependId="false" rendered="#{bookingListAndEditController.bookingListForm}">      
-                <ace:dataTable value="#{bookingListAndEditController.bookingList}" 
-                               var="booking" filterEvent="enter" paginator="true" rows="20" selectionMode="multiple"
+                <ace:dataTable value="#{bookingListAndEditController.bookingList}" var="booking"
+                               rowStyleClass="#{booking.pickupTime.before(bookingListAndEditController.currentDate) ? 'jsfcrud_odd_row':''}" filterEvent="enter" paginator="true" rows="20" selectionMode="multiple"
                                rowSelectListener="#{bookingListAndEditController.rowSelected}"                           
                                rowUnselectListener="#{bookingListAndEditController.rowUnselected}" stateMap="#{bookingListAndEditController.stateMap}">
-                    <ace:ajax event="editSubmit" render="@this" />
+                    <ace:ajax event="editSubmit" render="@form" />
                     <ace:column headerText="#{bundle.ListBookingTitle_EditHeaderText}">
-                        <ace:rowEditor rowEditListener="#{bookingListAndEditController.update}"
-                                       >
+                        <ace:rowEditor rowEditListener="#{bookingListAndEditController.update}">
 
                         </ace:rowEditor>
                     </ace:column>

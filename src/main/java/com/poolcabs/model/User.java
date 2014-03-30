@@ -52,6 +52,8 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "ADDRESSES_USED")
     private Set<String> addressSet;
+    @Column(name = "ACTIVATION_KEY")
+    private String activationKey;
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
@@ -125,6 +127,14 @@ public class User implements Serializable {
 
     public void setAddressSet(Set<String> addressSet) {
         this.addressSet = addressSet;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
     }
 
     public Date getCreatedDate() {

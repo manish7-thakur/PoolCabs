@@ -11,6 +11,7 @@ import com.poolcabs.model.Booking;
 import com.poolcabs.model.CabStatus;
 import com.poolcabs.model.User;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -162,6 +163,10 @@ public class BookingListAndEditController {
 
     public List<CabStatus> cabStatuses() {
         return CabStatus.list();
+    }
+    
+    public Date getCurrentDate(){
+        return new Date();
     }
 
     public void rowSelected(SelectEvent bookingSelectEvent) {

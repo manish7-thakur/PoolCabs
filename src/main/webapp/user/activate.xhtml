@@ -22,12 +22,10 @@
             <h:outputText class="message" value="#{bundle.UserActivationHeading}"></h:outputText> 
             <br/><br/> 
             <h:panelGroup id="messagePanel" layout="block" rendered="#{userActivationController.valid}">
-                <h:messages class="bodypart" errorStyle="color: red" infoStyle="color: white" layout="table"/>
+                <h:messages class="bodypart" errorStyle="color: white" infoStyle="color: white" layout="table"/>
             </h:panelGroup>
             <br/>
-            <h:form>
-                <h:commandButton label="HomePage"  action="/index.jsf?faces-redirect=true" image="../resources/images/GoToHomepage.jpg" />
-            </h:form>
+            <a href="../index.jsf?faces-redirect=true"><img src="../resources/images/Home3.jpg" /></a>
         </div>
     </h:body>
 </html>
