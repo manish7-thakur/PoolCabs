@@ -19,6 +19,7 @@ public enum BookingType {
     REGULAR("Regular"),
     CASUAL("Casual"),
     INSTANT("Instant"),
+    PERSONAL("Personal"),
     OUTSTATION("OutStation");
     
     private String value;

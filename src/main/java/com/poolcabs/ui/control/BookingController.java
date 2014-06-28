@@ -42,6 +42,7 @@ import org.icefaces.ace.event.DragDropEvent;
 @ViewScoped
 public class BookingController implements Serializable {
 
+    public static final int TAG_TIME = 3;
     private Booking current;
     private DataModel items = null;
     @EJB
@@ -100,7 +101,7 @@ public class BookingController implements Serializable {
                 Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        if (null != bookingType && bookingType.equalsIgnoreCase("INSTANT")) {
+        if (null != bookingType && bookingType.equalsIgnoreCase(BookingType.INSTANT.getValue())) {
             Calendar calender = Calendar.getInstance();
             calender.set(Calendar.HOUR_OF_DAY, 0);
             calender.set(Calendar.MINUTE, 0);
@@ -108,9 +109,9 @@ public class BookingController implements Serializable {
             calender.set(Calendar.MILLISECOND, 0);
             getSelected().setRideStartDate(calender.getTime());
         }
-        if (null != bookingType && bookingType.equalsIgnoreCase("CASUAL")) {
+        if (null != bookingType && (bookingType.equalsIgnoreCase(BookingType.CASUAL.getValue()) || bookingType.equalsIgnoreCase(BookingType.PERSONAL.getValue()))) {
             Calendar calender = Calendar.getInstance();
-            calender.add(Calendar.HOUR_OF_DAY, 6);
+            calender.add(Calendar.HOUR_OF_DAY, TAG_TIME);
             minimumDateForCalender = calender.getTime();
             populateTimeWindowMap(calender.get(Calendar.HOUR_OF_DAY));
         } else {
@@ -383,7 +384,7 @@ public class BookingController implements Serializable {
 
     public void dateSelectListener(DateSelectEvent event) {
         Date date = event.getDate();
-        if (bookingType.equalsIgnoreCase(BookingType.CASUAL.getValue())) {
+        if (bookingType.equalsIgnoreCase(BookingType.CASUAL.getValue()) || bookingType.equalsIgnoreCase(BookingType.PERSONAL.getValue())) {
             setMinHour(date);
         }
         Calendar calendar = Calendar.getInstance();
@@ -418,7 +419,7 @@ public class BookingController implements Serializable {
             } catch (Exception e) {
                 Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, e);
             }
-            getSessionMap().put("user", pesistedUser);
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", pesistedUser);
         }
     }
 
@@ -481,7 +482,7 @@ public class BookingController implements Serializable {
             populateTimeWindowMap(0);
         } else {
             calendar.set(Calendar.HOUR_OF_DAY, current.get(Calendar.HOUR_OF_DAY));
-            calendar.add(Calendar.HOUR_OF_DAY, 6);
+            calendar.add(Calendar.HOUR_OF_DAY, TAG_TIME);
             // hour = calendar.get(Calendar.HOUR_OF_DAY);
             populateTimeWindowMap(calendar.get(Calendar.HOUR_OF_DAY));
         }

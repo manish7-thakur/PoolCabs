@@ -34,7 +34,7 @@
                 <div align="left">
                     <h:panelGrid columns="1" class="addressTable">
                         <ace:dataTable id="addressTable" value="#{bookingController.userAddressList}" var="item"
-                                       rendered="#{not empty bookingController.userAddressList}">
+                                       rendered="#{not empty bookingController.userAddressList}" scrollable="true" scrollHeight="250"> 
                             <ace:column headerText="Drag your address to the fields">                     
                                 <ace:panel>
                                     <h:outputText value="#{item.value}"></h:outputText>                 
@@ -83,8 +83,8 @@
                             <h:message for="dropStreetAddress" errorClass="error" infoClass="info" />
                         </h:panelGrid>
                         <h:panelGrid columns="1">
-                            <h:outputLabel class="messageWhite" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR') or bookingController.bookingType.equalsIgnoreCase('CASUAL') or bookingController.bookingType.equalsIgnoreCase('OUTSTATION')}" value="#{bundle.CreateBookingLabel_rideStartDate}" for="rideStartDate" />
-                            <ace:dateTimeEntry  id="rideStartDate" rendered="#{bookingController.bookingType.equalsIgnoreCase('REGULAR') or bookingController.bookingType.equalsIgnoreCase('CASUAL') or bookingController.bookingType.equalsIgnoreCase('OUTSTATION')}" 
+                            <h:outputLabel class="messageWhite" rendered="#{!bookingController.bookingType.equalsIgnoreCase('INSTANT')}" value="#{bundle.CreateBookingLabel_rideStartDate}" for="rideStartDate" />
+                            <ace:dateTimeEntry  id="rideStartDate" rendered="#{!bookingController.bookingType.equalsIgnoreCase('INSTANT')}" 
                                                 mindate="#{bookingController.minimumDateForCalender}" valueChangeListener="#{bookingController.dateTextChangeListener}" value="#{bookingController.selected.rideStartDate}"
                                                 renderAsPopup="true" readOnlyInputText="true" required="true" requiredMessage="Please select date" >
                                 <ace:ajax event="dateSelect" listener="#{bookingController.dateSelectListener}" render="@all pickupTime rideEndDateGrid"/>
