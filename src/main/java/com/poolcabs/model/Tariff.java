@@ -30,6 +30,10 @@ public class Tariff implements Serializable {
     private Double instantTariff;
     @Column(name = "CASUAL_TARIFF")
     private Double casualTariff;
+    @Column(name = "PERSONAL_TARIFF")
+    private Double personalTariff;
+    @Column(name = "WOMEN_TARIFF")
+    private Double womenTariff;
     @Column(name = "OUTSTATION_TARIFF")
     private Double outstationTariff;
 
@@ -71,6 +75,22 @@ public class Tariff implements Serializable {
 
     public void setOutstationTariff(Double outstationTariff) {
         this.outstationTariff = outstationTariff;
+    }
+
+    public Double getPersonalTariff() {
+        return personalTariff;
+    }
+
+    public void setPersonalTariff(Double personalTariff) {
+        this.personalTariff = personalTariff;
+    }
+
+    public Double getWomenTariff() {
+        return womenTariff;
+    }
+
+    public void setWomenTariff(Double womenTariff) {
+        this.womenTariff = womenTariff;
     }
 
     @Override

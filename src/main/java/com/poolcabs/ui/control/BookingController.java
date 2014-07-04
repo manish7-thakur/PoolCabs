@@ -457,16 +457,19 @@ public class BookingController implements Serializable {
         for (Booking booking : itemizedBookingList) {
             if (booking.getBookingType().getValue().equals(BookingType.REGULAR.getValue())) {
                 booking.setTarrif(tariff.getRegularTariff());
-                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getRegularTariff() : null);
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * booking.getTarrif() : null);
             } else if (booking.getBookingType().getValue().equals(BookingType.CASUAL.getValue())) {
                 booking.setTarrif(tariff.getCasualTariff());
-                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getCasualTariff() : null);
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * booking.getTarrif() : null);
             } else if (booking.getBookingType().getValue().equals(BookingType.INSTANT.getValue())) {
                 booking.setTarrif(tariff.getInstantTariff());
-                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getInstantTariff() : null);
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * booking.getTarrif() : null);
             } else if (booking.getBookingType().getValue().equals(BookingType.OUTSTATION.getValue())) {
                 booking.setTarrif(tariff.getOutstationTariff());
-                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * tariff.getOutstationTariff() : null);
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * booking.getTarrif() : null);
+            } else if (booking.getBookingType().getValue().equals(BookingType.PERSONAL.getValue())) {
+                booking.setTarrif(tariff.getPersonalTariff());
+                booking.setTotalCost(booking.getDistanceInKM() != null ? booking.getDistanceInKM() * booking.getTarrif() : null);
             }
         }
     }

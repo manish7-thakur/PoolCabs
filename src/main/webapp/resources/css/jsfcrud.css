@@ -68,6 +68,19 @@ root {
     /*text-shadow: 0 0 1px rgba(0,0,0,0.3);*/ 
 }
 
+.blackSmallFont{
+
+    font-size: 10px;
+    color: black;
+    /*text-shadow: 0 0 1px rgba(0,0,0,0.3);*/ 
+}
+
+.dialogStyle{
+    padding: 0px;
+    font-size: 20px;
+    color: black;
+}
+
 .navigator{
     margin-left: 1%;    
 }
@@ -87,6 +100,10 @@ root {
 .error{
     color: #FFFFFF;
     font-weight: bold;
+}
+
+.errorBlack{
+  color: black  
 }
 .menuitem{
     font-family: Segoe UI, Helvetica, sans-serif;

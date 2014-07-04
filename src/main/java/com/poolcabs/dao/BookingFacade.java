@@ -5,6 +5,7 @@
 package com.poolcabs.dao;
 
 import com.poolcabs.model.Booking;
+import com.poolcabs.model.BookingType;
 import com.poolcabs.model.CabStatus;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,11 +46,12 @@ public class BookingFacade extends AbstractFacade<Booking> {
         Root<Booking> bookingRoot = cq.from(Booking.class);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.HOUR, 1);
-        Predicate greater = cb.and(cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
         calendar.add(Calendar.HOUR, 2);
+        Predicate greater = cb.and(cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
+        calendar.add(Calendar.HOUR, 1);
         Predicate lowerAndStatus = cb.and(cb.equal(bookingRoot.get("status"), CabStatus.PENDING), cb.lessThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
-        cq.where(cb.and(greater, lowerAndStatus));
+        Predicate bookingType = cb.and(cb.equal(bookingRoot.get("bookingType"), BookingType.CASUAL));
+        cq.where(cb.and(greater, lowerAndStatus, bookingType));
         return getEntityManager().createQuery(cq).getResultList();
     }
 

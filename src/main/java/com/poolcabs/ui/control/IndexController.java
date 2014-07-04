@@ -17,12 +17,12 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "indexController")
 @ViewScoped
-public class IndexController implements Serializable{
+public class IndexController implements Serializable {
 
     private BookingDTO bookingDTO;
- 
+
     @PostConstruct
-    public void init(){
+    public void init() {
         bookingDTO = new BookingDTO();
     }
 
@@ -33,10 +33,9 @@ public class IndexController implements Serializable{
     public void setBookingDTO(BookingDTO bookingDTO) {
         this.bookingDTO = bookingDTO;
     }
-    
-    public String setCurrentBooking(String type){
+
+    public String setCurrentBooking(String type) {
         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("bookingType", type);
         return "booking/Create.jsf?faces-redirect=true";
     }
-   
 }
