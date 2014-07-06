@@ -35,23 +35,7 @@
                     <h:panelGrid columns="2">
                         <h:commandButton label="Book a regular ride" image="/resources/images/RegularDecription2.jpg" onclick="numberDialog.show()" />
                         <h:outputText value="#{bundle.RegularDescription}" escape="false"/> 
-                        <ace:dialog id="numberDialog" header="Number Please ?" closable="true"
-                                    showEffect="clip" width="400" widgetVar="numberDialog" resizable="false">
-                            <h:form>
-                                <div class="dialogStyle">
-                                    <h:panelGrid columns="1">
-                                        <h:outputText value="Please leave your phone number. We will contact you soon."/>
-                                        <h:inputText class="input" id="mobileNumber" maxlength="10" required="true" requiredMessage="Please enter mobile number"
-                                                     validatorMessage="Should be 10 digits" converterMessage="Only digits are allowed" 
-                                                     value="#{regularBookingController.selected.mobileNumber}">
-                                            <f:validateLength minimum="10" maximum="10" />
-                                        </h:inputText>
-                                        <h:message class="blackSmallFont" for="mobileNumber" errorClass="errorBlack" infoClass="info" />
-                                        <h:commandButton id="submit" value="Done" action="products.jsf?faces-redirect=true"  actionListener="#{regularBookingController.create}" />
-                                    </h:panelGrid> 
-                                </div>
-                            </h:form>
-                        </ace:dialog>
+
                     </h:panelGrid>
                     <h:panelGrid columns="2">
                         <h:commandButton label="Book an Instant cab" image="/resources/images/InstantDescription2.jpg" />
@@ -70,6 +54,23 @@
                         <h:outputText value="#{bundle.PersonalDescription}" escape="false" />
                     </h:panelGrid>
                 </h:panelGrid>
+            </h:form>
+            <h:form>
+                <ace:dialog id="numberDialog" header="Number Please ?" closable="true"
+                            showEffect="clip" width="400" widgetVar="numberDialog" resizable="false">
+                    <div class="dialogStyle">
+                        <h:panelGrid columns="1">
+                            <h:outputText value="Please leave your phone number. We will contact you soon."/>
+                            <h:inputText class="input" id="mobileNumber" maxlength="10" required="true" requiredMessage="Please enter mobile number"
+                                         validatorMessage="Should be 10 digits" converterMessage="Only digits are allowed" 
+                                         value="#{regularBookingController.selected.mobileNumber}">
+                                <f:validateLength minimum="10" maximum="10" />
+                            </h:inputText>
+                            <h:message class="blackSmallFont" for="mobileNumber" errorClass="errorBlack" infoClass="info" />
+                            <h:commandButton id="submit" value="Done" action="products.jsf?faces-redirect=true"  actionListener="#{regularBookingController.create}" />
+                        </h:panelGrid> 
+                    </div>
+                </ace:dialog>
             </h:form>
         </div>
     </h:body>

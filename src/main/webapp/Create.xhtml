@@ -75,18 +75,20 @@
                          <h:message for="rideEndDate" errorClass="error" infoClass="info" />
                      </h:panelGrid> -->
 
-                    <!-- <h:panelGrid columns="1" rendered="false" >                       
+                    <h:panelGrid columns="1" rendered="#{bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">    
                         <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}" 
-                                       for="pickupTime" />
-                        <ace:dateTimeEntry id="pickupTime" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
+                                       for="pickupTimePersonal"  />
+                        <ace:dateTimeEntry id="pickupTimePersonal" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
                                            value="#{bookingController.rideStartTime}" minHour="#{bookingController.hour}" 
-                                           title="#{bundle.CreateBookingTitle_pickupTime}" stepMinute="59" required="true" requiredMessage="Please select time" >
+                                           title="#{bundle.CreateBookingTitle_pickupTime}" stepMinute="15" required="true" requiredMessage="Please select time" >
                         </ace:dateTimeEntry>
-                        <h:message for="pickupTime" errorClass="error" infoClass="info" />                       
-                    </h:panelGrid> -->
-                    <h:panelGrid columns="1" >
-                        <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}"  for="pickupTime" />
-                        <h:selectOneMenu id="pickupTime" class="input" value="#{bookingController.hour}" required="true" requiredMessage="Please select time window"
+                        <h:message for="pickupTimePersonal" errorClass="error" infoClass="info" />  
+                    </h:panelGrid> 
+                    <h:panelGrid columns="1" rendered="#{not bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                        <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}"  for="pickupTime" 
+                                       />
+                        <h:selectOneMenu id="pickupTime" class="input" value="#{bookingController.hour}" required="true" 
+                                         requiredMessage="Please select time window"
                                          validatorMessage="Please select time window" converterMessage="Please select time window">
                             <f:selectItem itemValue="Select" itemLabel="Select" noSelectionOption="true" />
                             <f:selectItems value="#{bookingController.timeWindowMap}" />
@@ -98,12 +100,12 @@
                         <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_roundTrip}" for="roundTrip" />
                         <h:selectBooleanCheckbox immediate="true" valueChangeListener="#{bookingController.roundTripValueChanged}" id="roundTrip" 
                                                  value="#{bookingController.selected.roundTrip}" title="#{bundle.CreateBookingTitle_roundTrip}" >
-                            <f:ajax event="change" execute="@all" render="roundTripPanel" />
+                            <f:ajax event="change" execute="@all" render="roundTripPanel roundTripPanelPesonal" />
                         </h:selectBooleanCheckbox>
                     </h:panelGrid>
 
-                    <h:panelGrid id="roundTripPanel" columns="1" >
-                        <h:panelGroup rendered="#{bookingController.selected.roundTrip}" >
+                    <h:panelGrid id="roundTripPanel" columns="1" rendered="#{not bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                        <h:panelGroup rendered="#{bookingController.selected.roundTrip and not bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
                             <h:panelGrid columns="1">
                                 <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}"  for="pickupTime" />
                                 <h:selectOneMenu id="returnPickupTime" class="input" value="#{bookingController.returnHour}" required="true" requiredMessage="Please select time window"
@@ -116,16 +118,16 @@
                         </h:panelGroup>
                     </h:panelGrid>
 
-                    <!-- <h:panelGrid id="roundTripPanel" columns="1" rendered="false">
-                         <h:panelGroup rendered="#{bookingController.selected.roundTrip}" >
-                             <h:panelGrid columns="1">
-                                 <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTime" />
-                                 <ace:dateTimeEntry renderAsPopup="true" timeOnly="true" pattern="hh:mm a" immediate="true" id="returnPickupTime" required="true" requiredMessage="Please select time"
-                                                    minHour="#{bookingController.hour}" stepMinute="59" value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
-                                 <h:message for="returnPickupTime" errorClass="error" infoClass="info" /> 
-                             </h:panelGrid>
-                         </h:panelGroup>
-                     </h:panelGrid> -->
+                    <h:panelGrid id="roundTripPanelPesonal" columns="1" rendered="#{bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                        <h:panelGroup rendered="#{bookingController.selected.roundTrip and bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                            <h:panelGrid columns="1">
+                                <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTimePersonal" />
+                                <ace:dateTimeEntry renderAsPopup="true" timeOnly="true" pattern="hh:mm a" immediate="true" id="returnPickupTimePersonal" required="true" requiredMessage="Please select time"
+                                                   minHour="#{bookingController.hour}" stepMinute="15" value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
+                                <h:message for="returnPickupTimePersonal" errorClass="error" infoClass="info" /> 
+                            </h:panelGrid>
+                        </h:panelGroup>
+                    </h:panelGrid> 
 
                 </h:panelGrid>
                 <div class="list" align="left">
