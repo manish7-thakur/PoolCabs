@@ -40,7 +40,7 @@ public class BookingFacade extends AbstractFacade<Booking> {
     }
 
     @TransactionAttribute(TransactionAttributeType.REQUIRES_NEW)
-    public List<Booking> findAllPendingForNextHour() {
+    public List<Booking> findAllPendingForNextHour(BookingType booking) {
         javax.persistence.criteria.CriteriaBuilder cb = getEntityManager().getCriteriaBuilder();
         CriteriaQuery cq = cb.createQuery();
         Root<Booking> bookingRoot = cq.from(Booking.class);
@@ -50,7 +50,7 @@ public class BookingFacade extends AbstractFacade<Booking> {
         Predicate greater = cb.and(cb.greaterThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
         calendar.add(Calendar.HOUR, 1);
         Predicate lowerAndStatus = cb.and(cb.equal(bookingRoot.get("status"), CabStatus.PENDING), cb.lessThanOrEqualTo(bookingRoot.<Date>get("pickupTime"), calendar.getTime()));
-        Predicate bookingType = cb.and(cb.equal(bookingRoot.get("bookingType"), BookingType.CASUAL));
+        Predicate bookingType = cb.and(cb.equal(bookingRoot.get("bookingType"), booking));
         cq.where(cb.and(greater, lowerAndStatus, bookingType));
         return getEntityManager().createQuery(cq).getResultList();
     }

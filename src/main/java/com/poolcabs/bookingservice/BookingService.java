@@ -12,11 +12,14 @@ import com.poolcabs.messaging.MessagingRunnble;
 import com.poolcabs.messaging.service.BookingMessagingService;
 import com.poolcabs.messaging.service.ClubbedBookingsEmailMessageService;
 import com.poolcabs.model.Booking;
+import com.poolcabs.model.BookingType;
 import com.poolcabs.model.Cab;
 import com.poolcabs.model.CabStatus;
 import com.poolcabs.model.Settings;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -69,13 +72,13 @@ public class BookingService {
                     double dropDistance = distanceCalculator.getStraightLineDistance(bookingList.get(j).getDropGeocode(), booking.getDropGeocode());
                     if (pickUpDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_PICKUP && dropDistance <= MAXIMUM_PERMISSIBLE_DISTANCE_IN_KM_DROP && pickUpTimeInPermissibleWindow(bookingList.get(j).getPickupTime(), booking.getPickupTime())) {
                         clubbedBookings.add(bookingList.get(j));
-                        if (clubbedBookings.size() == CAB_SIZE) {
-                            updateBookings(clubbedBookings);
-                            //informAllThroughMessage(clubbedBookings);
-                            sendMailForClubbedBookings(clubbedBookings);
-                            bookingList.removeAll(clubbedBookings);
-                            --i;
-                        }
+                        // if (clubbedBookings.size() == CAB_SIZE) {
+                        updateBookings(clubbedBookings);
+                        //informAllThroughMessage(clubbedBookings);
+                        sendMailForClubbedBookings(clubbedBookings);
+                        bookingList.removeAll(clubbedBookings);
+                        --i;
+                        // }
                     }
                 }
                 clubbedBookings.clear();
@@ -103,8 +106,8 @@ public class BookingService {
     }
 
     public void sendMailForClubbedBookings(List<Booking> clubbedBookings) {
-        String[] emailAdress = VENDOR_EMAIL.split(",");
-        mailService.sendMail(clubbedBookings, emailAdress);
+        String[] emailAddress = VENDOR_EMAIL.split(",");
+        mailService.sendMail(clubbedBookings, emailAddress);
     }
 
     private boolean pickUpTimeInPermissibleWindow(Date date1, Date date2) {
@@ -132,7 +135,16 @@ public class BookingService {
     }
 
     public void startBooking() {
-        List<Booking> bookingList = bookingFacade.findAllPendingForNextHour();
+        List<Booking> bookingList = bookingFacade.findAllPendingForNextHour(BookingType.CASUAL);
         book(bookingList);
+        bookPersonal();
+    }
+
+    private void bookPersonal() {
+        List<Booking> bookingList = bookingFacade.findAllPendingForNextHour(BookingType.PERSONAL);
+        for(Booking personalBooking : bookingList){
+            updateBookings(Arrays.asList(personalBooking));
+            sendMailForClubbedBookings(Arrays.asList(personalBooking));
+        }
     }
 }

@@ -20,26 +20,13 @@ public class BookingPollerTimer {
 
     @EJB
     private BookingPoller bookingPoller;
-    @EJB
-    private GeocodePoller geocodePoller;
 
-    @Schedule(minute = "*/5", hour = "*", persistent = false)
-    public void pollTimer() {
-        Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "Starting GeocodePoller at : {0}", new Date());
-        startGeocodePoller();
-        Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "GeocodePoller finished at : {0}", new Date());
-        Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "Starting BookingPoller at : {0}", new Date());
-        startBookingPoller();
-        Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "BookingPoller finished at : {0}", new Date());
-    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
-
+    @Schedule(minute = "*/15", hour = "*", persistent = false)
     private void startBookingPoller() {
+        Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "Starting BookingPoller at : {0}", new Date());
         bookingPoller.poll();
-    }
-
-    private void startGeocodePoller() {
-        geocodePoller.poll();
+        Logger.getLogger(BookingPollerTimer.class.getName()).log(Level.INFO, "BookingPoller finished at : {0}", new Date());
     }
 }

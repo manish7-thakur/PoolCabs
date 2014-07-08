@@ -8,6 +8,14 @@ root {
     padding-top: 0;
     font-size: 20px;
 }
+
+.bodypartWithLeftPadding {
+    font-family: Segoe UI, Helvetica, sans-serif;
+    color: white; 
+    padding-top: 0;
+    font-size: 20px;
+    padding-left: 30px 
+}
 .backgroundClass{
     background: url("../images/Register.jpg");
     margin: 0;
