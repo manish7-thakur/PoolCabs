@@ -1,31 +1,35 @@
 <HTML>
 <HEAD>
-    <TITLE>Clubbed Booking</TITLE>
+    <TITLE>Bookings fo next hour</TITLE>
 </HEAD>
 <BODY>
 <BR/>
-Dear <B>$!name,</B>
+Dear <B>Hi,</B>
 <BR/>
 <BR/>
-Please find the details of clubbed booking(s) below. Please do the needful.
+Please find the details of next booking(s) below. Please do the needful.
 <BR/>
 <BR/>
 <table border="1" cellpadding="3">
     <tbody>
     <tr>
         <th>From</th>
-        <th>To</th>        
+        <th>To</th>
+        <th>Type</th>
         <th>Time</th>
         <th>Distance(KM)</th>
+        <th>Tariff(INR)</th>
         <th>Charges(INR)</th>
 
     </tr>
         #foreach( $!booking in $!bookingList )
         <tr>
             <td>$!booking.pickupStreetAddress</td>
-            <td>$!booking.dropStreetAddress</td>            
+            <td>$!booking.dropStreetAddress</td>   
+            <td>$!booking.bookingType</td> 
             <td>$!booking.pickupTime</td>
             <td>$!booking.distanceInKM</td>
+            <td>$!booking.tariff</th>
             <td>$!booking.totalCost</td>
         </tr>
         #end
