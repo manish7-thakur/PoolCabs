@@ -132,9 +132,21 @@
                 </h:panelGrid>
                 <div class="list" align="left">
                     <ul>
-                        <li>#{bundle.Advance_Booking_6Hours}</li>
-                        <li>#{bundle.Time_WindowRule_Casual}</li>
-                        <li>#{bundle.Time_Window_Reduce}</li>
+                        <h:panelGrid class="list">
+                            <li>#{bundle.Advance_Booking_6Hours}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('CASUAL')}">
+                            <li>#{bundle.Time_WindowRule_Casual}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('CASUAL')}">
+                            <li>#{bundle.Time_Window_Reduce}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('CASUAL')}">
+                            <li>#{bundle.Minimum_Distance}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                            <li>#{bundle.Personal_Minimum_Charges}</li>
+                        </h:panelGrid>
                     </ul>
                 </div>
                 <h:inputHidden id="distanceInKM" value="#{bookingController.selected.distanceInKM}" valueChangeListener="#{bookingController.valueChanged}" title="#{bundle.CreateBookingLabel_distanceInKM}" >

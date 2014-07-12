@@ -41,7 +41,7 @@ import org.icefaces.ace.event.DragDropEvent;
 @ManagedBean(name = "bookingController")
 @ViewScoped
 public class BookingController implements Serializable {
-    
+
     public static final int TAG_TIME = 3;
     private Booking current;
     private DataModel items = null;
@@ -70,16 +70,16 @@ public class BookingController implements Serializable {
     private Integer returnHour;
     private String guestEmail;
     private Map<String, Integer> timeWindowMap;
-    
+
     public BookingController() {
     }
-    
+
     @PostConstruct
     public void init() {
         googleMapRendered = false;
         bookingFormRendered = true;
         emailFormRendered = false;
-        
+
         userAddressList = new ArrayList<DragDropItem>();
         tariff = tariffFacade.findAll().get(0);
         timeWindowMap = new TreeMap<String, Integer>();
@@ -118,7 +118,7 @@ public class BookingController implements Serializable {
             minimumDateForCalender = new Date();
         }
     }
-    
+
     public Booking getSelected() {
         if (current == null) {
             current = new Booking();
@@ -126,17 +126,17 @@ public class BookingController implements Serializable {
         }
         return current;
     }
-    
+
     private BookingFacade getFacade() {
         return ejbFacade;
     }
-    
+
     public void renderGoogleMap() {
         googleMapRendered = true;
         bookingFormRendered = false;
         emailFormRendered = false;
     }
-    
+
     public void create() {
         try {
             current.setBookingType(BookingType.valueOf(bookingType));
@@ -147,7 +147,7 @@ public class BookingController implements Serializable {
                 current.setRideEndDate(current.getRideStartDate());
             }
             itemizedBookingList = createIndividualBookings(current);
-            
+
             if (current.isRoundTrip()) {
                 itemizedBookingList.addAll(createReturnBookingForEachBooking(itemizedBookingList));
             }
@@ -155,9 +155,9 @@ public class BookingController implements Serializable {
             for (Booking booking : itemizedBookingList) {
                 getFacade().create(booking);
             }
-            
+
             saveNewAddressForUser(current);
-            
+
             if (null != currentUser) {
                 JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("BookingCreated"));
                 getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/booking/userbookings.jsf");
@@ -169,7 +169,7 @@ public class BookingController implements Serializable {
             //return null;
         }
     }
-    
+
     private void populateRideStartDate() {
         Calendar selectedDate = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();
@@ -186,35 +186,35 @@ public class BookingController implements Serializable {
         }
         current.setPickupTime(calendar.getTime());
     }
-    
+
     public void valueChanged(ValueChangeEvent event) {
         current.setDistanceInKM((Double) event.getNewValue());
     }
-    
+
     public void cancelUpdate() {
         current = null;
     }
-    
+
     public List<DragDropItem> getUserAddressList() {
         return userAddressList;
     }
-    
+
     public void setUserAddressList(List<DragDropItem> userAddressList) {
         this.userAddressList = userAddressList;
     }
-    
+
     public String getPoints() {
         return current.getPickupStreetAddress() + ":" + current.getDropStreetAddress();
     }
-    
+
     public boolean isEmailFormRendered() {
         return emailFormRendered;
     }
-    
+
     public void setEmailFormRendered(boolean emailFormRendered) {
         this.emailFormRendered = emailFormRendered;
     }
-    
+
     public void handleDrop(DragDropEvent e) {
         DragDropItem item = (DragDropItem) e.getData();
         String id = e.getDropId();
@@ -225,7 +225,7 @@ public class BookingController implements Serializable {
         }
         userAddressList.remove(item);
     }
-    
+
     private void updateCurrentItem() {
         int count = getFacade().count();
         if (selectedItemIndex >= count) {
@@ -240,59 +240,59 @@ public class BookingController implements Serializable {
             current = getFacade().findRange(new int[]{selectedItemIndex, selectedItemIndex + 1}).get(0);
         }
     }
-    
+
     public Date getRideStartTime() {
         return rideStartTime;
     }
-    
+
     public void setRideStartTime(Date rideStartTime) {
         this.rideStartTime = rideStartTime;
     }
-    
+
     private void recreateModel() {
         items = null;
     }
-    
+
     private void recreatePagination() {
         pagination = null;
     }
-    
+
     public List<Booking> getItemizedBookingList() {
         return itemizedBookingList;
     }
-    
+
     public void setItemizedBookingList(List<Booking> itemizedBookingList) {
         this.itemizedBookingList = itemizedBookingList;
     }
-    
+
     public void roundTripValueChanged(ValueChangeEvent event) {
         getSelected().setRoundTrip((Boolean) event.getNewValue());
     }
-    
+
     public SelectItem[] getItemsAvailableSelectMany() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), false);
     }
-    
+
     public SelectItem[] getItemsAvailableSelectOne() {
         return JsfUtil.getSelectItems(ejbFacade.findAll(), true);
     }
-    
+
     public boolean isGoogleMapRendered() {
         return googleMapRendered;
     }
-    
+
     public void setGoogleMapRendered(boolean googleMapRendered) {
         this.googleMapRendered = googleMapRendered;
     }
-    
+
     public boolean isBookingFormRendered() {
         return bookingFormRendered;
     }
-    
+
     public void setBookingFormRendered(boolean bookingFormRendered) {
         this.bookingFormRendered = bookingFormRendered;
     }
-    
+
     private List<Booking> createIndividualBookings(Booking current) {
         List<Booking> bookings = new ArrayList<Booking>();
         bookings.add(current);
@@ -316,7 +316,7 @@ public class BookingController implements Serializable {
         }
         return bookings;
     }
-    
+
     private void swapLocations(Booking booking) {
         GeoCode tempCode = booking.getPickupGeoCode();
         booking.setPickupGeoCode(booking.getDropGeocode());
@@ -325,7 +325,7 @@ public class BookingController implements Serializable {
         booking.setPickupStreetAddress(booking.getDropStreetAddress());
         booking.setDropStreetAddress(tempAddress);
     }
-    
+
     private List<Booking> createReturnBookingForEachBooking(List<Booking> bookingList) {
         List<Booking> returnBookings = new ArrayList<Booking>();
         for (Booking booking : bookingList) {
@@ -342,7 +342,7 @@ public class BookingController implements Serializable {
                 } else {
                     instance.setTime(getSelected().getPickupTime());
                     instance.set(Calendar.HOUR_OF_DAY, getSelected().getReturnPickUpTime().getHours());
-                    instance.set(Calendar.MINUTE,  getSelected().getReturnPickUpTime().getMinutes());
+                    instance.set(Calendar.MINUTE, getSelected().getReturnPickUpTime().getMinutes());
                     instance.set(Calendar.SECOND, 0);
                 }
                 returnClone.setPickupTime(instance.getTime());
@@ -354,7 +354,7 @@ public class BookingController implements Serializable {
         }
         return returnBookings;
     }
-    
+
     public void sendInvoiceAndRegister() {
         Map<String, Object> userInfo = new HashMap<String, Object>();
         userInfo.put("name", getSelected().getCustomerName());
@@ -364,23 +364,23 @@ public class BookingController implements Serializable {
         redirectToRegistrationPage();
         bookingEmailMessageService.sendMail(itemizedBookingList, guestEmail.split(","));
     }
-    
+
     public Date getMinimumDateForCalender() {
         return minimumDateForCalender;
     }
-    
+
     public void setMinimumDateForCalender(Date minimumDateForCalender) {
         this.minimumDateForCalender = minimumDateForCalender;
     }
-    
+
     public Date getMinimumDateForRideEndDate() {
         return minimumDateForRideEndDate;
     }
-    
+
     public void setMinimumDateForRideEndDate(Date minimumDateForRideEndDate) {
         this.minimumDateForRideEndDate = minimumDateForRideEndDate;
     }
-    
+
     public void dateTextChangeListener(DateTextChangeEvent event) {
         Date date = event.getDate();
         Calendar calendar = Calendar.getInstance();
@@ -388,7 +388,7 @@ public class BookingController implements Serializable {
         calendar.add(Calendar.DAY_OF_MONTH, 4);
         minimumDateForRideEndDate = calendar.getTime();
     }
-    
+
     public void dateSelectListener(DateSelectEvent event) {
         Date date = event.getDate();
         if (bookingType.equalsIgnoreCase(BookingType.CASUAL.getValue()) || bookingType.equalsIgnoreCase(BookingType.PERSONAL.getValue())) {
@@ -399,23 +399,23 @@ public class BookingController implements Serializable {
         calendar.add(Calendar.DAY_OF_MONTH, 4);
         minimumDateForRideEndDate = calendar.getTime();
     }
-    
+
     public String getBookingType() {
         return bookingType;
     }
-    
+
     public void setBookingType(String bookingType) {
         this.bookingType = bookingType;
     }
-    
+
     public String getGuestEmail() {
         return guestEmail;
     }
-    
+
     public void setGuestEmail(String guestEmail) {
         this.guestEmail = guestEmail;
     }
-    
+
     private void saveNewAddressForUser(Booking current) {
         if (null != currentUser) {
             currentUser.getAddressSet().add(getSelected().getPickupStreetAddress());
@@ -429,29 +429,29 @@ public class BookingController implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("user", pesistedUser);
         }
     }
-    
+
     public Integer getReturnHour() {
         return returnHour;
     }
-    
+
     public void setReturnHour(Integer returnHour) {
         this.returnHour = returnHour;
     }
-    
+
     private Map<String, Object> getSessionMap() {
         return getExternalContext().getSessionMap();
     }
-    
+
     private void renderEmailForm() {
         googleMapRendered = false;
         bookingFormRendered = false;
         emailFormRendered = true;
     }
-    
+
     private ExternalContext getExternalContext() {
         return FacesContext.getCurrentInstance().getExternalContext();
     }
-    
+
     private void redirectToRegistrationPage() {
         try {
             getExternalContext().redirect(getExternalContext().getRequestContextPath() + "/createuser.jsf");
@@ -459,7 +459,7 @@ public class BookingController implements Serializable {
             Logger.getLogger(BookingController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void populateCharges(List<Booking> itemizedBookingList) {
         for (Booking booking : itemizedBookingList) {
             if (booking.getBookingType().getValue().equals(BookingType.REGULAR.getValue())) {
@@ -480,7 +480,7 @@ public class BookingController implements Serializable {
             }
         }
     }
-    
+
     private void setMinHour(Date date) {
         Calendar calendar = Calendar.getInstance();
         Calendar current = Calendar.getInstance();
@@ -497,23 +497,23 @@ public class BookingController implements Serializable {
             populateTimeWindowMap(calendar.get(Calendar.HOUR_OF_DAY));
         }
     }
-    
+
     public Integer getHour() {
         return hour;
     }
-    
+
     public void setHour(Integer hour) {
         this.hour = hour;
     }
-    
+
     public Map<String, Integer> getTimeWindowMap() {
         return timeWindowMap;
     }
-    
+
     public void setTimeWindowMap(Map<String, Integer> timeWindowMap) {
         this.timeWindowMap = timeWindowMap;
     }
-    
+
     private void populateTimeWindowMap(int minHourApplicable) {
         timeWindowMap.clear();
         while (minHourApplicable <= 23) {

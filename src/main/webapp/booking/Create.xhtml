@@ -98,59 +98,79 @@
                                                mindate="#{bookingController.minimumDateForRideEndDate}" renderAsPopup="true" readOnlyInputText="true" required="true" requiredMessage="Please select date"/>
                             <h:message for="rideEndDate" errorClass="error" infoClass="info" />
                         </h:panelGrid> -->
-                        <h:panelGrid columns="1" >
-                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}"  for="pickupTime" />
-                            <h:selectOneMenu id="pickupTime" class="input" value="#{bookingController.hour}" required="true" requiredMessage="Please select time window"
+                        <h:panelGrid columns="1" rendered="#{bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">    
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}" 
+                                           for="pickupTimePersonal"  />
+                            <ace:dateTimeEntry id="pickupTimePersonal" timeZone="IST" timeOnly="true" pattern="hh:mm a" renderAsPopup="true"
+                                               value="#{bookingController.rideStartTime}" minHour="#{bookingController.hour}" 
+                                               title="#{bundle.CreateBookingTitle_pickupTime}" stepMinute="15" required="true" requiredMessage="Please select time" >
+                            </ace:dateTimeEntry>
+                            <h:message for="pickupTimePersonal" errorClass="error" infoClass="info" />  
+                        </h:panelGrid> 
+                        <h:panelGrid columns="1" rendered="#{not bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}"  for="pickupTime" 
+                                           />
+                            <h:selectOneMenu id="pickupTime" class="input" value="#{bookingController.hour}" required="true" 
+                                             requiredMessage="Please select time window"
                                              validatorMessage="Please select time window" converterMessage="Please select time window">
                                 <f:selectItem itemValue="Select" itemLabel="Select" noSelectionOption="true" />
                                 <f:selectItems value="#{bookingController.timeWindowMap}" />
                             </h:selectOneMenu>
                             <h:message for="pickupTime" errorClass="error" infoClass="info" />
                         </h:panelGrid>
-                        <!--<h:panelGrid columns="1">
-                            <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupTime}" for="pickupTime" />
-                            <ace:dateTimeEntry id="pickupTime" timeZone="IST" timeOnly="true"  pattern="hh:mm a" renderAsPopup="true" required="true" requiredMessage="Please select time"
-                                               minHour="#{bookingController.hour}" stepMinute="59" value="#{bookingController.rideStartTime}" title="#{bundle.CreateBookingTitle_pickupTime}" >
-                            </ace:dateTimeEntry>
-                            <h:message for="pickupTime" errorClass="error" infoClass="info" />
-                        </h:panelGrid>-->
+
                         <h:panelGrid columns="1">
                             <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_roundTrip}" for="roundTrip" />
-                            <h:selectBooleanCheckbox immediate="true" valueChangeListener="#{bookingController.roundTripValueChanged}" id="roundTrip" value="#{bookingController.selected.roundTrip}" title="#{bundle.CreateBookingTitle_roundTrip}" >
-                                <f:ajax event="change" execute="@all" render="roundTripPanel" />
+                            <h:selectBooleanCheckbox immediate="true" valueChangeListener="#{bookingController.roundTripValueChanged}" id="roundTrip" 
+                                                     value="#{bookingController.selected.roundTrip}" title="#{bundle.CreateBookingTitle_roundTrip}" >
+                                <f:ajax event="change" execute="@all" render="roundTripPanel roundTripPanelPesonal" />
                             </h:selectBooleanCheckbox>
                         </h:panelGrid>
 
-                        <!--<h:panelGrid id="roundTripPanel" columns="1">
-                            <h:panelGroup rendered="#{bookingController.selected.roundTrip}" >
-                                <h:panelGrid columns="1">
-                                    <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTime" />
-                                    <ace:dateTimeEntry renderAsPopup="true" timeOnly="true" pattern="hh:mm a" immediate="true" id="returnPickupTime" required="true" requiredMessage="Please select time"
-                                                       minHour="#{bookingController.hour}" stepMinute="59" value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
-                                    <h:message for="returnPickupTime" errorClass="error" infoClass="info" />
-                                </h:panelGrid>
-                            </h:panelGroup>
-                        </h:panelGrid>-->
-                        <h:panelGrid id="roundTripPanel" columns="1" >
-                            <h:panelGroup rendered="#{bookingController.selected.roundTrip}" >
+                        <h:panelGrid id="roundTripPanel" columns="1" rendered="#{not bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                            <h:panelGroup rendered="#{bookingController.selected.roundTrip and not bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
                                 <h:panelGrid columns="1">
                                     <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}"  for="pickupTime" />
                                     <h:selectOneMenu id="returnPickupTime" class="input" value="#{bookingController.returnHour}" required="true" requiredMessage="Please select time window"
                                                      validatorMessage="Please select time window" converterMessage="Please select time window">
-                                        <f:selectItem itemValue="Select" itemLabel="Select" noSelectionOption="true" />
+                                        <f:selectItem itemValue="Select" itemLabel="Select" noSelectionOption="true"  />
                                         <f:selectItems value="#{bookingController.timeWindowMap}" />
                                     </h:selectOneMenu>
                                     <h:message for="returnPickupTime" errorClass="error" infoClass="info" />
                                 </h:panelGrid>
                             </h:panelGroup>
                         </h:panelGrid>
+
+                        <h:panelGrid id="roundTripPanelPesonal" columns="1" rendered="#{bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                            <h:panelGroup rendered="#{bookingController.selected.roundTrip and bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                                <h:panelGrid columns="1">
+                                    <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="returnPickupTimePersonal" />
+                                    <ace:dateTimeEntry renderAsPopup="true" timeOnly="true" pattern="hh:mm a" immediate="true" id="returnPickupTimePersonal" required="true" requiredMessage="Please select time"
+                                                       minHour="#{bookingController.hour}" stepMinute="15" value="#{bookingController.selected.returnPickUpTime}" title="#{bundle.CreateBookingTitle_returnPickUpTime}" />
+                                    <h:message for="returnPickupTimePersonal" errorClass="error" infoClass="info" /> 
+                                </h:panelGrid>
+                            </h:panelGroup>
+                        </h:panelGrid> 
+
                     </h:panelGrid>
                 </div>
                 <div class="list" align="left">
                     <ul>
-                        <li>#{bundle.Advance_Booking_6Hours}</li>
-                        <li>#{bundle.Time_WindowRule_Casual}</li>
-                        <li>#{bundle.Time_Window_Reduce}</li>
+                        <h:panelGrid class="list">
+                            <li>#{bundle.Advance_Booking_6Hours}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('CASUAL')}">
+                            <li>#{bundle.Time_WindowRule_Casual}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('CASUAL')}">
+                            <li>#{bundle.Time_Window_Reduce}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('CASUAL')}">
+                            <li>#{bundle.Minimum_Distance}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                            <li>#{bundle.Personal_Minimum_Charges}</li>
+                        </h:panelGrid>
                     </ul>
                 </div>
                 <h:inputHidden id="distanceInKM" value="#{bookingController.selected.distanceInKM}" valueChangeListener="#{bookingController.valueChanged}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
@@ -185,13 +205,13 @@
                     <ace:gMapServices name="Directions" points="#{bookingController.getPoints()}"
                                       options="travelMode:'DRIVING'" div="directions" />
                 </ace:gMap> 
-                 <!--
-                <h:panelGroup rendered="#{null ne bookingController.selected.distanceInKM}">
-                    <h:outputText class="messageWhite" value="#{bundle.DistanceMessage}"></h:outputText>
-                    <h:outputLabel class="messageWhite" value="#{bookingController.selected.distanceInKM}" /> 
-                    <h:outputText class="messageWhite" value=" KM"></h:outputText>                    
-                </h:panelGroup>
-                <h:outputText class="messageWhite" rendered="#{null eq bookingController.selected.distanceInKM}" escape="false" value="#{bundle.CreateBookingTitle_GeocodeError}" /> -->
+                <!--
+               <h:panelGroup rendered="#{null ne bookingController.selected.distanceInKM}">
+                   <h:outputText class="messageWhite" value="#{bundle.DistanceMessage}"></h:outputText>
+                   <h:outputLabel class="messageWhite" value="#{bookingController.selected.distanceInKM}" /> 
+                   <h:outputText class="messageWhite" value=" KM"></h:outputText>                    
+               </h:panelGroup>
+               <h:outputText class="messageWhite" rendered="#{null eq bookingController.selected.distanceInKM}" escape="false" value="#{bundle.CreateBookingTitle_GeocodeError}" /> -->
                 <h:inputHidden id="distanceInKM1" value="#{bookingController.selected.distanceInKM}" title="#{bundle.CreateBookingLabel_distanceInKM}" >
                 </h:inputHidden>
                 <h:inputHidden id="pickupStreetAddress1" value="#{bookingController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
