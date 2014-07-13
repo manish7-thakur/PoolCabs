@@ -33,9 +33,12 @@
                         <h:outputText value="#{bundle.CasualDescription}" escape="false" />
                     </h:panelGrid>
                     <h:panelGrid columns="2">
+                        <h:commandButton label="Personal" image="/resources/images/PersonalDescription.jpg" action="#{indexController.setCurrentBooking('PERSONAL')}" />
+                        <h:outputText value="#{bundle.PersonalDescription}" escape="false" />
+                    </h:panelGrid>
+                    <h:panelGrid columns="2">
                         <h:commandButton label="Book a regular ride" image="/resources/images/RegularDecription2.jpg" onclick="numberDialog.show()" />
                         <h:outputText value="#{bundle.RegularDescription}" escape="false"/> 
-
                     </h:panelGrid>
                     <h:panelGrid columns="2">
                         <h:commandButton label="Book an Instant cab" image="/resources/images/InstantDescription2.jpg" />
@@ -48,10 +51,6 @@
                     <h:panelGrid columns="2">
                         <h:commandButton label="WomenSpecial" image="/resources/images/WomenSafetyServices2.jpg" />
                         <h:outputText value="#{bundle.WomenSafetyServicesDescription}" escape="false" />
-                    </h:panelGrid>
-                    <h:panelGrid columns="2">
-                        <h:commandButton label="Personal" image="/resources/images/PersonalDescription.jpg" action="#{indexController.setCurrentBooking('PERSONAL')}" />
-                        <h:outputText value="#{bundle.PersonalDescription}" escape="false" />
                     </h:panelGrid>
                 </h:panelGrid>
             </h:form>

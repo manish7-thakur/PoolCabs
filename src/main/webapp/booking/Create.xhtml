@@ -156,9 +156,6 @@
                 </div>
                 <div class="list" align="left">
                     <ul>
-                        <h:panelGrid class="list">
-                            <li>#{bundle.Advance_Booking_6Hours}</li>
-                        </h:panelGrid>
                         <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('CASUAL')}">
                             <li>#{bundle.Time_WindowRule_Casual}</li>
                         </h:panelGrid>
@@ -170,6 +167,12 @@
                         </h:panelGrid>
                         <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
                             <li>#{bundle.Personal_Minimum_Charges}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('CASUAL')}">
+                            <li>#{bundle.Casual_Waiting_Rule}</li>
+                        </h:panelGrid>
+                        <h:panelGrid class="list" rendered="#{bookingController.bookingType.equalsIgnoreCase('PERSONAL')}">
+                            <li>#{bundle.Personal_Waiting_Rule}</li>
                         </h:panelGrid>
                     </ul>
                 </div>
