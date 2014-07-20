@@ -14,19 +14,17 @@ Thank you for booking your cab at $!organization. Please find the details of you
     <tbody>
     <tr>
         <th>From</th>
-        <th>To</th>        
+        <th>To</th> 
+        <th>Type</th>
         <th>Time</th>
-        <th>Distance(KM)</th>
-        <th>Charges(INR)</th>
 
     </tr>
         #foreach( $!booking in $!bookingList )
         <tr>
             <td>$!booking.pickupStreetAddress</td>
-            <td>$!booking.dropStreetAddress</td>            
+            <td>$!booking.dropStreetAddress</td>  
+            <td>$!booking.bookingType</td>          
             <td>$!booking.pickupTime</td>
-            <td>$!booking.distanceInKM</td>
-            <td>$!booking.totalCost</td>
         </tr>
         #end
     </tbody>

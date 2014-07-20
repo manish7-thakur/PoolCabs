@@ -4,10 +4,10 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ace="http://www.icefaces.org/icefaces/components">    
     <h:head>
-        <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
-        <script type="text/javascript" src="resources/js/MeasureDistance.js"></script>
+      <!--  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript" src="resources/js/MeasureDistance.js"></script> -->
         <h:outputStylesheet name="css/jsfcrud.css"/>
-        <title>Book you Cab</title>
+        <title>Book your Cab</title>
         <style type="text/css">
             .backgroundClass{
                 background: url("resources/images/Register.jpg");
@@ -47,7 +47,7 @@
                     <h:panelGrid columns="1">
                         <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_pickupStreetAddress}" escape="false" for="pickupStreetAddress" />
                         <h:inputTextarea class="input" id="pickupStreetAddress" required="true" requiredMessage="Please enter pickup address" 
-                                         value="#{bookingController.selected.pickupStreetAddress}" onblur="initialize(); true;" 
+                                         value="#{bookingController.selected.pickupStreetAddress}" 
                                          title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
                         <h:message for="pickupStreetAddress" errorClass="error" infoClass="info" />
                     </h:panelGrid>
@@ -55,7 +55,7 @@
                     <h:panelGrid columns="1">
                         <h:outputLabel class="messageWhite" value="#{bundle.CreateBookingLabel_dropStreetAddress}" escape="false" for="dropStreetAddress" />
                         <h:inputTextarea class="input" id="dropStreetAddress" required="true" requiredMessage="Please enter drop address"
-                                         value="#{bookingController.selected.dropStreetAddress}"  onblur="initialize(); true;" 
+                                         value="#{bookingController.selected.dropStreetAddress}"
                                          title="#{bundle.CreateBookingTitle_dropStreetAddress}" />
                         <h:message for="dropStreetAddress" errorClass="error" infoClass="info" />
                     </h:panelGrid>
