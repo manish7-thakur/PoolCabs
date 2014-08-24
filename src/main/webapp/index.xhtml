@@ -63,33 +63,42 @@
                 <div align="center">
                     <h:panelGrid columns="2">
                         <h:panelGrid columns="1" >
+                            <!-- <h:panelGrid columns="2">
+                                 <h:commandButton id="regular" class="flip" image="resources/images/Regular6.jpg" label="Regular" action="/products.jsf?faces-redirect=true">
+                                     <f:param name="bookingType" value="Regular" />
+                                     <ace:tooltip speechBubble="true"  showEffect="grow" targetPosition="center"  for="regular" value="Available @ 7/km, suitable for your daily updowns like office, college, school" />
+                                 </h:commandButton>
+                                 <h:commandButton id="casual" label="Casual" class="flip" image="resources/images/Casual3.jpg" action="/products.jsf?faces-redirect=true">
+                                     <f:param name="bookingType" value="Casual" />
+                                     <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="casual" value="Available @ 10/km, suitable for your casual shopping, movie, party &amp; outings" />
+                                 </h:commandButton>
+                             </h:panelGrid>
+                             <h:panelGrid columns="2">
+                                 <h:commandButton id="instant" label="Instant" class="flip" image="resources/images/Instant3.jpg" action="/products.jsf?faces-redirect=true">
+                                     <f:param name="bookingType" value="Instant" />
+                                     <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="instant" value="Available @ 10/km, cab will reach you with in next 1 hour" />
+                                 </h:commandButton>
+                                 <h:commandButton id="Outstation" label="Outstation" class="flip" image="resources/images/Outstation7.jpg" action="/products.jsf?faces-redirect=true">
+                                     <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="Outstation" value="Available @ 3/km, currently available between delhi, jaipur, &amp; agra" />
+                                 </h:commandButton> 
+                             </h:panelGrid>
+                             <h:panelGrid columns="2">
+                                 <h:commandButton id="women" label="JustForWomen" class="flip" image="resources/images/JustForWomen2.jpg" action="/products.jsf?faces-redirect=true">
+                                     <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="women" value="Exclusively for women" />
+                                 </h:commandButton> 
+                                 <h:commandButton id="personal" label="Personal" class="flip" image="resources/images/Personal.jpg" action="/products.jsf?faces-redirect=true">
+                                     <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="personal" value="Available at 15/km" />
+                                 </h:commandButton> 
+                             </h:panelGrid> -->
                             <h:panelGrid columns="2">
-                                <h:commandButton id="regular" class="flip" image="resources/images/Regular6.jpg" label="Regular" action="/products.jsf?faces-redirect=true">
-                                    <f:param name="bookingType" value="Regular" />
-                                    <ace:tooltip speechBubble="true"  showEffect="grow" targetPosition="center"  for="regular" value="Available @ 7/km, suitable for your daily updowns like office, college, school" />
+                                <h:commandButton id="budget" class="flip" onclick="numberDialog.show()" image="resources/images/Budget.jpg" label="Regular">
+                                    <ace:tooltip speechBubble="true"  showEffect="grow" targetPosition="center"  for="budget" value="Available @ 5.5/km, suitable for your daily updowns like office, college, school" />
                                 </h:commandButton>
-                                <h:commandButton id="casual" label="Casual" class="flip" image="resources/images/Casual3.jpg" action="/products.jsf?faces-redirect=true">
-                                    <f:param name="bookingType" value="Casual" />
-                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="casual" value="Available @ 10/km, suitable for your casual shopping, movie, party &amp; outings" />
+                                <h:commandButton id="premium" class="flip" onclick="numberDialog.show()" image="resources/images/Premium.jpg" >
+                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="premium" value="Available @ 7/km, suitable for your casual shopping, movie, party &amp; outings" />
                                 </h:commandButton>
                             </h:panelGrid>
-                            <h:panelGrid columns="2">
-                                <h:commandButton id="instant" label="Instant" class="flip" image="resources/images/Instant3.jpg" action="/products.jsf?faces-redirect=true">
-                                    <f:param name="bookingType" value="Instant" />
-                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="instant" value="Available @ 10/km, cab will reach you with in next 1 hour" />
-                                </h:commandButton>
-                                <h:commandButton id="Outstation" label="Outstation" class="flip" image="resources/images/Outstation7.jpg" action="/products.jsf?faces-redirect=true">
-                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="Outstation" value="Available @ 3/km, currently available between delhi, jaipur, &amp; agra" />
-                                </h:commandButton> 
-                            </h:panelGrid>
-                            <h:panelGrid columns="2">
-                                <h:commandButton id="women" label="JustForWomen" class="flip" image="resources/images/JustForWomen2.jpg" action="/products.jsf?faces-redirect=true">
-                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="women" value="Exclusively for women" />
-                                </h:commandButton> 
-                                <h:commandButton id="personal" label="Personal" class="flip" image="resources/images/Personal.jpg" action="/products.jsf?faces-redirect=true">
-                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="personal" value="Available at 15/km" />
-                                </h:commandButton> 
-                            </h:panelGrid>
+
                         </h:panelGrid>
                         <h:panelGrid>                    
                             <img class="slideShow" src="firstcar.gif" name="slide" width="700" height="420" />                       
@@ -104,8 +113,23 @@
            <h:link outcome="/createuser" value="Register" />
            <br />
            <h:link outcome="/cab/List" value="Show All Cab Items"/> -->
+        <h:form>
+            <ace:dialog id="numberDialog" header="Number Please ?" closable="true"
+                        showEffect="clip" width="400" widgetVar="numberDialog" resizable="false">
+                <div class="dialogStyle">
+                    <h:panelGrid columns="1">
+                        <h:outputText value="Please leave your phone number. We will contact you soon."/>
+                        <h:inputText class="input" id="mobileNumber" maxlength="10" required="true" requiredMessage="Please enter mobile number"
+                                     validatorMessage="Should be 10 digits" converterMessage="Only digits are allowed" 
+                                     value="#{regularBookingController.selected.mobileNumber}">
+                            <f:validateLength minimum="10" maximum="10" />
+                        </h:inputText>
+                        <h:message class="blackSmallFont" for="mobileNumber" errorClass="errorBlack" infoClass="info" />
+                        <h:commandButton id="submit" value="Done" action="index.jsf?faces-redirect=true"  actionListener="#{regularBookingController.create}" />
+                    </h:panelGrid> 
+                </div>
+            </ace:dialog>
+        </h:form>
     </h:body>
-
-
 </html>
 
