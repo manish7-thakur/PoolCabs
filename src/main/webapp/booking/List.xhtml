@@ -48,6 +48,13 @@
                                                timeZone="IST"/>
                         </h:outputText>                         
                     </ace:column>
+                    <ace:column headerText="#{bundle.CreateBookingLabel_returnPickUpTime}" filterMatchMode="contains"
+                                filterBy="#{booking.returnPickUpTime.toString()}">
+                        <h:outputText value="#{booking.returnPickUpTime}" >
+                            <f:convertDateTime pattern="MMM dd, yyyy h:mm:ss a"
+                                               timeZone="IST"/>
+                        </h:outputText>                         
+                    </ace:column>
                     <ace:column id="status" headerText="#{bundle.ListBookingTitle_status}" filterMatchMode="contains"
                                 filterBy="#{booking.status}">   
                         <ace:cellEditor>
@@ -164,6 +171,14 @@
             </h:form>
             <h:form rendered="#{bookingListAndEditController.editBookingForm}" prependId="false">
                 <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditBookingLabel_customerName}" for="customerName" />
+                    <h:inputText id="customerName" value="#{bookingListAndEditController.selected.customerName}">                     
+                        <h:outputText value="#{booking.customerName}"/>
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditBookingLabel_mobileNumber}" for="mobileNumber" />
+                    <h:inputText id="mobileNumber" value="#{bookingListAndEditController.selected.mobileNumber}">                     
+                        <h:outputText value="#{booking.mobileNumber}"/>
+                    </h:inputText>
                     <h:outputLabel value="#{bundle.EditBookingLabel_status}" for="status" />
                     <h:selectOneMenu id="status" value="#{bookingListAndEditController.selected.status}" immediate="true">
                         <f:selectItems value="#{bookingListAndEditController.cabStatuses()}" />
@@ -177,11 +192,14 @@
                         <f:convertDateTime pattern="MM/dd/yyyy" />
                     </h:inputText>
                     <h:outputLabel value="#{bundle.EditBookingLabel_pickupTime}" for="pickupTime" />
-                    <h:inputText id="pickupTime" value="#{bookingListAndEditController.selected.pickupTime}" title="#{bundle.EditBookingTitle_pickupTime}" >
-                        <f:convertDateTime pattern="MMM dd, yyyy h:mm:ss a" timeZone="IST"/>
-                    </h:inputText>
+                    <ace:dateTimeEntry id="pickupTime" renderAsPopup="true" immediate="true" required="true" requiredMessage="Please select time"
+                                       value="#{bookingListAndEditController.selected.pickupTime}" pattern="MM/dd/yyyy h:mm a" title="#{bundle.EditBookingTitle_pickupTime}" />
                     <h:outputLabel value="#{bundle.EditBookingLabel_roundTrip}" for="roundTrip" />
                     <h:inputText id="roundTrip" value="#{bookingListAndEditController.selected.roundTrip}" title="#{bundle.EditBookingTitle_roundTrip}" />
+                    <h:outputLabel value="#{bundle.CreateBookingLabel_returnPickUpTime}" for="dropTime" />
+                    <ace:dateTimeEntry id="dropTime" renderAsPopup="true" immediate="true" required="true" requiredMessage="Please select time"
+                                       value="#{bookingListAndEditController.selected.returnPickUpTime}" pattern="MM/dd/yyyy h:mm a" title="#{bundle.EditBookingTitle_dropTime}" />
+
                     <h:outputLabel value="#{bundle.EditBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
                     <h:inputText id="pickupStreetAddress1" value="#{bookingListAndEditController.selected.pickupStreetAddress}" title="#{bundle.CreateBookingTitle_pickupStreetAddress}" />
                     <h:outputLabel value="#{bundle.EditBookingLabel_dropStreetAddress}" for="dropStreetAddress" />

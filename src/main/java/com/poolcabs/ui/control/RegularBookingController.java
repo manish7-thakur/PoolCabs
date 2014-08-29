@@ -53,6 +53,7 @@ public class RegularBookingController implements Serializable {
         try {
             current.setStatus(CabStatus.PENDING);
             current.setCreateDate(new Date());
+            current.setRoundTrip(true);
 
             getFacade().create(current);
 
