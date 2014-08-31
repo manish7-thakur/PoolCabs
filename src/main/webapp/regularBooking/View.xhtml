@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.ViewRegularBookingTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_id}"/>
+                    <h:outputText value="#{regularBookingController.selected.id}" title="#{bundle.ViewRegularBookingTitle_id}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_status}"/>
+                    <h:outputText value="#{regularBookingController.selected.status}" title="#{bundle.ViewRegularBookingTitle_status}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_bookingType}"/>
+                    <h:outputText value="#{regularBookingController.selected.bookingType}" title="#{bundle.ViewRegularBookingTitle_bookingType}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_customerName}"/>
+                    <h:outputText value="#{regularBookingController.selected.customerName}" title="#{bundle.ViewRegularBookingTitle_customerName}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_mobileNumber}"/>
+                    <h:outputText value="#{regularBookingController.selected.mobileNumber}" title="#{bundle.ViewRegularBookingTitle_mobileNumber}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_email}"/>
+                    <h:outputText value="#{regularBookingController.selected.email}" title="#{bundle.ViewRegularBookingTitle_email}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_rideStartDate}"/>
+                    <h:outputText value="#{regularBookingController.selected.rideStartDate}" title="#{bundle.ViewRegularBookingTitle_rideStartDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_rideEndDate}"/>
+                    <h:outputText value="#{regularBookingController.selected.rideEndDate}" title="#{bundle.ViewRegularBookingTitle_rideEndDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_pickupStreetAddress}"/>
+                    <h:outputText value="#{regularBookingController.selected.pickupStreetAddress}" title="#{bundle.ViewRegularBookingTitle_pickupStreetAddress}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_pickupGeoCode}"/>
+                    <h:outputText value="#{regularBookingController.selected.pickupGeoCode}" title="#{bundle.ViewRegularBookingTitle_pickupGeoCode}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_officeReportingTime}"/>
+                    <h:outputText value="#{regularBookingController.selected.officeReportingTime}" title="#{bundle.ViewRegularBookingTitle_officeReportingTime}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_dropStreetAddress}"/>
+                    <h:outputText value="#{regularBookingController.selected.dropStreetAddress}" title="#{bundle.ViewRegularBookingTitle_dropStreetAddress}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_dropGeocode}"/>
+                    <h:outputText value="#{regularBookingController.selected.dropGeocode}" title="#{bundle.ViewRegularBookingTitle_dropGeocode}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_returnPickUpTime}"/>
+                    <h:outputText value="#{regularBookingController.selected.returnPickUpTime}" title="#{bundle.ViewRegularBookingTitle_returnPickUpTime}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_distanceInKM}"/>
+                    <h:outputText value="#{regularBookingController.selected.distanceInKM}" title="#{bundle.ViewRegularBookingTitle_distanceInKM}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_remarks}"/>
+                    <h:outputText value="#{regularBookingController.selected.remarks}" title="#{bundle.ViewRegularBookingTitle_remarks}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_tarrif}"/>
+                    <h:outputText value="#{regularBookingController.selected.tarrif}" title="#{bundle.ViewRegularBookingTitle_tarrif}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_totalCost}"/>
+                    <h:outputText value="#{regularBookingController.selected.totalCost}" title="#{bundle.ViewRegularBookingTitle_totalCost}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_cab}"/>
+                    <h:outputText value="#{regularBookingController.selected.cab}" title="#{bundle.ViewRegularBookingTitle_cab}"/>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_createDate}"/>
+                    <h:outputText value="#{regularBookingController.selected.createDate}" title="#{bundle.ViewRegularBookingTitle_createDate}">
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:outputText>
+                    <h:outputText value="#{bundle.ViewRegularBookingLabel_modifiedDate}"/>
+                    <h:outputText value="#{regularBookingController.selected.modifiedDate}" title="#{bundle.ViewRegularBookingTitle_modifiedDate}"/>
+                </h:panelGrid>
+                <br />
+                <h:commandLink action="#{regularBookingController.destroyAndView}" value="#{bundle.ViewRegularBookingDestroyLink}"/>
+                <br />
+                <br />
+                <h:link outcome="Edit" value="#{bundle.ViewRegularBookingEditLink}"/>
+                <br />
+                <h:commandLink action="#{regularBookingController.prepareCreate}" value="#{bundle.ViewRegularBookingCreateLink}" />
+                <br />
+                <h:commandLink action="#{regularBookingController.prepareList}" value="#{bundle.ViewRegularBookingShowAllLink}"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.ViewRegularBookingIndexLink}"/>
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

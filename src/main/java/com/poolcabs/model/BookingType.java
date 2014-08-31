@@ -15,7 +15,6 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean
 public enum BookingType {
-    
     REGULAR("Regular"),
     CASUAL("Casual"),
     INSTANT("Instant"),

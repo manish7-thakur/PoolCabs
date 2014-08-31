@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+    <ui:composition template="/template.xhtml">
+        <ui:define name="title">
+            <h:outputText value="#{bundle.EditRegularBookingTitle}"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_id}" for="id" />
+                    <h:inputText id="id" value="#{regularBookingController.selected.id}" title="#{bundle.EditRegularBookingTitle_id}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_status}" for="status" />
+                    <h:inputText id="status" value="#{regularBookingController.selected.status}" title="#{bundle.EditRegularBookingTitle_status}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_bookingType}" for="bookingType" />
+                    <h:inputText id="bookingType" value="#{regularBookingController.selected.bookingType}" title="#{bundle.EditRegularBookingTitle_bookingType}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_customerName}" for="customerName" />
+                    <h:inputText id="customerName" value="#{regularBookingController.selected.customerName}" title="#{bundle.EditRegularBookingTitle_customerName}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_mobileNumber}" for="mobileNumber" />
+                    <h:inputText id="mobileNumber" value="#{regularBookingController.selected.mobileNumber}" title="#{bundle.EditRegularBookingTitle_mobileNumber}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_email}" for="email" />
+                    <h:inputText id="email" value="#{regularBookingController.selected.email}" title="#{bundle.EditRegularBookingTitle_email}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_rideStartDate}" for="rideStartDate" />
+                    <h:inputText id="rideStartDate" value="#{regularBookingController.selected.rideStartDate}" title="#{bundle.EditRegularBookingTitle_rideStartDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_rideEndDate}" for="rideEndDate" />
+                    <h:inputText id="rideEndDate" value="#{regularBookingController.selected.rideEndDate}" title="#{bundle.EditRegularBookingTitle_rideEndDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
+                    <h:inputText id="pickupStreetAddress" value="#{regularBookingController.selected.pickupStreetAddress}" title="#{bundle.EditRegularBookingTitle_pickupStreetAddress}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_pickupGeoCode}" for="pickupGeoCode" />
+                    <h:selectOneMenu id="pickupGeoCode" value="#{regularBookingController.selected.pickupGeoCode}" title="#{bundle.EditRegularBookingTitle_pickupGeoCode}" >
+                        <f:selectItems value="#{geoCodeController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_officeReportingTime}" for="officeReportingTime" />
+                    <h:inputText id="officeReportingTime" value="#{regularBookingController.selected.officeReportingTime}" title="#{bundle.EditRegularBookingTitle_officeReportingTime}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_dropStreetAddress}" for="dropStreetAddress" />
+                    <h:inputText id="dropStreetAddress" value="#{regularBookingController.selected.dropStreetAddress}" title="#{bundle.EditRegularBookingTitle_dropStreetAddress}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_dropGeocode}" for="dropGeocode" />
+                    <h:selectOneMenu id="dropGeocode" value="#{regularBookingController.selected.dropGeocode}" title="#{bundle.EditRegularBookingTitle_dropGeocode}" >
+                        <f:selectItems value="#{geoCodeController.itemsAvailableSelectOne}"/>
+                    </h:selectOneMenu>
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_returnPickUpTime}" for="returnPickUpTime" />
+                    <h:inputText id="returnPickUpTime" value="#{regularBookingController.selected.returnPickUpTime}" title="#{bundle.EditRegularBookingTitle_returnPickUpTime}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_distanceInKM}" for="distanceInKM" />
+                    <h:inputText id="distanceInKM" value="#{regularBookingController.selected.distanceInKM}" title="#{bundle.EditRegularBookingTitle_distanceInKM}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_remarks}" for="remarks" />
+                    <h:inputText id="remarks" value="#{regularBookingController.selected.remarks}" title="#{bundle.EditRegularBookingTitle_remarks}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_tarrif}" for="tarrif" />
+                    <h:inputText id="tarrif" value="#{regularBookingController.selected.tarrif}" title="#{bundle.EditRegularBookingTitle_tarrif}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_totalCost}" for="totalCost" />
+                    <h:inputText id="totalCost" value="#{regularBookingController.selected.totalCost}" title="#{bundle.EditRegularBookingTitle_totalCost}" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_cab}" for="cab" />
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_createDate}" for="createDate" />
+                    <h:inputText id="createDate" value="#{regularBookingController.selected.createDate}" title="#{bundle.EditRegularBookingTitle_createDate}" >
+                        <f:convertDateTime pattern="MM/dd/yyyy HH:mm:ss" />
+                    </h:inputText>
+                    <h:outputLabel value="#{bundle.EditRegularBookingLabel_modifiedDate}" for="modifiedDate" />
+                    <h:inputText id="modifiedDate" value="#{regularBookingController.selected.modifiedDate}" title="#{bundle.EditRegularBookingTitle_modifiedDate}" />
+                </h:panelGrid>
+                <h:commandLink action="#{regularBookingController.update}" value="#{bundle.EditRegularBookingSaveLink}"/>
+                <br />
+                <br />
+                <h:link outcome="View" value="#{bundle.EditRegularBookingViewLink}"/>
+                <br />
+                <h:commandLink action="#{regularBookingController.prepareList}" value="#{bundle.EditRegularBookingShowAllLink}" immediate="true"/>
+                <br />
+                <br />
+                <h:link outcome="/index" value="#{bundle.EditRegularBookingIndexLink}" />
+            </h:form>
+        </ui:define>
+    </ui:composition>
+
+</html>

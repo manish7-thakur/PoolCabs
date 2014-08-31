@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+
+        <title>Regular Bookings List</title>        
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+    </h:head>
+    <h:body>
+        <br/>
+        <h:outputText value="#{bundle.ListRegularBookingTitle}"></h:outputText>
+        <h:form id="bookingListForm" class="tableBooking" prependId="false" rendered="#{regularBookingController.listFormRendered}">
+            <h:panelGroup id="messagePanel" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <ace:dataTable value="#{regularBookingController.bookingList}" var="booking" selectionMode="single" stateMap="#{regularBookingController.rowStateMap}" 
+                           rowSelectListener="#{regularBookingController.rowSelectListener}">
+                <ace:ajax event="editSubmit" render="@form" />
+
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_status}">
+                    <h:outputText value="#{booking.status}"/>
+                </ace:column>
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_bookingType}">
+
+                    <h:outputText value="#{booking.bookingType}"/>
+                </ace:column>
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_customerName}">
+
+                    <h:outputText value="#{booking.customerName}"/>
+                </ace:column>
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_mobileNumber}">
+
+                    <h:outputText value="#{booking.mobileNumber}"/>
+                </ace:column>
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_email}">
+                    <h:outputText value="#{booking.email}"/>
+                </ace:column>
+
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_pickupStreetAddress}">
+
+                    <h:outputText value="#{booking.pickupStreetAddress}"/>
+                </ace:column>
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_officeReportingTime}">
+                    <h:outputText value="#{booking.officeReportingTime}">
+                        <f:convertDateTime pattern="HH:mm a" timeZone="IST" />
+                    </h:outputText>
+                </ace:column>
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_dropStreetAddress}">
+                    <h:outputText value="#{booking.dropStreetAddress}"/>
+                </ace:column>
+
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_returnPickUpTime}">
+
+                    <h:outputText value="#{booking.returnPickUpTime}">
+                        <f:convertDateTime pattern="HH:mm a" timeZone="IST"/>
+                    </h:outputText>
+                </ace:column>
+
+                <ace:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{bundle.ListRegularBookingTitle_remarks}"/>
+                    </f:facet>
+                    <h:outputText value="#{booking.remarks}"/>
+                </ace:column>
+            </ace:dataTable>
+            <br />
+            <h:commandLink action="#{regularBookingController.prepareCreate}" value="#{bundle.ListRegularBookingCreateLink}"/>
+            <br />
+            <br />
+            <h:link outcome="/index" value="#{bundle.ListRegularBookingIndexLink}"/>
+            <ace:pushButton value="Edit" actionListener="#{regularBookingController.editBooking()}" label="Edit" />
+        </h:form>
+        <h:form id="editBookingForm" prependId="false" rendered="#{regularBookingController.editFormRendered}">
+            <h:panelGrid columns="2">
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_customerName}" for="customerName" />
+                <h:inputText id="customerName" value="#{regularBookingController.selected.customerName}" title="#{bundle.EditRegularBookingTitle_customerName}" />
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_mobileNumber}" for="mobileNumber" />
+                <h:inputText id="mobileNumber" value="#{regularBookingController.selected.mobileNumber}" title="#{bundle.EditRegularBookingTitle_mobileNumber}" />
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_email}" for="email" />
+                <h:inputText id="email" value="#{regularBookingController.selected.email}" title="#{bundle.EditRegularBookingTitle_email}" />
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_bookingType}" for="bookingType" />
+                <h:selectOneMenu id="bookingType" value="#{regularBookingController.selected.bookingType}" title="#{bundle.EditRegularBookingTitle_bookingType}" >
+                    <f:selectItems value="#{regularBookingController.regularBookingTypes()}" />
+                </h:selectOneMenu>
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_status}" for="status" />
+                <h:selectOneMenu id="status" value="#{regularBookingController.selected.status}" title="#{bundle.EditRegularBookingTitle_status}" >
+                    <f:selectItems value="#{regularBookingController.cabStatuses()}" />
+                </h:selectOneMenu>
+
+
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_pickupStreetAddress}" for="pickupStreetAddress" />
+                <h:inputText id="pickupStreetAddress" value="#{regularBookingController.selected.pickupStreetAddress}" title="#{bundle.EditRegularBookingTitle_pickupStreetAddress}" />
+
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_dropStreetAddress}" for="dropStreetAddress" />
+                <h:inputText id="dropStreetAddress" value="#{regularBookingController.selected.dropStreetAddress}" title="#{bundle.EditRegularBookingTitle_dropStreetAddress}" />
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_officeReportingTime}" for="officeReportingTime" />
+                <ace:dateTimeEntry id="officeReportingTime" value="#{regularBookingController.selected.officeReportingTime}" title="#{bundle.EditRegularBookingTitle_officeReportingTime}"
+                                   pattern="hh:mm a" timeOnly="true" renderAsPopup="true" timeZone="IST">
+                </ace:dateTimeEntry>
+
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_returnPickUpTime}" for="returnPickUpTime" />
+                <ace:dateTimeEntry id="returnPickUpTime" value="#{regularBookingController.selected.returnPickUpTime}" title="#{bundle.EditRegularBookingTitle_returnPickUpTime}"
+                                   pattern="hh:mm a" timeOnly="true" renderAsPopup="true" timeZone="IST">
+                </ace:dateTimeEntry>
+                <h:outputLabel value="#{bundle.EditRegularBookingLabel_remarks}" for="remarks" />
+                <h:inputTextarea id="remarks" value="#{regularBookingController.selected.remarks}" title="#{bundle.EditRegularBookingTitle_remarks}" />
+            </h:panelGrid>
+            <ace:pushButton label="Save" actionListener="#{regularBookingController.update()}" />
+        </h:form>
+    </h:body>
+</html>
