@@ -7,6 +7,7 @@ import com.poolcabs.model.CabStatus;
 import com.poolcabs.model.RegularBooking;
 import com.poolcabs.model.RegularBookingType;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
@@ -110,6 +111,7 @@ public class RegularBookingController implements Serializable {
 
     public void create() {
         try {
+            getSelected().setCreateDate(new Date());
             getFacade().create(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RegularBookingCreated"));
         } catch (Exception e) {
@@ -125,12 +127,18 @@ public class RegularBookingController implements Serializable {
 
     public void update() {
         try {
-            getFacade().edit(current);
+            RegularBooking updatedBooking = getFacade().edit(current);
+            bookingList.set(bookingList.indexOf(current), updatedBooking);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RegularBookingUpdated"));
+            undoSelection();
             renderListForm();
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
         }
+    }
+
+    private void undoSelection() {
+        rowStateMap.setAllSelected(false);
     }
 
     public String destroy() {

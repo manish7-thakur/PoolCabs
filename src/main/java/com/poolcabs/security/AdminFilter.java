@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Manish
  */
-@WebFilter(filterName = "AdminFilter", urlPatterns = {"/settings/*", "/tariff/*", "/booking/List.jsf"})
+@WebFilter(filterName = "AdminFilter", urlPatterns = {"/settings/*", "/tariff/*", "/regularBooking/*", "/booking/List.jsf"})
 public class AdminFilter implements Filter {
 
     private static final boolean debug = true;
