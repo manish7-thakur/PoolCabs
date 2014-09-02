@@ -21,57 +21,62 @@
                            rowSelectListener="#{regularBookingController.rowSelectListener}">
                 <ace:ajax event="editSubmit" render="@form" />
 
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_status}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_status}" filterMatchMode="contains" 
+                            filterBy="#{booking.status}" sortBy="#{booking.status}">
                     <h:outputText value="#{booking.status}"/>
                 </ace:column>
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_bookingType}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_bookingType}" filterMatchMode="contains" 
+                            filterBy="#{booking.bookingType}" sorBy="#{booking.bookingType}">
 
                     <h:outputText value="#{booking.bookingType}"/>
                 </ace:column>
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_customerName}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_customerName}" filterMatchMode="contains" 
+                            filterBy="#{booking.customerName}" sortBy="#{booking.bookingType}">
 
                     <h:outputText value="#{booking.customerName}"/>
                 </ace:column>
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_mobileNumber}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_mobileNumber}" filterMatchMode="contains" 
+                            filterBy="#{booking.mobileNumber}" sortBy="#{booking.mobileNumber}">
 
                     <h:outputText value="#{booking.mobileNumber}"/>
                 </ace:column>
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_email}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_email}" filterMatchMode="contains" 
+                            filterBy="#{booking.email}" sortBy="#{booking.email}">
                     <h:outputText value="#{booking.email}"/>
                 </ace:column>
 
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_pickupStreetAddress}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_pickupStreetAddress}" filterMatchMode="contains" 
+                            filterBy="#{booking.pickupStreetAddress}" sortBy="#{booking.pickupStreetAddress}" >
 
                     <h:outputText value="#{booking.pickupStreetAddress}"/>
                 </ace:column>
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_officeReportingTime}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_officeReportingTime}" filterMatchMode="contains" 
+                            filterBy="#{booking.officeReportingTime}" sortBy="#{booking.officeReportingTime}">
                     <h:outputText value="#{booking.officeReportingTime}">
                         <f:convertDateTime pattern="HH:mm a" timeZone="IST" />
                     </h:outputText>
                 </ace:column>
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_dropStreetAddress}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_dropStreetAddress}" filterMatchMode="contains" 
+                            filterBy="#{booking.dropStreetAddress}" sortBy="#{booking.dropStreetAddress}">
                     <h:outputText value="#{booking.dropStreetAddress}"/>
                 </ace:column>
 
-                <ace:column headerText="#{bundle.ListRegularBookingTitle_returnPickUpTime}">
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_returnPickUpTime}" filterMatchMode="contains" 
+                            filterBy="#{booking.returnPickUpTime}" sortBy="#{booking.returnPickUpTime}">
 
                     <h:outputText value="#{booking.returnPickUpTime}">
                         <f:convertDateTime pattern="HH:mm a" timeZone="IST"/>
                     </h:outputText>
                 </ace:column>
 
-                <ace:column>
-                    <f:facet name="header">
-                        <h:outputText value="#{bundle.ListRegularBookingTitle_remarks}"/>
-                    </f:facet>
+                <ace:column headerText="#{bundle.ListRegularBookingTitle_remarks}" filterMatchMode="contains" 
+                            filterBy="#{booking.remarks}" sortBy="#{booking.remarks}">
+                    <h:outputText value="#{bundle.ListRegularBookingTitle_remarks}"/>
                     <h:outputText value="#{booking.remarks}"/>
                 </ace:column>
             </ace:dataTable>
             <br />
-            <h:commandLink action="#{regularBookingController.prepareCreate}" value="#{bundle.ListRegularBookingCreateLink}"/>
             <br />
-            <br />
-            <h:link outcome="/index" value="#{bundle.ListRegularBookingIndexLink}"/>
             <ace:pushButton value="Edit" actionListener="#{regularBookingController.editBooking()}" label="Edit" />
         </h:form>
         <h:form id="editBookingForm" prependId="false" rendered="#{regularBookingController.editFormRendered}">
