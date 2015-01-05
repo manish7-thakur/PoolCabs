@@ -38,7 +38,7 @@ public class UserRegistrationEmailMessageService {
     private MimeMessage createMailMessage(User user) {
         VelocityEngine engine = new VelocityEngine();
         configure(engine);
-        Template template = engine.getTemplate("mail/UserRegistrationInvoice.vsl");
+        Template template = engine.getTemplate(emailTemplatePath);
         VelocityContext context = new VelocityContext();
         context.put("name", user.getName());
         context.put("token", generateActivationLink(user.getActivationKey()));

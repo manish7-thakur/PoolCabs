@@ -40,9 +40,9 @@
                     <a class="menuitem" title="Home" href="index.jsf">
                         <img src="resources/images/Home.jpg" />
                     </a>
-                   <!-- <a class="menuitem" title="Services" href="products.jsf">
-                        <img src="resources/images/Services.jpg" />
-                    </a> -->
+                    <!-- <a class="menuitem" title="Services" href="products.jsf">
+                         <img src="resources/images/Services.jpg" />
+                     </a> -->
                     <a class="menuitem" title="Contact us" href="contactUs.jsf">
                         <img src="resources/images/ContactUs.jpg" />
                     </a>
@@ -91,12 +91,11 @@
                                  </h:commandButton> 
                              </h:panelGrid> -->
                             <h:panelGrid columns="2">
-                                <h:commandButton id="budget" class="flip" onclick="numberDialog.show()" image="resources/images/Budget.jpg" label="Regular">
-                                    <ace:tooltip speechBubble="true"  showEffect="grow" targetPosition="center"  for="budget" value="Available @ 5.5/km, suitable for your daily updowns like office, college, school" />
+                                <h:commandButton id="budget" class="flip" onclick="numberDialog.show()" image="resources/images/wowsharecabs.jpg" label="Regular">
                                 </h:commandButton>
-                                <h:commandButton id="premium" class="flip" onclick="numberDialog.show()" image="resources/images/Premium.jpg" >
-                                    <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="premium" value="Available @ 7/km, with added convenience" />
-                                </h:commandButton>
+                                <!--  <h:commandButton id="premium" class="flip" onclick="numberDialog.show()" image="resources/images/Premium.jpg" >
+                                      <ace:tooltip speechBubble="true" showEffect="grow" targetPosition="center"  for="premium" value="Available @ 7/km, with added convenience" />
+                                  </h:commandButton> -->
                             </h:panelGrid>
 
                         </h:panelGrid>
@@ -113,11 +112,14 @@
            <h:link outcome="/createuser" value="Register" />
            <br />
            <h:link outcome="/cab/List" value="Show All Cab Items"/> -->
-        <h:form>
+        <h:form id="numberForm">
+            <ace:submitMonitor id="submitMonitor" 
+                               for=":numberForm" blockUI="@all"/>
             <ace:dialog id="numberDialog" header="Number Please ?" closable="true"
                         showEffect="clip" width="400" widgetVar="numberDialog" resizable="false">
                 <div class="dialogStyle">
                     <h:panelGrid columns="1">
+
                         <h:outputText value="Please leave your phone number. We will contact you soon."/>
                         <h:inputText class="input" id="mobileNumber" maxlength="10" required="true" requiredMessage="Please enter mobile number"
                                      validatorMessage="Should be 10 digits" converterMessage="Only digits are allowed" 

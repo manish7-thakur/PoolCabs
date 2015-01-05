@@ -3,6 +3,7 @@ package com.poolcabs.ui.control;
 import com.poolcabs.dao.RegularBookingFacade;
 import com.poolcabs.dao.util.JsfUtil;
 import com.poolcabs.dao.util.PaginationHelper;
+import com.poolcabs.messaging.service.NewPhoneNumberRegistrationService;
 import com.poolcabs.model.CabStatus;
 import com.poolcabs.model.RegularBooking;
 import com.poolcabs.model.RegularBookingType;
@@ -26,6 +27,8 @@ public class RegularBookingController implements Serializable {
     private DataModel items = null;
     @EJB
     private RegularBookingFacade ejbFacade;
+    @EJB
+    private NewPhoneNumberRegistrationService numberRegistrationService;
     private PaginationHelper pagination;
     private int selectedItemIndex;
     private List<RegularBooking> bookingList;
@@ -113,6 +116,7 @@ public class RegularBookingController implements Serializable {
         try {
             getSelected().setCreateDate(new Date());
             getFacade().create(current);
+            numberRegistrationService.sendMail(current);
             JsfUtil.addSuccessMessage(ResourceBundle.getBundle("/Bundle").getString("RegularBookingCreated"));
         } catch (Exception e) {
             JsfUtil.addErrorMessage(e, ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
